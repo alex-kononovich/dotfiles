@@ -1,0 +1,20 @@
+[core]
+  excludesfile = /Users/alex/.gitignore
+  quotepath = false
+  pager = less -FRXK
+[user]
+  name = Alex K
+  email = flskif@gmail.com
+[github]
+  user = flskif
+[push]
+  default = matching
+[alias]
+  recent = !git plog -20
+  plog = "!. ~/.githelpers && pretty_git_log"
+[merge]
+  tool = fugitive
+  conflictstyle = merge
+[mergetool "fugitive"]
+  prompt = false
+  cmd = nvim -d "+Gvdiff" $MERGED

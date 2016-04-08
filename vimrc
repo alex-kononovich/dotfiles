@@ -1,7 +1,7 @@
 " BEHAVIOR
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " automatically reload .vimrc
-autocmd! bufwritepost init.vim source %
+autocmd! bufwritepost .vimrc source %
 
 " don't save backup or swp file
 set nobackup

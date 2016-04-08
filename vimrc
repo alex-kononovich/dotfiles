@@ -63,12 +63,6 @@ set autoread
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <space> <leader>
 
-" add blank line above
-nmap <silent>- :set paste<CR>m`o<Esc>``:set nopaste<CR>
-
-" add blank line below
-nmap <silent>+ :set paste<CR>m`O<Esc>``:set nopaste<CR>
-
 " save
 nmap <leader>s :w<CR>
 
@@ -240,6 +234,9 @@ Plugin 'elixir-lang/vim-elixir'
 
 " FocusLost, FocusGained events for terminal vim
 Plugin 'tmux-plugins/vim-tmux-focus-events'
+
+" Bracket mappings
+Plugin 'tpope/vim-unimpaired'
 
 
 

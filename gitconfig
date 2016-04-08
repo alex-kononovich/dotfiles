@@ -12,9 +12,12 @@
 [alias]
   recent = !git plog -20
   plog = "!. ~/.githelpers && pretty_git_log"
+  ctags = "!.git/hooks/ctags"
 [merge]
   tool = fugitive
   conflictstyle = merge
 [mergetool "fugitive"]
   prompt = false
   cmd = nvim -d "+Gvdiff" $MERGED
+[init]
+  templatedir = ~/.git_template

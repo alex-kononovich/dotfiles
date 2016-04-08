@@ -1,5 +1,5 @@
 [core]
-  excludesfile = /Users/alex/.gitignore
+  excludesfile = ~/.gitignore
   quotepath = false
   pager = less -FRXK
 [user]

@@ -122,25 +122,9 @@ Plugin 'frankier/neovim-colors-solarized-truecolor-only'
 
 " Fuzzy file finder
 Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
 nmap <silent><leader>t :FZF<CR>
-
-function! s:buflist()
-  redir => ls
-  silent ls
-  redir END
-  return split(ls, '\n')
-endfunction
-
-function! s:bufopen(e)
-  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
-endfunction
-
-nnoremap <silent> <leader>b :call fzf#run({
-\   'source':  reverse(<sid>buflist()),
-\   'sink':    function('<sid>bufopen'),
-\   'options': '+m',
-\   'down':    len(<sid>buflist()) + 2
-\ })<CR>
+nmap <silent><leader>b :Buffers<CR>
 
 " Search
 Plugin 'rking/ag.vim'

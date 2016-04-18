@@ -22,6 +22,8 @@ path=(
   $path
 )
 
+set -o extendedglob
+
 export LESS='-F -g -i -M -R -S -X -z-4'
 
 export FZF_DEFAULT_OPTS='

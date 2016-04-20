@@ -1,34 +1,35 @@
-;; packages
-
-(setq package-list '(evil solarized-theme))
-
+;; initialize use-package
 (require 'package)
+(package-initialize)
+(setq package-enable-at-startup nil)
 
 (setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")
                          ("org" . "http://orgmode.org/elpa/")
                          ("gnu" . "http://elpa.gnu.org/packages/")))
 
-(package-initialize)
+(unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+(require 'use-package)
 
-;; fetch the list of packages available
-(unless package-archive-contents
-  (package-refresh-contents))
-(dolist (package package-list)
-  (unless (package-installed-p package)
-    (package-install package)))
+;; visual
+(set-frame-font "Menlo-15" nil t)
+(set-scroll-bar-mode nil)
+(use-package solarized-theme
+	     :ensure solarized-theme
+	     :config
+	     (progn
+		(load-theme 'solarized-light t)
+		(setq x-underline-at-descent-line t)))
 
 ;; disable startup screen
 (setq inhibit-startup-screen t)
 
-;; visual
-(load-theme 'solarized-light t)
-(set-frame-font "Menlo-15" nil t)
-(setq x-underline-at-descent-line t)
-(set-scroll-bar-mode nil)
-
-;; start fullscreen (note fullscreen instead of fullboth - it's special feature of emacs-mac)
+;; start fullscreen (note fullscreen instead of fullboth - it's
+;; a special feature of emacs-mac)
 (set-frame-parameter nil 'fullscreen 'fullscreen)
 
 ;; evil must go after all packages
-(require 'evil)
-(evil-mode 1)
+(use-package evil
+	     :ensure evil
+	     :config (evil-mode 1))

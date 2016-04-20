@@ -29,6 +29,9 @@
 ;; a special feature of emacs-mac)
 (set-frame-parameter nil 'fullscreen 'fullscreen)
 
+;; git
+(use-package magit :ensure magit)
+
 ;; evil must go after all packages
 (use-package evil
 	     :ensure evil

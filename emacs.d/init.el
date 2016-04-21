@@ -35,4 +35,5 @@
 ;; evil must go after all packages
 (use-package evil
 	     :ensure evil
+	     :init (setq evil-want-C-u-scroll t)
 	     :config (evil-mode 1))

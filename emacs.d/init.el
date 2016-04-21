@@ -11,12 +11,12 @@
   (package-refresh-contents)
   (package-install 'use-package))
 (require 'use-package)
+(setq use-package-always-ensure t)
 
 ;; visual
 (set-frame-font "Menlo-15" nil t)
 (set-scroll-bar-mode nil)
 (use-package solarized-theme
-  :ensure solarized-theme
   :config
   (progn
     (load-theme 'solarized-light t)
@@ -38,7 +38,6 @@
 
 ;; evil must go after all packages
 (use-package evil
-  :ensure evil
   :init
   (progn
     (setq evil-want-C-u-scroll t)

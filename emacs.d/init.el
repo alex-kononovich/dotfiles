@@ -140,6 +140,8 @@
     "SPC" 'projectile-toggle-between-implementation-and-test
     "t" 'projectile-find-file
     "f" 'projectile-ag
+    "b" 'projectile-switch-to-buffer
+    "D" 'projectile-kill-buffers
     "p" 'projectile-command-map))
 
 
@@ -206,7 +208,6 @@
     (evil-leader/set-leader "<SPC>")
     ;; global keybindings
     (evil-leader/set-key
-      "b" 'switch-to-buffer
       "q" 'delete-window
       "d" 'kill-this-buffer
       "s" 'save-buffer))

@@ -129,12 +129,15 @@
 ;;
 
 ;; ruby
+(use-package chruby)
 
-;; treat _ as word character (Emacs don't do it by default, and Evil respects it)
-(add-hook 'ruby-mode-hook (lambda () (modify-syntax-entry ?_ "w")))
+(defun my-ruby-mode ()
+  ;; treat _ as word character (Emacs don't do it by default, and Evil respects it)
+  (modify-syntax-entry ?_ "w")
+  ;; try to use correct ruby version
+  (chruby-use-corresponding))
 
-(use-package chruby
-  :init (add-hook 'ruby-mode-hook 'chruby-use-corresponding))
+(add-hook 'ruby-mode-hook 'my-ruby-mode)
 
 (use-package projectile-rails
   :init (add-hook 'projectile-mode-hook 'projectile-rails-on))

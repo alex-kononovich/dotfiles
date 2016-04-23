@@ -136,7 +136,7 @@
     "SPC" 'projectile-toggle-between-implementation-and-test
     "t" 'projectile-find-file
     "f" 'projectile-ag
-    "pp" 'projectile-switch-project))
+    "p" 'projectile-command-map))
 
 
 ;;

@@ -90,7 +90,9 @@
 ;;
 (use-package magit
   :config
-  (evil-leader/set-key "gs" 'magit-status))
+  (evil-leader/set-key
+    "gs" 'magit-status
+    "gl" 'magit-log-current))
 
 (use-package magit-gitflow
   :config

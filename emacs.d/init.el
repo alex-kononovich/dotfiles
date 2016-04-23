@@ -57,9 +57,8 @@
 (set-scroll-bar-mode nil)
 (use-package solarized-theme
   :config
-  (progn
-    (load-theme 'solarized-light t)
-    (setq x-underline-at-descent-line t)))
+  (load-theme 'solarized-light t)
+  (setq x-underline-at-descent-line t))
 
 ;; disable startup screen
 (setq inhibit-startup-screen t)
@@ -117,13 +116,12 @@
 
 (use-package projectile
   :config
-  (progn
-    (projectile-global-mode)
-    (evil-leader/set-key
-      "SPC" 'projectile-toggle-between-implementation-and-test
-      "t" 'projectile-find-file
-      "f" 'projectile-ag
-      "pp" 'projectile-switch-project)))
+  (projectile-global-mode)
+  (evil-leader/set-key
+    "SPC" 'projectile-toggle-between-implementation-and-test
+    "t" 'projectile-find-file
+    "f" 'projectile-ag
+    "pp" 'projectile-switch-project))
 
 
 ;;
@@ -151,11 +149,10 @@
 
 (use-package rspec-mode
   :config
-  (progn
-    (evil-leader/set-key
-      "rt" 'my-rspec-verify-single
-      "rs" 'rspec-verify
-      "ra" 'rspec-verify-all)))
+  (evil-leader/set-key
+    "rt" 'my-rspec-verify-single
+    "rs" 'rspec-verify
+    "ra" 'rspec-verify-all))
 
 ;; slim
 (use-package slim-mode)

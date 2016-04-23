@@ -127,7 +127,11 @@
 ;;
 
 ;; required by projectile
-(use-package ag)
+(use-package ag
+  :config
+  (setq ag-highlight-search t)
+  (setq ag-reuse-window t)
+  (setq ag-reuse-buffers t))
 
 (use-package projectile
   :config

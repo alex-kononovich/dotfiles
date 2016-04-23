@@ -90,9 +90,11 @@
 ;;
 (use-package magit
   :config
+  (add-hook 'magit-blame-mode-hook 'evil-emacs-state)
   (evil-leader/set-key
     "gs" 'magit-status
-    "gl" 'magit-log-current))
+    "gl" 'magit-log-current
+    "gb" 'magit-blame))
 
 (use-package magit-gitflow
   :config

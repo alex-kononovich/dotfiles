@@ -35,6 +35,7 @@
 
 (use-package solarized-theme
   :config
+  (load-theme 'solarized-dark t)
   (load-theme 'solarized-light t)
   (setq x-underline-at-descent-line t))
 

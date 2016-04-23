@@ -90,7 +90,10 @@
 ;;
 (use-package magit
   :config
+  ;; use default bindings for blame mode
   (add-hook 'magit-blame-mode-hook 'evil-emacs-state)
+  ;; start commit message in insert mode
+  (add-hook 'git-commit-mode-hook 'evil-insert-state)
   (evil-leader/set-key
     "gs" 'magit-status
     "gl" 'magit-log-current
@@ -100,8 +103,6 @@
   :config
   (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
 
-;; start commit message in insert mode
-(add-hook 'git-commit-mode-hook 'evil-insert-state)
 
 ;;
 ;; project management

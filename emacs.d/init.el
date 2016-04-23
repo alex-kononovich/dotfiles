@@ -97,6 +97,8 @@
   (evil-leader/set-key
     "gs" 'magit-status
     "gl" 'magit-log-current
+    "gw" 'magit-stage-file
+    "gc" 'magit-commit
     "gb" 'magit-blame))
 
 (use-package magit-gitflow

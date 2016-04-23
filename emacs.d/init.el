@@ -27,6 +27,26 @@
 
 
 ;;
+;; visuals
+;;
+
+(set-frame-font "Menlo-15" nil t)
+(set-scroll-bar-mode nil)
+
+(use-package solarized-theme
+  :config
+  (load-theme 'solarized-light t)
+  (setq x-underline-at-descent-line t))
+
+;; disable startup screen
+(setq inhibit-startup-screen t)
+
+;; start fullscreen (note fullscreen instead of fullboth - it's
+;; a special feature of emacs-mac)
+(set-frame-parameter nil 'fullscreen 'fullscreen)
+
+
+;;
 ;; behavior
 ;;
 
@@ -61,24 +81,6 @@
   (define-key ido-completion-map (kbd "C-v") 'ido-invoke-in-horizontal-split))
 
 (add-hook 'ido-setup-hook 'my-ido-setup)
-
-;;
-;; visuals
-;;
-
-(set-frame-font "Menlo-15" nil t)
-(set-scroll-bar-mode nil)
-(use-package solarized-theme
-  :config
-  (load-theme 'solarized-light t)
-  (setq x-underline-at-descent-line t))
-
-;; disable startup screen
-(setq inhibit-startup-screen t)
-
-;; start fullscreen (note fullscreen instead of fullboth - it's
-;; a special feature of emacs-mac)
-(set-frame-parameter nil 'fullscreen 'fullscreen)
 
 
 ;;

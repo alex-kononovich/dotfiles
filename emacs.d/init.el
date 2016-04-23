@@ -94,6 +94,8 @@
   (add-hook 'magit-blame-mode-hook 'evil-emacs-state)
   ;; start commit message in insert mode
   (add-hook 'git-commit-mode-hook 'evil-insert-state)
+  ;; use ido to complete things like branches
+  (setq magit-completing-read-function 'magit-ido-completing-read)
   (evil-leader/set-key
     "gs" 'magit-status
     "gl" 'magit-log-current

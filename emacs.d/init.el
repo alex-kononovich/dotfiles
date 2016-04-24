@@ -26,4 +26,5 @@
 (require 'my-ruby)
 (require 'my-slim)
 (require 'my-sass)
+(require 'my-coffeescript)
 (require 'my-evil)

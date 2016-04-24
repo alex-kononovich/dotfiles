@@ -42,6 +42,9 @@
 ;; disable startup screen
 (setq inhibit-startup-screen t)
 
+;; disable toolbar
+(tool-bar-mode nil)
+
 ;; start fullscreen (note fullscreen instead of fullboth - it's
 ;; a special feature of emacs-mac)
 (set-frame-parameter nil 'fullscreen 'fullscreen)

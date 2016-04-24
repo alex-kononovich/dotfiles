@@ -54,6 +54,12 @@
 ;; behavior
 ;;
 
+;; don't ask about symlinks, just follow
+(setq vc-follow-symlinks t)
+
+;; start with my init.el
+(find-file "~/.emacs.d/init.el")
+
 ;; ido as autocompletion
 (ido-mode 1)
 (ido-everywhere 1)

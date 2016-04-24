@@ -193,6 +193,8 @@
     "rs" 'rspec-verify
     "ra" 'rspec-verify-all))
 
+(use-package bundler)
+
 ;; slim
 (use-package slim-mode)
 

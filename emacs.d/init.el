@@ -25,4 +25,5 @@
 (require 'my-flycheck)
 (require 'my-ruby)
 (require 'my-slim)
+(require 'my-sass)
 (require 'my-evil)

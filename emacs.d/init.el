@@ -17,7 +17,6 @@
 
 (add-to-list 'load-path (expand-file-name "custom" user-emacs-directory))
 
-
 ;;
 ;; internals
 ;;
@@ -61,26 +60,30 @@
 (find-file "~/.emacs.d/init.el")
 
 ;; ido as autocompletion
-(ido-mode 1)
-(ido-everywhere 1)
 
-;; use ido in most places
-(use-package ido-ubiquitous :config (ido-ubiquitous-mode 1))
+(defun my-ido-init ()
+  (ido-mode 1)
+  (ido-everywhere 1)
 
-;; fuzzy matching
-(use-package flx-ido :config (flx-ido-mode 1))
+  ;; use ido in most places
+  (use-package ido-ubiquitous :config (ido-ubiquitous-mode 1))
 
-;; vertical mode
-(use-package ido-vertical-mode
-  :config
-  (ido-vertical-mode 1)
-  ;; move with C-n and C-p
-  (setq ido-vertical-define-keys 'C-n-and-C-p-only))
+  ;; fuzzy matching
+  (use-package flx-ido :config (flx-ido-mode 1))
 
-;; M-x with ido
-(use-package smex :config (global-set-key (kbd "M-x") 'smex))
+  ;; vertical mode
+  (use-package ido-vertical-mode
+    :config
+    (ido-vertical-mode 1)
+    ;; move with C-n and C-p
+    (setq ido-vertical-define-keys 'C-n-and-C-p-only))
 
-(require 'ido-other-window)
+  ;; M-x with ido
+  (use-package smex :config (global-set-key (kbd "M-x") 'smex))
+
+  (require 'ido-other-window)
+
+  (add-hook 'ido-setup-hook 'my-ido-setup))
 
 (defun my-ido-setup ()
   ;; very convinient in case of typos
@@ -89,8 +92,6 @@
   (define-key ido-completion-map (kbd "C-o") 'ido-invoke-in-other-window)
   (define-key ido-completion-map (kbd "C-s") 'ido-invoke-in-vertical-split)
   (define-key ido-completion-map (kbd "C-v") 'ido-invoke-in-horizontal-split))
-
-(add-hook 'ido-setup-hook 'my-ido-setup)
 
 
 ;;
@@ -113,47 +114,48 @@
 ;; git
 ;;
 
-(use-package magit
-  :config
-  ;; use default bindings for blame mode
-  (add-hook 'magit-blame-mode-hook 'evil-emacs-state)
-  ;; start commit message in insert mode
-  (add-hook 'git-commit-mode-hook 'evil-insert-state)
-  ;; use ido to complete things like branches
-  (setq magit-completing-read-function 'magit-ido-completing-read)
-  (evil-leader/set-key
-    "gs" 'magit-status
-    "gl" 'magit-log-current
-    "gw" 'magit-stage-file
-    "gc" 'magit-commit
-    "gb" 'magit-blame))
+(defun my-magit-init ()
+  (use-package magit
+    :config
+    ;; use default bindings for blame mode
+    (add-hook 'magit-blame-mode-hook 'evil-emacs-state)
+    ;; start commit message in insert mode
+    (add-hook 'git-commit-mode-hook 'evil-insert-state)
+    ;; use ido to complete things like branches
+    (setq magit-completing-read-function 'magit-ido-completing-read)
+    (evil-leader/set-key
+      "gs" 'magit-status
+      "gl" 'magit-log-current
+      "gw" 'magit-stage-file
+      "gc" 'magit-commit
+      "gb" 'magit-blame))
 
-(use-package magit-gitflow
-  :config
-  (add-hook 'magit-mode-hook 'turn-on-magit-gitflow))
+  (use-package magit-gitflow
+    :config
+    (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)))
 
 
 ;;
 ;; project management
 ;;
 
-;; required by projectile
-(use-package ag
-  :config
-  (setq ag-highlight-search t)
-  (setq ag-reuse-window t)
-  (setq ag-reuse-buffers t))
+(defun my-projectile-init ()
+  (use-package ag
+    :config
+    (setq ag-highlight-search t)
+    (setq ag-reuse-window t)
+    (setq ag-reuse-buffers t))
 
-(use-package projectile
-  :config
-  (projectile-global-mode)
-  (evil-leader/set-key
-    "SPC" 'projectile-toggle-between-implementation-and-test
-    "t" 'projectile-find-file
-    "f" 'projectile-ag
-    "b" 'projectile-switch-to-buffer
-    "D" 'projectile-kill-buffers
-    "p" 'projectile-command-map))
+  (use-package projectile
+    :config
+    (projectile-global-mode)
+    (evil-leader/set-key
+      "SPC" 'projectile-toggle-between-implementation-and-test
+      "t" 'projectile-find-file
+      "f" 'projectile-ag
+      "b" 'projectile-switch-to-buffer
+      "D" 'projectile-kill-buffers
+      "p" 'projectile-command-map)))
 
 
 ;;
@@ -162,10 +164,10 @@
 
 ;; meta - check syntax
 
-(use-package flycheck :config (global-flycheck-mode))
+(defun my-flycheck-init ()
+  (use-package flycheck :config (global-flycheck-mode)))
 
 ;; ruby
-(use-package chruby)
 
 (defun my-ruby-mode ()
   ;; treat _ as word character (Emacs don't do it by default, and Evil respects it)
@@ -173,12 +175,6 @@
   ;; try to use correct ruby version
   (chruby-use-corresponding))
 
-(add-hook 'ruby-mode-hook 'my-ruby-mode)
-
-(use-package projectile-rails
-  :init (add-hook 'projectile-mode-hook 'projectile-rails-on))
-
-;; rspec
 (defun my-rspec-verify-single ()
   "Run last spec in ruby files, and spec under point in RSpec files"
   (interactive)
@@ -186,18 +182,61 @@
       (rspec-rerun)
     (rspec-verify-single)))
 
-(use-package rspec-mode
-  :config
-  (evil-leader/set-key
-    "rt" 'my-rspec-verify-single
-    "rs" 'rspec-verify
-    "ra" 'rspec-verify-all))
+(defun my-ruby-init ()
+  (use-package chruby)
 
-(use-package bundler)
+  (add-hook 'ruby-mode-hook 'my-ruby-mode)
 
-;; slim
-(use-package slim-mode)
+  (use-package projectile-rails
+    :init (add-hook 'projectile-mode-hook 'projectile-rails-on))
 
+  (use-package rspec-mode
+    :config
+    (evil-leader/set-key
+      "rt" 'my-rspec-verify-single
+      "rs" 'rspec-verify
+      "ra" 'rspec-verify-all))
+
+  (use-package bundler)
+
+  (use-package slim-mode))
+
+
+;; <leader>-like bindings
+(defun my-evil-leader-init ()
+  (use-package evil-leader
+    :config
+    (global-evil-leader-mode)
+    (evil-leader/set-leader "<SPC>")
+    ;; global keybindings
+    (evil-leader/set-key
+      "q" 'delete-window
+      "d" 'kill-this-buffer
+      "s" 'save-buffer)
+
+    ;; init all other packages that rely on evil-leader to setup their bindings
+    (my-evil-escape-init)
+    (my-ido-init)
+    (my-magit-init)
+    (my-projectile-init)
+    (my-flycheck-init)
+    (my-ruby-init)))
+
+;; escape from anything
+(defun my-evil-escape-init ()
+  (use-package evil-escape
+    :config
+    (evil-escape-mode)
+    (global-set-key [escape] 'evil-escape)))
+
+;; gc for comments
+(defun my-evil-commentary-init()
+  (use-package evil-commentary :config (evil-commentary-mode)))
+
+
+;; vim-surround clone
+(defun my-evil-surround-init()
+  (use-package evil-surround :config (global-evil-surround-mode 1)))
 
 ;;
 ;; Eeeeevil
@@ -210,18 +249,11 @@
 
   :config
 
-  ;; <leader>-like bindings
-  (use-package evil-leader
-    :config
-    (global-evil-leader-mode)
-    (evil-leader/set-leader "<SPC>")
-    ;; global keybindings
-    (evil-leader/set-key
-      "q" 'delete-window
-      "d" 'kill-this-buffer
-      "s" 'save-buffer))
-
   ;; evil-leader must be enabled before evil-mode
+  ;; evil-leader also inits all packages that may use it
+  (my-evil-leader-init)
+
+  ;; must be enabled last
   (evil-mode 1)
   (setq-default evil-shift-width 2)
 
@@ -231,15 +263,6 @@
   (define-key evil-normal-state-map (kbd "]q") 'next-error)
   (define-key evil-normal-state-map (kbd "[q") 'previous-error)
 
-  ;; escape from anything
-  (use-package evil-escape
-    :config
-    (evil-escape-mode)
-    (global-set-key [escape] 'evil-escape))
-
-  ;; gc for comments
-  (use-package evil-commentary :config (evil-commentary-mode))
-
-  ;; vim-surround clone
-  (use-package evil-surround :config (global-evil-surround-mode 1))
-)
+  (my-evil-escape-init)
+  (my-evil-commentary-init)
+  (my-evil-surround-init))

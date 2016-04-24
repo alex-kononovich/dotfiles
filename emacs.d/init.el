@@ -35,8 +35,8 @@
 
 (use-package solarized-theme
   :config
-  (load-theme 'solarized-dark t)
   (load-theme 'solarized-light t)
+  (load-theme 'solarized-dark t)
   (setq x-underline-at-descent-line t))
 
 ;; disable startup screen
@@ -103,6 +103,7 @@
 ;;
 ;; git
 ;;
+
 (use-package magit
   :config
   ;; use default bindings for blame mode

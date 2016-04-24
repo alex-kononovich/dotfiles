@@ -160,6 +160,10 @@
 ;; languages
 ;;
 
+;; meta - check syntax
+
+(use-package flycheck :config (global-flycheck-mode))
+
 ;; ruby
 (use-package chruby)
 

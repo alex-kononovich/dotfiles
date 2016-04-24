@@ -193,14 +193,6 @@
   (setq evil-want-C-u-scroll t)
 
   :config
-  (evil-mode 1)
-  (setq-default evil-shift-width 2)
-
-  ;; a-la unimpaired
-  (define-key evil-normal-state-map (kbd "]b") 'next-buffer)
-  (define-key evil-normal-state-map (kbd "[b") 'previous-buffer)
-  (define-key evil-normal-state-map (kbd "]q") 'next-error)
-  (define-key evil-normal-state-map (kbd "[q") 'previous-error)
 
   ;; <leader>-like bindings
   (use-package evil-leader
@@ -213,8 +205,19 @@
       "d" 'kill-this-buffer
       "s" 'save-buffer))
 
+  ;; evil-leader must be enabled before evil-mode
+  (evil-mode 1)
+  (setq-default evil-shift-width 2)
+
+  ;; a-la unimpaired
+  (define-key evil-normal-state-map (kbd "]b") 'next-buffer)
+  (define-key evil-normal-state-map (kbd "[b") 'previous-buffer)
+  (define-key evil-normal-state-map (kbd "]q") 'next-error)
+  (define-key evil-normal-state-map (kbd "[q") 'previous-error)
+
   ;; escape from anything
-  (use-package evil-escape :config
+  (use-package evil-escape
+    :config
     (evil-escape-mode)
     (global-set-key [escape] 'evil-escape))
 

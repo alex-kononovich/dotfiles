@@ -252,9 +252,6 @@ set listchars=tab:▸\ ,eol:¬
 " show cursor line for easy spotting
 " set cursorline
 
-" show line numbers
-set number
-
 " blend line numbers into background
 highlight! link LineNr SpecialKey
 highlight! link CursorLineNr SpecialKey

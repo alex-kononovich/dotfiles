@@ -27,4 +27,5 @@
 (require 'my-slim)
 (require 'my-sass)
 (require 'my-coffeescript)
+(require 'my-markdown)
 (require 'my-evil)

@@ -236,7 +236,7 @@ syntax enable
 
 " low visibility to special characters
 let g:solarized_visibility='low'
-set background=light
+set background=dark
 
 " colorscheme must come after vundle#end() call
 " otherwise it won't be loaded

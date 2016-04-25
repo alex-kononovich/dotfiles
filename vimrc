@@ -69,8 +69,8 @@ nmap <leader>s :w<CR>
 " close window
 nmap <silent><leader>q :q<CR>
 
-" edit init.vim and old vimrc
-nmap <silent> <leader>ev :tabedit ~/.vimrc\|:vsp ~/.config/nvim/init.vim<CR>
+" edit vimrc
+nmap <silent> <leader>ev :tabedit ~/.vimrc<CR>
 
 " Clear the search highlight in Normal mode
 :nnoremap <silent><CR> :nohlsearch<cr>

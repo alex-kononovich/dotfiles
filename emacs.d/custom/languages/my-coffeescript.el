@@ -1,6 +1,5 @@
 (use-package coffee-mode
+  :mode (("\\.cjsx$" . coffee-mode))
   :commands (coffee-mode))
-
-(add-to-list 'auto-mode-alist '("\\.cjsx\\'" . coffee-mode))
 
 (provide 'my-coffeescript)

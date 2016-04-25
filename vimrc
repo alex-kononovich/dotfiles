@@ -3,6 +3,9 @@
 " automatically reload .vimrc
 autocmd! bufwritepost .vimrc source %
 
+" open help in vertical split
+autocmd FileType help wincmd L
+
 " don't save backup or swp file
 set nobackup
 set nowritebackup

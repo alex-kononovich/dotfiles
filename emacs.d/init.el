@@ -28,4 +28,5 @@
 (require 'my-sass)
 (require 'my-coffeescript)
 (require 'my-markdown)
+(require 'my-yaml)
 (require 'my-evil)

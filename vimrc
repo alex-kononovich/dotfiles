@@ -149,26 +149,19 @@ Plugin 'kchmck/vim-coffee-script'
 " React JSX for CoffeeScript
 Plugin 'mtscout6/vim-cjsx'
 
+" Wrapper for Neovim's :term
+Plugin 'kassio/neoterm'
+let g:neoterm_position = 'vertical'
+
 " Universal test runner
 Plugin 'janko-m/vim-test'
-
-" need to open new tab, othewise neovim will kill current tab for the reasons
-" explained here https://github.com/neovim/neovim/issues/3276
-function! NeovimTab(cmd) abort
-  tabnew | call termopen(a:cmd) | startinsert
-endfunction
-
-let test#javascript#jasmine#executable = 'jasmine'
-let g:test#custom_strategies = {'neovim_tab': function('NeovimTab')}
-let g:test#strategy = 'neovim_tab'
-
+let g:test#strategy = 'neoterm'
 nmap <silent> <leader>rt :update\|TestNearest<CR>
 nmap <silent> <leader>rs :update\|TestFile<CR>
 nmap <silent> <leader>ra :update\|TestSuite<CR>
 
 " Don't quit the window when killing buffer
 Plugin 'qpkorr/vim-bufkill'
-
 nmap <leader>d :BD<CR>
 nmap <leader>D :bufdo BD<CR>
 

@@ -159,6 +159,7 @@ nmap <silent> <leader>ra :update\|TestSuite<CR>
 
 " Don't quit the window when killing buffer
 Plugin 'qpkorr/vim-bufkill'
+let g:BufKillCreateMappings = 0
 nmap <leader>d :BD<CR>
 nmap <leader>D :bufdo BD<CR>
 

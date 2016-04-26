@@ -1,10 +1,16 @@
 " BEHAVIOR
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:vertical_monitor = 1
+
 " automatically reload .vimrc
 autocmd! bufwritepost .vimrc source %
 
-" open help in vertical split
-autocmd FileType help wincmd L
+" best split for help window
+if g:vertical_monitor == 1
+  autocmd FileType help wincmd J " open in horizontal split
+else
+  autocmd FileType help wincmd L " open in vertical split
+endif
 
 " don't save backup or swp file
 set nobackup
@@ -88,7 +94,12 @@ noremap <leader><leader> :b#<CR>
 
 " netrw
 let g:netrw_banner=0 " no help banner
-let g:netrw_preview= 1 " preview in vertical split
+
+if g:vertical_monitor == 1
+  let g:netrw_preview= 0 " preview in horizontal split
+else
+  let g:netrw_preview= 1 " preview in vertical split
+endif
 
 " use %% as shortcut for current file's directory
 cnoremap <expr> %% expand('%:h').'/'
@@ -148,7 +159,12 @@ Plugin 'mtscout6/vim-cjsx'
 
 " Wrapper for Neovim's :term
 Plugin 'kassio/neoterm'
-let g:neoterm_position = 'vertical'
+if g:vertical_monitor == 1
+  let g:neoterm_position = 'horizontal'
+else
+  let g:neoterm_position = 'vertical'
+endif
+
 
 " Universal test runner
 Plugin 'janko-m/vim-test'

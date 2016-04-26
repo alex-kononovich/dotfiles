@@ -114,9 +114,6 @@ Plugin 'gmarik/Vundle.vim'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 Plugin 'frankier/neovim-colors-solarized-truecolor-only'
 
-" Highlight cursor line only on active window
-" Plugin 'vim-scripts/CursorLineCurrentWindow'
-
 " Fuzzy file finder
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'

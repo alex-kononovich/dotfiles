@@ -86,12 +86,6 @@ nnoremap Y y$
 map <space><space> <leader><leader>
 noremap <leader><leader> :b#<CR>
 
-" close buffer
-nmap <leader>d :bd<CR>
-
-" close all buffers
-nmap <leader>D :bufdo bd<CR>
-
 " netrw
 let g:netrw_banner=0 " no help banner
 let g:netrw_preview= 1 " preview in vertical split

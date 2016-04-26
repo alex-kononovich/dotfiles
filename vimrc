@@ -209,6 +209,10 @@ Plugin 'tmux-plugins/vim-tmux-focus-events'
 " Bracket mappings
 Plugin 'tpope/vim-unimpaired'
 
+" async make
+Plugin 'benekastah/neomake'
+autocmd BufWritePost * Neomake
+
 
 
 " VUNDLE POST-SETUP
@@ -242,6 +246,9 @@ set listchars=tab:▸\ ,eol:¬
 " blend line numbers into background
 highlight! link LineNr SpecialKey
 highlight! link CursorLineNr SpecialKey
+
+" no different background for SignColum (it's were neomake shows it's warnings)
+highlight SignColumn ctermbg=none guibg=none
 
 " don't show status line
 set laststatus=0

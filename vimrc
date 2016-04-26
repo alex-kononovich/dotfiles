@@ -112,7 +112,7 @@ Plugin 'gmarik/Vundle.vim'
 
 " PLUGINS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-Plugin 'frankier/neovim-colors-solarized-truecolor-only'
+Plugin 'altercation/vim-colors-solarized'
 
 " Fuzzy file finder
 Plugin 'junegunn/fzf'
@@ -289,9 +289,9 @@ function! Tabline()
   let s .= '%#TabLineFill#'
   return s
 endfunction
-hi TabLine gui=NONE
-hi TabLineFill gui=NONE
-hi TabLineSel guibg=1 guifg=1 gui=bold
+hi TabLine gui=NONE cterm=none
+hi TabLineFill gui=NONE cterm=none
+hi TabLineSel guibg=1 guifg=1 gui=bold ctermbg=none ctermfg=12 cterm=bold
 set tabline=%!Tabline()
 
 " config for messages appearing at the bottom
@@ -308,5 +308,4 @@ set winminwidth=50
 
 if has('nvim')
   let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
-  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 endif

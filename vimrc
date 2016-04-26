@@ -163,8 +163,8 @@ let g:test#custom_strategies = {'neovim_tab': function('NeovimTab')}
 let g:test#strategy = 'neovim_tab'
 
 nmap <silent> <leader>rt :update\|TestNearest<CR>
-nmap <silent> <leader>rT :update\|TestFile<CR>
-nmap <silent> <leader>rl :update\|TestLast<CR>
+nmap <silent> <leader>rs :update\|TestFile<CR>
+nmap <silent> <leader>ra :update\|TestSuite<CR>
 
 " Don't quit the window when killing buffer
 Plugin 'qpkorr/vim-bufkill'

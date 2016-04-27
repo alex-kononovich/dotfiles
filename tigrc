@@ -3,3 +3,4 @@ set main-view-date-display = relative
 set main-view-date-width = 7
 set line-graphics = utf-8
 set split-view-height = 90%
+set commit-order = date

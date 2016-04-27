@@ -5,12 +5,8 @@ let g:vertical_monitor = 1
 " automatically reload .vimrc
 autocmd! bufwritepost .vimrc source %
 
-" best split for help window
-if g:vertical_monitor == 1
-  autocmd FileType help wincmd J " open in horizontal split
-else
-  autocmd FileType help wincmd L " open in vertical split
-endif
+" fullscreen help
+autocmd FileType help wincmd o " C-w o
 
 " don't save backup or swp file
 set nobackup

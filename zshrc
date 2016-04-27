@@ -27,3 +27,25 @@ alias rc="rails console"
 alias RET="RAILS_ENV=test"
 alias devlog="tail -f log/development.log"
 alias testlog="tail -f log/test.log"
+
+# heroku
+
+# When switching between feature branches it's sometimes needed to migrate db to
+# known state. Here we using production database as common denominator.
+function resetdb () {
+  dbname=$(print_db_name)
+  dropdb $dbname
+  createdb $dbname
+  pg_restore --verbose --clean --no-acl --no-owner -d $dbname tmp/production.dump
+  rake db:migrate
+}
+
+# download db from backups
+function downloaddb () {
+  curl -o tmp/production.dump `heroku pg:backups public-url -r production`
+}
+
+# private, used to read database name from config
+function print_db_name () {
+  ruby -e 'require "YAML"; puts YAML.load(IO.read("config/database.yml"))["development"]["database"]'
+}

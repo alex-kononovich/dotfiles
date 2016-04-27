@@ -124,7 +124,8 @@ Plugin 'altercation/vim-colors-solarized'
 " Fuzzy file finder
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
-nmap <silent><leader>t :FZF<CR>
+let g:fzf_layout = { 'up': 15 }
+nmap <silent><leader>t :Files<CR>
 nmap <silent><leader>b :Buffers<CR>
 
 " Search

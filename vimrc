@@ -88,10 +88,6 @@ nmap <silent> <leader>ev :tabedit ~/.vimrc<CR>
 " commands
 nnoremap Y y$
 
-" alternate files
-map <space><space> <leader><leader>
-noremap <leader><leader> :b#<CR>
-
 " netrw
 let g:netrw_banner=0 " no help banner
 
@@ -144,6 +140,9 @@ nmap <leader>gw :Gwrite<CR>
 
 " Rails.vim
 Plugin 'tpope/vim-rails'
+" alternate files
+map <space><space> <leader><leader>
+noremap <leader><leader> :A<CR>
 
 " Comments
 Plugin 'tpope/vim-commentary'

@@ -125,6 +125,10 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 let g:fzf_layout = { 'up': 15 }
+function! s:fzf_statusline()
+  setlocal statusline=
+endfunction
+autocmd! User FzfStatusLine call <SID>fzf_statusline()
 nmap <silent><leader>t :Files<CR>
 nmap <silent><leader>b :Buffers<CR>
 

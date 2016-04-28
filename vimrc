@@ -159,11 +159,24 @@ Plugin 'mtscout6/vim-cjsx'
 
 " Wrapper for Neovim's :term
 Plugin 'kassio/neoterm'
+
 if g:vertical_monitor == 1
   let g:neoterm_position = 'horizontal'
+  let g:neoterm_size = 10
 else
   let g:neoterm_position = 'vertical'
 endif
+
+function! RSpecFocus()
+  " Maximize term window
+  wincmd o
+  " Search for ./app or ./spec filename patters
+  let @/='\.\/\(app\|spec\)'
+  " Move cursor down
+  normal G
+endfunction
+
+autocmd! WinEnter *neoterm* call RSpecFocus()
 
 
 " Universal test runner

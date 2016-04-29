@@ -10,6 +10,7 @@
     "f" 'projectile-ag
     "b" 'projectile-switch-to-buffer
     "D" 'projectile-kill-buffers
+    "ps" 'projectile-run-shell
     ;; <leader>p as prefix for all projectile bindings
     "p" 'projectile-command-map))
 

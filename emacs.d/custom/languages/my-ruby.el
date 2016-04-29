@@ -36,7 +36,10 @@
 ;; projectile-rails
 
 (use-package projectile-rails
-  :commands (projectile-rails-on))
+  :commands (projectile-rails-on)
+  :config
+  (evil-leader/set-key
+    "pP" 'rspec-verify-all))
 
 (add-hook 'projectile-mode-hook 'projectile-rails-on)
 

@@ -1,6 +1,9 @@
 (set-frame-font "Menlo-15" nil t)
 
 (use-package solarized-theme
+  :init
+  (setq solarized-use-less-bold t)
+  (setq solarized-emphasize-indicators nil)
   :config
   (load-theme 'solarized-light t)
   (load-theme 'solarized-dark t)

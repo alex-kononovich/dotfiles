@@ -1,4 +1,4 @@
-(set-frame-font "Menlo-15" nil t)
+(set-frame-font "Menlo-17" nil t)
 
 (use-package solarized-theme
   :init

@@ -6,4 +6,7 @@
 
 (add-hook 'text-mode-hook 'visual-line-mode)
 
+;; auto reload TAGS file
+(setq tags-revert-without-query 1)
+
 (provide 'my-core)

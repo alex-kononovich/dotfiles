@@ -30,4 +30,5 @@
 (require 'my-coffeescript)
 (require 'my-markdown)
 (require 'my-yaml)
+(require 'my-elm)
 (require 'my-evil)

@@ -6,6 +6,9 @@
 
 (add-hook 'text-mode-hook 'visual-line-mode)
 
+;; don't force me to type "yes"
+(defalias 'yes-or-no-p 'y-or-n-p)
+
 ;; auto reload TAGS file
 (setq tags-revert-without-query 1)
 

@@ -16,6 +16,7 @@
 (setq use-package-always-ensure t)
 
 (require 'my-core)
+(require 'my-browser)
 (require 'my-codestyle)
 (require 'my-eyecandy)
 (require 'my-ido)

@@ -32,3 +32,5 @@
 (require 'my-yaml)
 (require 'my-elm)
 (require 'my-evil)
+
+(require 'my-touch-typing)

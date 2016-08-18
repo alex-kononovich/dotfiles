@@ -18,9 +18,13 @@
       (rspec-rerun)
     (rspec-verify-single)))
 
+(defun do-not-truncate-lines ()
+  (setq truncate-lines nil))
+
 (use-package rspec-mode
   :commands (rspec-mode)
   :config
+  (add-hook 'rspec-compilation-mode-hook 'do-not-truncate-lines)
   (evil-leader/set-key
     "rt" 'my-rspec-verify-single
     "rs" 'rspec-verify

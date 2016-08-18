@@ -12,4 +12,9 @@
 ;; auto reload TAGS file
 (setq tags-revert-without-query 1)
 
+(use-package keyfreq
+  :config
+  (keyfreq-mode 1)
+  (keyfreq-autosave-mode 1))
+
 (provide 'my-core)

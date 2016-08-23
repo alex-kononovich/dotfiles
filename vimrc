@@ -335,7 +335,3 @@ set winheight=5
 set winminheight=5
 set winwidth=80
 set winminwidth=50
-
-if has('nvim')
-  let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
-endif

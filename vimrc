@@ -257,15 +257,12 @@ syntax enable
 
 " low visibility to special characters
 let g:solarized_visibility='low'
+let g:solarized_contrast='high'
 set background=dark
 
 " colorscheme must come after vundle#end() call
 " otherwise it won't be loaded
 colorscheme solarized
-
-" don't show current mode - we have cursor shape for that
-" and mode takes one extra line at the bottom, which can't be reused
-set noshowmode
 
 " Use the same symbols as TextMate for tabstops and EOLs
 set listchars=tab:▸\ ,eol:¬

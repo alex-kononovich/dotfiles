@@ -286,9 +286,7 @@ set fillchars=stl:—,stlnc:—,vert:\│
 " clear statusline in horizontal split (for whatever reason there has to be a
 " at least hightlight group)
 set statusline=%#StatusLine#
-
-" vertical split line
-highlight clear StatusLine
+highlight StatusLine cterm=none ctermbg=none ctermfg=none
 highlight clear VertSplit
 
 " tabline

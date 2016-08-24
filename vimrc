@@ -115,7 +115,6 @@ Plugin 'gmarik/Vundle.vim'
 
 " PLUGINS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-Plugin 'altercation/vim-colors-solarized'
 
 " Fuzzy file finder
 Plugin 'junegunn/fzf'
@@ -243,6 +242,10 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'benekastah/neomake'
 autocmd BufWritePost * Neomake
 
+" Colorscheme
+Plugin 'w0ng/vim-hybrid'
+let g:hybrid_custom_term_colors = 1
+let g:hybrid_reduced_contrast = 1
 
 
 " VUNDLE POST-SETUP
@@ -255,14 +258,10 @@ filetype plugin indent on
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax enable
 
-" low visibility to special characters
-let g:solarized_visibility='low'
-let g:solarized_contrast='high'
-set background=dark
-
 " colorscheme must come after vundle#end() call
 " otherwise it won't be loaded
-colorscheme solarized
+set background=dark
+colorscheme hybrid
 
 " Use the same symbols as TextMate for tabstops and EOLs
 set listchars=tab:▸\ ,eol:¬

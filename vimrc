@@ -219,9 +219,14 @@ Plugin 'digitaltoad/vim-jade'
 
 " Elm
 Plugin 'elmcast/elm-vim'
+let g:elm_jump_to_error = 1
 let g:elm_format_autosave = 1
-let g:elm_setup_keybindings = 0
+let g:elm_make_show_warnings = 1
 let g:elm_classic_highlighting = 1
+let g:elm_setup_keybindings = 0
+au FileType elm nmap <leader>M :ElmMakeMain<CR>
+au FileType elm nmap <leader>m :ElmMake<CR>
+au FileType elm nmap <leader>e :ElmErrorDetail<CR>
 
 " Online thesaurus
 Plugin 'beloglazov/vim-online-thesaurus'

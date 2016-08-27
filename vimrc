@@ -45,6 +45,7 @@ set shiftwidth=2 " spaces per tab when shifting indentation
 
 set textwidth=80
 set nowrap
+set backspace=indent,eol,start " backspace over everything
 
 " automatically create dir on save if not exists
 function! s:MkNonExDir(file, buf)
@@ -103,12 +104,12 @@ set nocompatible
 filetype off
 
 " install vundle if not installed
-if !isdirectory(expand('~/.config/nvim/.vim/bundle/Vundle.vim/.git'))
-  !git clone git://github.com/gmarik/Vundle.vim.git ~/.config/nvim/.vim/bundle/Vundle.vim
+if !isdirectory(expand('~/.vim/bundle/Vundle.vim/.git'))
+  !git clone git://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 endif
 
-set runtimepath+=~/.config/nvim/.vim/bundle/Vundle.vim
-call vundle#begin(expand('~/.config/nvim/.vim/bundle/'))
+set runtimepath+=~/.vim/bundle/Vundle.vim
+call vundle#begin(expand('~/.vim/bundle/'))
 
 Plugin 'gmarik/Vundle.vim'
 
@@ -157,30 +158,36 @@ Plugin 'kchmck/vim-coffee-script'
 Plugin 'mtscout6/vim-cjsx'
 
 " Wrapper for Neovim's :term
-Plugin 'kassio/neoterm'
+if has('nvim')
+  Plugin 'kassio/neoterm'
 
-if g:vertical_monitor == 1
-  let g:neoterm_position = 'horizontal'
-  let g:neoterm_size = 10
-else
-  let g:neoterm_position = 'vertical'
+  if g:vertical_monitor == 1
+    let g:neoterm_position = 'horizontal'
+    let g:neoterm_size = 10
+  else
+    let g:neoterm_position = 'vertical'
+  endif
+
+  function! RSpecFocus()
+    " Maximize term window
+    wincmd o
+    " Search for ./app or ./spec filename patters
+    let @/='\.\/\(app\|spec\)'
+    " Move cursor down
+    normal G
+  endfunction
+
+  autocmd! WinEnter *neoterm* call RSpecFocus()
 endif
-
-function! RSpecFocus()
-  " Maximize term window
-  wincmd o
-  " Search for ./app or ./spec filename patters
-  let @/='\.\/\(app\|spec\)'
-  " Move cursor down
-  normal G
-endfunction
-
-autocmd! WinEnter *neoterm* call RSpecFocus()
 
 
 " Universal test runner
 Plugin 'janko-m/vim-test'
-let g:test#strategy = 'neoterm'
+
+if has('nvim')
+  let g:test#strategy = 'neoterm'
+endif
+
 nmap <silent> <leader>rt :update\|TestNearest<CR>
 nmap <silent> <leader>rs :update\|TestFile<CR>
 nmap <silent> <leader>ra :update\|TestSuite<CR>
@@ -241,13 +248,18 @@ Plugin 'tmux-plugins/vim-tmux-focus-events'
 Plugin 'tpope/vim-unimpaired'
 
 " async make
-Plugin 'benekastah/neomake'
-autocmd BufWritePost * Neomake
+if has('nvim')
+  Plugin 'benekastah/neomake'
+  autocmd BufWritePost * Neomake
+endif
 
 " Colorscheme
 Plugin 'w0ng/vim-hybrid'
 let g:hybrid_custom_term_colors = 1
 let g:hybrid_reduced_contrast = 1
+
+" Code snippets
+Plugin 'SirVer/ultisnips'
 
 
 " VUNDLE POST-SETUP
@@ -276,7 +288,7 @@ highlight! link LineNr SpecialKey
 highlight! link CursorLineNr SpecialKey
 
 " no different background for SignColum (it's were neomake shows it's warnings)
-highlight SignColumn ctermbg=none guibg=none
+highlight SignColumn ctermbg=NONE
 
 " don't show status line
 set laststatus=0
@@ -287,7 +299,7 @@ set fillchars=stl:—,stlnc:—,vert:\│
 " clear statusline in horizontal split (for whatever reason there has to be a
 " at least hightlight group)
 set statusline=%#StatusLine#
-highlight StatusLine cterm=none ctermbg=none ctermfg=none
+highlight StatusLine cterm=NONE ctermbg=NONE ctermfg=NONE
 highlight clear VertSplit
 
 " tabline
@@ -315,9 +327,9 @@ function! Tabline()
   let s .= '%#TabLineFill#'
   return s
 endfunction
-hi TabLine gui=NONE cterm=none
-hi TabLineFill gui=NONE cterm=none
-hi TabLineSel guibg=1 guifg=1 gui=bold ctermbg=none ctermfg=12 cterm=bold
+hi TabLine cterm=NONE
+hi TabLineFill cterm=NONE
+hi TabLineSel ctermbg=NONE ctermfg=12 cterm=bold
 set tabline=%!Tabline()
 
 " config for messages appearing at the bottom

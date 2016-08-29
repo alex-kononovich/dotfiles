@@ -95,6 +95,9 @@ nmap <silent><CR> :nohlsearch<CR>
 " cursor, so undefine the mapping there.
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 
+" Quit on "q" in quickfix windows
+autocmd BufReadPost quickfix nmap <buffer> q :q<CR>
+
 " Yank from cursor to the end of line. Make it more consistent with D and C
 " commands
 nnoremap Y y$

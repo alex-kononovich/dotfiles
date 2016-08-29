@@ -64,6 +64,16 @@ augroup END
 " if a file changes outside vim, reload it without asking
 set autoread
 
+" netrw
+let g:netrw_banner=0 " no help banner
+
+if g:vertical_monitor == 1
+  let g:netrw_preview= 0 " preview in horizontal split
+else
+  let g:netrw_preview= 1 " preview in vertical split
+endif
+
+
 
 " CUSTOM KEYBINDINGS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -84,15 +94,6 @@ nmap <silent> <leader>ev :tabedit ~/.vimrc<CR>
 " Yank from cursor to the end of line. Make it more consistent with D and C
 " commands
 nnoremap Y y$
-
-" netrw
-let g:netrw_banner=0 " no help banner
-
-if g:vertical_monitor == 1
-  let g:netrw_preview= 0 " preview in horizontal split
-else
-  let g:netrw_preview= 1 " preview in vertical split
-endif
 
 " use %% as shortcut for current file's directory
 cnoremap <expr> %% expand('%:h').'/'

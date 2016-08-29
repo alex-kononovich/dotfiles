@@ -89,7 +89,11 @@ nmap <silent><leader>q :q<CR>
 nmap <silent> <leader>ev :tabedit ~/.vimrc<CR>
 
 " Clear the search highlight in Normal mode
-:nnoremap <silent><CR> :nohlsearch<cr>
+nmap <silent><CR> :nohlsearch<CR>
+
+" In the quickfix window, <CR> is used to jump to the error under the
+" cursor, so undefine the mapping there.
+autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 
 " Yank from cursor to the end of line. Make it more consistent with D and C
 " commands

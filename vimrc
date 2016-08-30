@@ -269,6 +269,25 @@ let g:hybrid_reduced_contrast = 1
 " Code snippets
 Plugin 'SirVer/ultisnips'
 
+" Tabline and statusline
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+let g:airline_theme='hybrid'
+let g:airline_left_sep= ''
+let g:airline_right_sep= ''
+
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = ''
+let g:airline#extensions#tabline#show_close_button = 0
+let g:airline#extensions#tabline#show_tab_type = 0
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#show_splits = 0
+let g:airline#extensions#tabline#show_tab_nr = 0
+let g:airline#extensions#tabline#tab_min_count = 2
+
+set laststatus=2 " always show status line
+
 
 " VUNDLE POST-SETUP
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -288,57 +307,11 @@ colorscheme hybrid
 " Use the same symbols as TextMate for tabstops and EOLs
 set listchars=tab:▸\ ,eol:¬
 
-" show cursor line for easy spotting
-" set cursorline
-
-" blend line numbers into background
-highlight! link LineNr SpecialKey
-highlight! link CursorLineNr SpecialKey
-
 " no different background for SignColum (it's were neomake shows it's warnings)
 highlight SignColumn ctermbg=NONE
 
-" don't show status line
-set laststatus=0
-
 " pretty fillchars for status line and vertical split
-set fillchars=stl:—,stlnc:—,vert:\│
-
-" clear statusline in horizontal split (for whatever reason there has to be a
-" at least hightlight group)
-set statusline=%#StatusLine#
-highlight StatusLine cterm=NONE ctermbg=NONE ctermfg=NONE
-highlight clear VertSplit
-
-" tabline
-function! Tabline()
-  let s = ''
-  for i in range(tabpagenr('$'))
-    let tab = i + 1
-    let winnr = tabpagewinnr(tab)
-    let buflist = tabpagebuflist(tab)
-    let bufnr = buflist[winnr - 1]
-    let bufname = bufname(bufnr)
-    let bufmodified = getbufvar(bufnr, "&mod")
-    let filename = (bufname != '' ? fnamemodify(bufname, ':t') : 'No Name')
-
-    let s .= (tab == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#')
-
-    if bufmodified
-      let s .= ' *'
-    endif
-
-    let s .= ' '. filename . ' %#TabLineFill#'
-
-  endfor
-
-  let s .= '%#TabLineFill#'
-  return s
-endfunction
-hi TabLine cterm=NONE
-hi TabLineFill cterm=NONE
-hi TabLineSel ctermbg=NONE ctermfg=12 cterm=bold
-set tabline=%!Tabline()
+set fillchars=fold:—,vert:\│
 
 " config for messages appearing at the bottom
 set shortmess=

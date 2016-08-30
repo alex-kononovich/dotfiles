@@ -141,6 +141,7 @@ Plugin 'tpope/vim-fugitive'
 nmap <leader>gs :Gstatus<CR>
 nmap <leader>gd :Gdiff<CR>
 nmap <leader>gw :Gwrite<CR>
+nmap <leader>gc :Gcommit --verbose<CR>
 
 " Rails.vim
 Plugin 'tpope/vim-rails'

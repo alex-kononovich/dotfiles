@@ -3,10 +3,10 @@
 let g:vertical_monitor = 1
 
 " automatically reload .vimrc
-autocmd! bufwritepost .vimrc source %
+" autocmd! bufwritepost .vimrc source %
 
 " fullscreen help
-autocmd FileType help wincmd o " C-w o
+" autocmd FileType help wincmd o " C-w o
 
 " don't save backup or swp file
 set nobackup
@@ -17,26 +17,19 @@ set noswapfile
 set exrc
 set secure
 
-" go to the first match as you type
-set incsearch
+" search
 set hlsearch
 set ignorecase
-
-" Override the 'ignorecase' if the search pattern contains upper case characters
 set smartcase
-
-" g flag by default
 set gdefault
 
 " allows you to have unsaved changes in buffers
 " and undo history in them
 set hidden
 
-set history=1000
 set undolevels=1000
 
 " Intentation settings
-set autoindent
 set smartindent
 set expandtab " replace tab with spaces
 set tabstop=2 " visual width for tab character
@@ -45,7 +38,6 @@ set shiftwidth=2 " spaces per tab when shifting indentation
 
 set textwidth=80
 set nowrap
-set backspace=indent,eol,start " backspace over everything
 
 " automatically create dir on save if not exists
 function! s:MkNonExDir(file, buf)
@@ -60,9 +52,6 @@ augroup BWCCreateDir
   autocmd!
   autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
 augroup END
-
-" if a file changes outside vim, reload it without asking
-set autoread
 
 " netrw
 let g:netrw_banner=0 " no help banner
@@ -87,13 +76,6 @@ nmap <silent><leader>q :q<CR>
 
 " edit vimrc
 nmap <silent> <leader>ev :tabedit ~/.vimrc<CR>
-
-" Clear the search highlight in Normal mode
-nmap <silent><CR> :nohlsearch<CR>
-
-" In the quickfix window, <CR> is used to jump to the error under the
-" cursor, so undefine the mapping there.
-autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 
 " Quit on "q" in quickfix windows
 autocmd BufReadPost quickfix nmap <buffer> q :q<CR>
@@ -124,6 +106,7 @@ Plugin 'gmarik/Vundle.vim'
 
 " PLUGINS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+Plugin 'tpope/vim-sensible'
 
 " Fuzzy file finder
 Plugin 'junegunn/fzf'
@@ -145,9 +128,6 @@ nmap <leader>gc :Gcommit --verbose<CR>
 
 " Rails.vim
 Plugin 'tpope/vim-rails'
-" alternate files
-map <space><space> <leader><leader>
-noremap <leader><leader> :A<CR>
 
 " Comments
 Plugin 'tpope/vim-commentary'
@@ -211,9 +191,6 @@ Plugin 'ervandew/supertab'
 " Slim
 Plugin 'onemanstartup/vim-slim'
 
-" Dash.app integration
-Plugin 'rizzatti/dash.vim'
-
 " Highlight trailing whitespaces
 Plugin 'ntpeters/vim-better-whitespace'
 autocmd BufWritePre * StripWhitespace
@@ -243,7 +220,6 @@ let g:gist_clip_command = 'pbcopy'
 
 " Ruby text objects
 Plugin 'kana/vim-textobj-user' " textobj-ruby dependency
-runtime macros/matchit.vim " textobj-rubyblock dependency
 Plugin 'nelstrom/vim-textobj-rubyblock'
 
 " Elixir
@@ -285,8 +261,6 @@ let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#show_splits = 0
 let g:airline#extensions#tabline#show_tab_nr = 0
 let g:airline#extensions#tabline#tab_min_count = 2
-
-set laststatus=2 " always show status line
 
 
 " VUNDLE POST-SETUP

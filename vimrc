@@ -1,6 +1,6 @@
 " BEHAVIOR
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:vertical_monitor = 1
+let g:vertical_monitor = 0
 
 " automatically reload .vimrc
 " autocmd! bufwritepost .vimrc source %

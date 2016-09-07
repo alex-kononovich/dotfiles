@@ -74,9 +74,6 @@ nmap <leader>s :w<CR>
 " close window
 nmap <silent><leader>q :q<CR>
 
-" edit vimrc
-nmap <silent> <leader>ev :tabedit ~/.vimrc<CR>
-
 " Quit on "q" in quickfix windows
 autocmd BufReadPost quickfix nmap <buffer> q :q<CR>
 

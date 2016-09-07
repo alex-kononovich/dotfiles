@@ -109,10 +109,10 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'tpope/vim-sensible'
 
 " Fuzzy file finder
-Plugin 'junegunn/fzf'
-Plugin 'junegunn/fzf.vim'
-nmap <silent><leader>t :Files<CR>
-nmap <silent><leader>b :Buffers<CR>
+Plugin 'ctrlpvim/ctrlp.vim'
+let g:ctrlp_user_command = 'ag --nocolor -g "" %s'
+nmap <silent><leader>t :CtrlP<CR>
+nmap <silent><leader>b :CtrlPBuffer<CR>
 
 " Search
 Plugin 'rking/ag.vim'

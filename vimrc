@@ -262,6 +262,7 @@ let g:airline#extensions#tabline#show_splits = 0
 let g:airline#extensions#tabline#show_tab_nr = 0
 let g:airline#extensions#tabline#tab_min_count = 2
 
+Plugin 'wakatime/vim-wakatime'
 
 " VUNDLE POST-SETUP
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

@@ -201,6 +201,7 @@ Plugin 'flskif/elm-vim'
 let g:elm_make_show_warnings = 1
 let g:elm_classic_highlighting = 1
 let g:elm_setup_keybindings = 0
+au FileType elm setlocal softtabstop=4 shiftwidth=4
 au FileType elm nmap <buffer><leader>M :update\|ElmMake<CR>
 au FileType elm nmap <buffer><leader>m :update\|ElmMakeMain<CR>
 au FileType elm nmap <buffer><leader>e :ElmErrorDetail<CR>

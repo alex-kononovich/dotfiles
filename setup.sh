@@ -11,3 +11,7 @@ ln -s ~/.vimrc ~/.config/nvim/init.vim
 brew install python3
 pip install neovim
 
+# haskell
+brew install haskell-stack
+stack setup
+stack install hlint ghc-mod

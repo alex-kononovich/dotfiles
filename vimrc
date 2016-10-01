@@ -197,7 +197,7 @@ autocmd BufWritePre * StripWhitespace
 Plugin 'digitaltoad/vim-jade'
 
 " Elm
-Plugin 'flskif/elm-vim'
+Plugin 'elmcast/elm-vim'
 let g:elm_make_show_warnings = 1
 let g:elm_classic_highlighting = 1
 let g:elm_setup_keybindings = 0

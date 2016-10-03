@@ -18,6 +18,7 @@ path=(
   /usr/local/{bin,sbin}
   /Applications/Postgres.app/Contents/Versions/latest/bin
   node_modules/.bin
+  ~/.local/bin
   .bin
   $path
 )

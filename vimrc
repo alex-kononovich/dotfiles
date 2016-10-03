@@ -263,6 +263,10 @@ let g:airline#extensions#tabline#tab_min_count = 2
 
 Plugin 'wakatime/vim-wakatime'
 
+" Haskell
+" remap <CR> to load current module in REPL and execute it's main function
+au FileType haskell nnoremap <CR> :update\|silent !tmux send-keys -t 1.2 C-l :l Space  % Enter main Enter<CR><C-l>
+
 " currently used to send code to ghci
 Plugin 'jpalardy/vim-slime'
 let g:slime_target = 'tmux'

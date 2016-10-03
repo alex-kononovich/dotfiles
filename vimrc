@@ -263,6 +263,12 @@ let g:airline#extensions#tabline#tab_min_count = 2
 
 Plugin 'wakatime/vim-wakatime'
 
+" currently used to send code to ghci
+Plugin 'jpalardy/vim-slime'
+let g:slime_target = 'tmux'
+let g:slime_default_config = {'socket_name': 'default', 'target_pane': '1.2'}
+
+
 " VUNDLE POST-SETUP
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call vundle#end()

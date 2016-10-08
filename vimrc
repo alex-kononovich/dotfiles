@@ -159,7 +159,9 @@ if has('nvim')
     normal G
   endfunction
 
-  autocmd! WinEnter *neoterm* call RSpecFocus()
+  " autocmd! WinEnter *neoterm* call RSpecFocus()
+  " Esc to go back to Normal mode
+  tnoremap <Esc> <C-\><C-n>
 endif
 
 

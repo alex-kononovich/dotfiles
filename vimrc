@@ -232,8 +232,11 @@ Plugin 'tpope/vim-unimpaired'
 
 " async make
 if has('nvim')
-  Plugin 'benekastah/neomake'
-  autocmd BufWritePost * Neomake
+  Plugin 'neomake/neomake'
+  nmap <silent><leader>m :update\|Neomake<CR>
+  nmap <silent><leader>M :update\|Neomake!<CR>
+
+  let g:neomake_haskell_enabled_makers = ['hdevtools']
 endif
 
 " Colorscheme
@@ -271,7 +274,6 @@ au FileType haskell nnoremap <CR> :update\|silent !tmux send-keys -t 1.2 C-l :l 
 Plugin 'jpalardy/vim-slime'
 let g:slime_target = 'tmux'
 let g:slime_default_config = {'socket_name': 'default', 'target_pane': '1.2'}
-
 
 " VUNDLE POST-SETUP
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

@@ -271,6 +271,8 @@ Plugin 'wakatime/vim-wakatime'
 " Haskell
 " remap <CR> to load current module in REPL and execute it's main function
 au FileType haskell nnoremap <CR> :update\|silent !tmux send-keys -t 1.2 C-l :l Space  % Enter main Enter<CR><C-l>
+au FileType haskell setlocal makeprg=stack\ build
+au FileType haskell setlocal errorformat=%f:%l:%v:%m
 
 " currently used to send code to ghci
 Plugin 'jpalardy/vim-slime'

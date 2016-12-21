@@ -1,1 +1,1 @@
-EXCLUDES="osx*"
+EXCLUDES="osx* setup.sh"

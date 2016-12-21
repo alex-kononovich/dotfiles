@@ -103,7 +103,9 @@ Plugin 'gmarik/Vundle.vim'
 
 " PLUGINS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-Plugin 'tpope/vim-sensible'
+if !has('nvim')
+  Plugin 'tpope/vim-sensible'
+endif
 
 " Fuzzy file finder
 Plugin 'ctrlpvim/ctrlp.vim'

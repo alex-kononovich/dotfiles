@@ -280,6 +280,14 @@ let g:slime_default_config = {'socket_name': 'default', 'target_pane': '1.2'}
 
 Plugin 'vim-scripts/Align'
 
+if has('nvim')
+  Plugin 'Shougo/deoplete.nvim'
+  let g:deoplete#enable_at_startup = 1
+
+  Plugin 'eagletmt/neco-ghc'
+  autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+endif
+
 
 " VUNDLE POST-SETUP
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

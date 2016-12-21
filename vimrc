@@ -286,6 +286,8 @@ if has('nvim')
 
   Plugin 'eagletmt/neco-ghc'
   autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+
+  Plugin 'neovimhaskell/haskell-vim'
 endif
 
 

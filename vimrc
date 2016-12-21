@@ -187,9 +187,6 @@ nmap <leader>D :bufdo BD<CR>
 " Dot command to repeat changes made by plugins
 Plugin 'tpope/vim-repeat'
 
-" Autocomplete
-Plugin 'ervandew/supertab'
-
 " Slim
 Plugin 'onemanstartup/vim-slim'
 

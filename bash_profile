@@ -29,3 +29,5 @@ alias ts="tmux new-session -s"
 alias tl="tmux list-sessions"
 alias ta="tmux attach-session -t"
 
+# autojump
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh

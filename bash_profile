@@ -7,6 +7,9 @@ export LANG="en_US.UTF-8"
 export LESS="-F -g -i -M -R -S -X -z-4"
 export PATH=".bin:node_modules/.bin:/Users/alex/.local/bin:$PATH"
 
+# nvim
+alias vim="nvim"
+
 # ls
 alias ls="ls -G"
 alias l="ls -lAh"

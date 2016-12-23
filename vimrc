@@ -1,204 +1,104 @@
-" BEHAVIOR
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:vertical_monitor = 0
-
-" automatically reload .vimrc
-" autocmd! bufwritepost .vimrc source %
-
-" fullscreen help
-" autocmd FileType help wincmd o " C-w o
-
-" don't save backup or swp file
-set nobackup
-set nowritebackup
-set noswapfile
+set nowrap
+set textwidth=80
+set list
+set expandtab
+set shiftwidth=4
+map <space> <leader>
+nmap <leader>s :w<CR>
+nmap <silent><leader>q :q<CR>
+autocmd BufReadPost quickfix nmap <buffer> q :q<CR>
+nnoremap Y y$
+cnoremap <expr> %% expand('%:h').'/'
 
 " read custom configurations in .vimrc per folder
 set exrc
 set secure
 
-" search
-set hlsearch
-set ignorecase
-set smartcase
-set gdefault
+set fillchars=fold:—,vert:\│
 
-" allows you to have unsaved changes in buffers
-" and undo history in them
-set hidden
+" config for messages appearing at the bottom
+set shortmess=
+set shortmess+=a " use abbreviations
+set shortmess+=T " truncate long messages
+set shortmess+=W " don't show 'written' message
 
-set undolevels=1000
+call plug#begin('~/.vim/plugged')
 
-" Intentation settings
-set smartindent
-set expandtab " replace tab with spaces
-set tabstop=2 " visual width for tab character
-set softtabstop=2 " how many spaces to insert when pressing tab
-set shiftwidth=2 " spaces per tab when shifting indentation
+" Colorscheme
+Plug 'w0ng/vim-hybrid'
+let g:hybrid_custom_term_colors=1
+let g:hybrid_reduced_contrast=1
+set background=dark
+" Make statusline a bit easier on the eyes
+highlight StatusLine cterm=bold ctermfg=15 ctermbg=8 gui=bold
 
-set textwidth=80
-set nowrap
-
-" automatically create dir on save if not exists
-function! s:MkNonExDir(file, buf)
-  if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
-    let dir=fnamemodify(a:file, ':h')
-    if !isdirectory(dir)
-      call mkdir(dir, 'p')
-    endif
+if has('nvim')
+  " Use <C-L> to clear the highlighting of :set hlsearch.
+  if maparg('<C-L>', 'n') ==# ''
+    nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
   endif
-endfunction
-augroup BWCCreateDir
-  autocmd!
-  autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
-augroup END
-
-" netrw
-let g:netrw_banner=0 " no help banner
-
-if g:vertical_monitor == 1
-  let g:netrw_preview= 0 " preview in horizontal split
 else
-  let g:netrw_preview= 1 " preview in vertical split
+  Plug 'tpope/vim-sensible'
 endif
 
-
-
-" CUSTOM KEYBINDINGS
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <space> <leader>
-
-" save
-nmap <leader>s :w<CR>
-
-" close window
-nmap <silent><leader>q :q<CR>
-
-" Quit on "q" in quickfix windows
-autocmd BufReadPost quickfix nmap <buffer> q :q<CR>
-
-" Yank from cursor to the end of line. Make it more consistent with D and C
-" commands
-nnoremap Y y$
-
-" use %% as shortcut for current file's directory
-cnoremap <expr> %% expand('%:h').'/'
-
-
-" VUNDLE PRE-SETUP
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set nocompatible
-filetype off
-
-" install vundle if not installed
-if !isdirectory(expand('~/.vim/bundle/Vundle.vim/.git'))
-  !git clone git://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-endif
-
-set runtimepath+=~/.vim/bundle/Vundle.vim
-call vundle#begin(expand('~/.vim/bundle/'))
-
-Plugin 'gmarik/Vundle.vim'
-
-
-" PLUGINS
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if !has('nvim')
-  Plugin 'tpope/vim-sensible'
-endif
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-unimpaired'
 
 " Fuzzy file finder
-Plugin 'ctrlpvim/ctrlp.vim'
-let g:ctrlp_use_caching = 0
-let g:ctrlp_user_command = 'ag --nocolor -g "" %s'
+Plug 'ctrlpvim/ctrlp.vim'
+let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
+let g:ctrlp_working_path_mode=0
 nmap <silent><leader>t :CtrlP<CR>
 nmap <silent><leader>b :CtrlPBuffer<CR>
 
+" Highlight trailing whitespaces
+Plug 'ntpeters/vim-better-whitespace'
+autocmd BufWritePre * StripWhitespace
+
+" Don't quit the window when killing buffer
+Plug 'qpkorr/vim-bufkill'
+let g:BufKillCreateMappings=0
+nmap <leader>d :BD<CR>
+nmap <leader>D :bufdo BD<CR>
+
+Plug 'vim-scripts/Align', {'on': 'Align'}
+
 " Search
-Plugin 'rking/ag.vim'
+Plug 'rking/ag.vim', {'on': 'Ag'}
 map <leader>f :Ag<space>
 map <leader>F :Ag<cword><CR> " search word under cursor
 
 " Git
-Plugin 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive', {'on': ['Gstatus', 'Gdiff', 'Gwrite', 'Gcommit']}
 nmap <leader>gs :Gstatus<CR>
 nmap <leader>gd :Gdiff<CR>
 nmap <leader>gw :Gwrite<CR>
 nmap <leader>gc :Gcommit --verbose<CR>
 
-" Rails.vim
-Plugin 'tpope/vim-rails'
+" Gists
+Plug 'mattn/webapi-vim', {'on': 'Gist'}
+Plug 'mattn/gist-vim', {'on': 'Gist'}
+let g:gist_show_privates = 1
+let g:gist_post_private = 1
+let g:gist_clip_command = 'pbcopy'
 
-" Comments
-Plugin 'tpope/vim-commentary'
-
-" Surround
-Plugin 'tpope/vim-surround'
-
-" CoffeeScript
-Plugin 'kchmck/vim-coffee-script'
-
-" React JSX for CoffeeScript
-Plugin 'mtscout6/vim-cjsx'
-
-" Wrapper for Neovim's :term
+" Neomake
 if has('nvim')
-  Plugin 'kassio/neoterm'
-
-  if g:vertical_monitor == 1
-    let g:neoterm_position = 'horizontal'
-    let g:neoterm_size = 10
-  else
-    let g:neoterm_position = 'vertical'
-  endif
-
-  function! RSpecFocus()
-    " Maximize term window
-    wincmd o
-    " Search for ./app or ./spec filename patters
-    let @/='\.\/\(app\|spec\)'
-    " Move cursor down
-    normal G
-  endfunction
-
-  " autocmd! WinEnter *neoterm* call RSpecFocus()
-  " Esc to go back to Normal mode
-  tnoremap <Esc> <C-\><C-n>
+  Plug 'neomake/neomake'
+  nmap <silent><leader>m :update\|Neomake<CR>
+  nmap <silent><leader>M :update\|Neomake!<CR>
+  let g:neomake_haskell_enabled_makers = ['hdevtools']
 endif
 
-
-" Universal test runner
-Plugin 'janko-m/vim-test'
-
+" Autocompletion
 if has('nvim')
-  let g:test#strategy = 'neoterm'
+  Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
+  let g:deoplete#enable_at_startup = 1
 endif
-
-nmap <silent> <leader>rt :update\|TestNearest<CR>
-nmap <silent> <leader>rs :update\|TestFile<CR>
-nmap <silent> <leader>ra :update\|TestSuite<CR>
-
-" Don't quit the window when killing buffer
-Plugin 'qpkorr/vim-bufkill'
-let g:BufKillCreateMappings = 0
-nmap <leader>d :BD<CR>
-nmap <leader>D :bufdo BD<CR>
-
-" Dot command to repeat changes made by plugins
-Plugin 'tpope/vim-repeat'
-
-" Slim
-Plugin 'onemanstartup/vim-slim'
-
-" Highlight trailing whitespaces
-Plugin 'ntpeters/vim-better-whitespace'
-autocmd BufWritePre * StripWhitespace
-
-" Jade syntax
-Plugin 'digitaltoad/vim-jade'
 
 " Elm
-Plugin 'elmcast/elm-vim'
+Plug 'elmcast/elm-vim', {'for': 'elm'}
 let g:elm_make_show_warnings = 1
 let g:elm_classic_highlighting = 1
 let g:elm_setup_keybindings = 0
@@ -208,121 +108,14 @@ au FileType elm nmap <buffer><leader>m :update\|ElmMakeMain<CR>
 au FileType elm nmap <buffer><leader>e :ElmErrorDetail<CR>
 au FileType elm nmap <buffer><leader>a :update\|ElmFormat<CR>
 
-" Online thesaurus
-Plugin 'beloglazov/vim-online-thesaurus'
-
-" Gists
-Plugin 'mattn/webapi-vim'
-Plugin 'mattn/gist-vim'
-let g:gist_show_privates = 1
-let g:gist_post_private = 1
-let g:gist_clip_command = 'pbcopy'
-
-" Ruby text objects
-Plugin 'kana/vim-textobj-user' " textobj-ruby dependency
-Plugin 'nelstrom/vim-textobj-rubyblock'
-
-" Elixir
-Plugin 'elixir-lang/vim-elixir'
-
-" FocusLost, FocusGained events for terminal vim
-Plugin 'tmux-plugins/vim-tmux-focus-events'
-
-" Bracket mappings
-Plugin 'tpope/vim-unimpaired'
-
-" async make
-if has('nvim')
-  Plugin 'neomake/neomake'
-  nmap <silent><leader>m :update\|Neomake<CR>
-  nmap <silent><leader>M :update\|Neomake!<CR>
-
-  let g:neomake_haskell_enabled_makers = ['hdevtools']
-endif
-
-" Colorscheme
-Plugin 'w0ng/vim-hybrid'
-let g:hybrid_custom_term_colors = 1
-let g:hybrid_reduced_contrast = 1
-
-" Code snippets
-Plugin 'SirVer/ultisnips'
-
-" Tabline and statusline
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-let g:airline_theme='hybrid'
-let g:airline_left_sep= ''
-let g:airline_right_sep= ''
-
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ''
-let g:airline#extensions#tabline#left_alt_sep = ''
-let g:airline#extensions#tabline#show_close_button = 0
-let g:airline#extensions#tabline#show_tab_type = 0
-let g:airline#extensions#tabline#show_buffers = 0
-let g:airline#extensions#tabline#show_splits = 0
-let g:airline#extensions#tabline#show_tab_nr = 0
-let g:airline#extensions#tabline#tab_min_count = 2
-
-Plugin 'wakatime/vim-wakatime'
-
 " Haskell
-" remap <CR> to load current module in REPL and execute it's main function
-au FileType haskell nnoremap <CR> :update\|silent !tmux send-keys -t 1.2 C-l :l Space  % Enter main Enter<CR><C-l>
-au FileType haskell setlocal makeprg=stack\ build
-au FileType haskell setlocal errorformat=%f:%l:%v:%m
-
-" currently used to send code to ghci
-Plugin 'jpalardy/vim-slime'
-let g:slime_target = 'tmux'
-let g:slime_default_config = {'socket_name': 'default', 'target_pane': '1.2'}
-
-Plugin 'vim-scripts/Align'
-
 if has('nvim')
-  Plugin 'Shougo/deoplete.nvim'
-  let g:deoplete#enable_at_startup = 1
-
-  Plugin 'eagletmt/neco-ghc'
+  Plug 'eagletmt/neco-ghc', {'for': 'haskell'}
+  Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
   autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
-
-  Plugin 'neovimhaskell/haskell-vim'
 endif
 
+call plug#end()
 
-" VUNDLE POST-SETUP
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-call vundle#end()
-filetype plugin indent on
-
-
-" INTERFACE
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-syntax enable
-
-" colorscheme must come after vundle#end() call
-" otherwise it won't be loaded
-set background=dark
+" Must go after plug#end()
 colorscheme hybrid
-
-" Use the same symbols as TextMate for tabstops and EOLs
-set listchars=tab:▸\ ,eol:¬
-
-" no different background for SignColum (it's were neomake shows it's warnings)
-highlight SignColumn ctermbg=NONE
-
-" pretty fillchars for status line and vertical split
-set fillchars=fold:—,vert:\│
-
-" config for messages appearing at the bottom
-set shortmess=
-set shortmess+=a " use abbreviations
-set shortmess+=T " truncate long messages
-set shortmess+=W " don't show 'written' message
-set shortmess+=I " no intro
-
-set winheight=5
-set winminheight=5
-set winwidth=80
-set winminwidth=50

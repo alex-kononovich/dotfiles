@@ -49,7 +49,9 @@ Plug 'tpope/vim-unimpaired'
 Plug 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
 let g:ctrlp_working_path_mode=0
+let g:ctrlp_extensions=['buffertag']
 nmap <silent><leader>t :CtrlP<CR>
+nmap <silent><leader>T :CtrlPBufTag<CR>
 nmap <silent><leader>b :CtrlPBuffer<CR>
 
 " Highlight trailing whitespaces

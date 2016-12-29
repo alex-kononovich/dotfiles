@@ -18,6 +18,6 @@
   conflictstyle = merge
 [mergetool "fugitive"]
   prompt = false
-  cmd = vim -d "+Gdiff" $MERGED
+  cmd = nvim -d "+Gdiff" $MERGED
 [init]
   templatedir = ~/.git_template

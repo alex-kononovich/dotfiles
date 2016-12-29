@@ -1,14 +1,11 @@
 export PS1="\w \\$ "
 export BROWSER="open"
-export EDITOR="vim"
-export VISUAL="vim"
+export EDITOR="nvim"
+export VISUAL="nvim"
 export PAGER="less"
 export LANG="en_US.UTF-8"
 export LESS="-F -g -i -M -R -S -X -z-4"
 export PATH=".bin:node_modules/.bin:/Users/alex/.local/bin:$PATH"
-
-# nvim
-alias vim="nvim"
 
 # ls
 alias ls="ls -G"

@@ -47,6 +47,7 @@ endif
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-surround'
 
 " Fuzzy file finder
 Plug 'ctrlpvim/ctrlp.vim'

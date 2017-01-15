@@ -10,6 +10,9 @@ autocmd BufReadPost quickfix nmap <buffer> q :q<CR>
 nnoremap Y y$
 cnoremap <expr> %% expand('%:h').'/'
 
+" allow unsaved changes
+set hidden
+
 " read custom configurations in .vimrc per folder
 set exrc
 set secure

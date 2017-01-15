@@ -120,6 +120,7 @@ if has('nvim')
   Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
   autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 endif
+Plug 'pbrisbin/vim-syntax-shakespeare', {'for': ['haskell', 'hamlet', 'cassius', 'lucius', 'julius']}
 Plug 'Twinside/vim-hoogle', {'for': 'haskell'}
 let g:hoogle_search_count=20
 let g:hoogle_search_buf_size=20

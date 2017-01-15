@@ -103,6 +103,9 @@ if has('nvim')
   let g:deoplete#enable_at_startup = 1
 endif
 
+" Html
+au FileType html setlocal formatprg=html-beautify
+
 " Elm
 Plug 'elmcast/elm-vim', {'for': 'elm'}
 let g:elm_make_show_warnings = 1

@@ -15,3 +15,6 @@ pip install neovim
 brew install haskell-stack
 stack setup
 stack install hlint ghc-mod
+
+# autoformatting
+npm install -g js-beautify

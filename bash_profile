@@ -8,6 +8,9 @@ export LESS="-F -g -i -M -R -S -X -z-4"
 export PATH=".bin:node_modules/.bin:/Users/alex/.local/bin:$PATH"
 export HISTCONTROL=ignoreboth:erasedups
 
+# fix Ctrl-s
+stty -ixon
+
 # ls
 alias ls="ls -G"
 alias l="ls -lAh"

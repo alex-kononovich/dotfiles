@@ -6,6 +6,7 @@ export PAGER="less"
 export LANG="en_US.UTF-8"
 export LESS="-F -g -i -M -R -S -X -z-4"
 export PATH=".bin:node_modules/.bin:/Users/alex/.local/bin:$PATH"
+export HISTCONTROL=ignoreboth:erasedups
 
 # ls
 alias ls="ls -G"

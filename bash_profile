@@ -12,7 +12,7 @@ export HISTCONTROL=ignoreboth:erasedups
 stty -ixon
 
 # ls
-alias ls="ls -G"
+alias ls="ls -G --color=auto"
 alias l="ls -lAh"
 
 # git

@@ -1,6 +1,5 @@
 set nowrap
 set textwidth=80
-set list
 set expandtab
 set shiftwidth=4
 map <space> <leader>

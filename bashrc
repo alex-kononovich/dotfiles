@@ -5,14 +5,16 @@ export VISUAL="nvim"
 export PAGER="less"
 export LANG="en_US.UTF-8"
 export LESS="-F -g -i -M -R -S -X -z-4"
-export PATH=".bin:node_modules/.bin:/Users/alex/.local/bin:$PATH"
+export PATH=".bin:node_modules/.bin:/Users/alex/.local/bin:/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 export HISTCONTROL=ignoreboth:erasedups
+
 
 # fix Ctrl-s
 stty -ixon
 
 # ls
-alias ls="ls -G --color=auto"
+alias ls="ls --color=auto"
 alias l="ls -lAh"
 
 # git

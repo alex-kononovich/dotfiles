@@ -131,6 +131,8 @@ Plug 'Twinside/vim-hoogle', {'for': 'haskell'}
 let g:hoogle_search_count=20
 let g:hoogle_search_buf_size=20
 
+" CoffeeScript
+Plug 'kchmck/vim-coffee-script', {'for': 'coffee'}
 
 call plug#end()
 

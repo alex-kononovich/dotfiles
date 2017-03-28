@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-# One-time setup
-
+# Custom keybindings like Ctrl-w to delete last word in any textfield
 mkdir -p ~/Library/KeyBindings
 ln `dirname $0`/osx/DefaultKeyBinding.dict ~/Library/KeyBindings/DefaultKeyBinding.dict
 
@@ -9,6 +8,13 @@ ln `dirname $0`/osx/DefaultKeyBinding.dict ~/Library/KeyBindings/DefaultKeyBindi
 # https://github.com/jonas/tig/issues/214
 stty dsusp undef
 
-# Apps
+# Terminal theme
+TERM_PROFILE='hybrid-reduced-contrast';
+CURRENT_PROFILE="$(defaults read com.apple.terminal 'Default Window Settings')";
+if [ "${CURRENT_PROFILE}" != "${TERM_PROFILE}" ]; then
+  open "${HOME}/.dotfiles/osx/${TERM_PROFILE}.terminal";
+  sleep 1; # Wait a bit to make sure the theme is loaded
+  defaults write com.apple.terminal 'Default Window Settings' -string "${TERM_PROFILE}";
+  defaults write com.apple.terminal 'Startup Window Settings' -string "${TERM_PROFILE}";
+fi;
 
-brew cask install tomighty # Pomodoro timer

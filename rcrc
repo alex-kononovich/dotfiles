@@ -1,1 +1,1 @@
-EXCLUDES="osx* setup.sh"
+EXCLUDES="osx* setup.sh zprestorc zprofile zshrc Xresources emacs.d"

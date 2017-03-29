@@ -34,6 +34,7 @@ brew cask install \
   skype \
   telegram \
   google-chrome \
+  things \
   spectacle
 
 # applications from appstore

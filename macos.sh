@@ -31,6 +31,9 @@ if [ "${CURRENT_PROFILE}" != "${TERM_PROFILE}" ]; then
   defaults write com.apple.terminal 'Startup Window Settings' -string "${TERM_PROFILE}";
 fi;
 
+# Disable transparency
+defaults write com.apple.universalaccess reduceTransparency -bool true
+
 # Restart automatically if the computer freezes
 sudo systemsetup -setrestartfreeze on
 

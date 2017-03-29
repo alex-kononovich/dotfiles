@@ -34,6 +34,7 @@ brew cask install \
   skype \
   telegram \
   google-chrome \
+  spectacle
 
 # applications from appstore
 brew install mas

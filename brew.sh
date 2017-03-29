@@ -41,3 +41,4 @@ brew cask install \
 brew install mas
 mas install 427475982 # BreakTime
 mas install 418073146 # Snap
+mas install 568494494 # Pocket

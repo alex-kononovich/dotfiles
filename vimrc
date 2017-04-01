@@ -139,3 +139,8 @@ call plug#end()
 
 " Must go after plug#end()
 colorscheme hybrid
+highlight SignColumn ctermbg=NONE
+highlight NeomakeErrorSignDefault ctermbg=NONE
+highlight NeomakeWarningSignDefault ctermbg=NONE
+highlight NeomakeMessageSignDefault ctermbg=NONE
+highlight NeomakeInfoSignDefault ctermbg=NONE

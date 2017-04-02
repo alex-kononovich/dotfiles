@@ -29,6 +29,9 @@ brew cask install font-fira-code
 
 brew install autojump
 
+# node
+brew install node
+
 # applications from cask
 brew cask install \
   skype \

@@ -32,6 +32,9 @@ brew install autojump
 # node
 brew install node
 
+# elm (using npm until all packages migrate to homebrew)
+npm install -g elm elm-format elm-test elm-oracle elm-upgrade
+
 # applications from cask
 brew cask install \
   skype \

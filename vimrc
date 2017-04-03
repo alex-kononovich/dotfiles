@@ -4,7 +4,7 @@ set expandtab
 set shiftwidth=4
 set noswapfile
 map <space> <leader>
-nmap <leader>s :w<CR>
+nmap <leader>w :w<CR>
 nmap <silent><leader>q :q<CR>
 autocmd BufReadPost quickfix nmap <buffer> q :q<CR>
 nnoremap Y y$
@@ -57,8 +57,8 @@ Plug 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
 let g:ctrlp_working_path_mode=0
 let g:ctrlp_extensions=['buffertag']
-nmap <silent><leader>t :CtrlP<CR>
-nmap <silent><leader>T :CtrlPBufTag<CR>
+nmap <silent><leader>o :CtrlP<CR>
+" nmap <silent><leader>T :CtrlPBufTag<CR>
 nmap <silent><leader>b :CtrlPBuffer<CR>
 
 " Highlight trailing whitespaces

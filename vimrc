@@ -79,7 +79,7 @@ map <leader>f :Ag<space>
 map <leader>F :Ag<cword><CR> " search word under cursor
 
 " Git
-Plug 'tpope/vim-fugitive', {'on': ['Gstatus', 'Gdiff', 'Gwrite', 'Gcommit']}
+Plug 'tpope/vim-fugitive'
 nmap <leader>gs :Gstatus<CR>
 nmap <leader>gd :Gdiff<CR>
 nmap <leader>gw :Gwrite<CR>

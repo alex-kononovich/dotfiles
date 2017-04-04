@@ -35,6 +35,9 @@ brew install node
 # elm (using npm until all packages migrate to homebrew)
 npm install -g elm elm-format elm-test elm-oracle elm-upgrade
 
+# code formatters
+npm install -g js-beautify pug-beautifier
+
 # applications from cask
 brew cask install \
   skype \

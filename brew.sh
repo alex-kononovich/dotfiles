@@ -13,6 +13,9 @@ brew install coreutils
 # better grep
 brew install ag
 
+# better top
+brew install htop
+
 # newest git
 brew install git
 

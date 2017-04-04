@@ -136,6 +136,10 @@ let g:hoogle_search_buf_size=20
 " CoffeeScript
 Plug 'kchmck/vim-coffee-script', {'for': 'coffee'}
 
+" Pug
+Plug 'digitaltoad/vim-pug', {'for': 'pug'}
+au FileType pug setlocal formatprg=pug-beautifier\ -s\ 2
+
 call plug#end()
 
 " Must go after plug#end()

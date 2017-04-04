@@ -133,12 +133,13 @@ Plug 'Twinside/vim-hoogle', {'for': 'haskell'}
 let g:hoogle_search_count=20
 let g:hoogle_search_buf_size=20
 
-" CoffeeScript
-Plug 'kchmck/vim-coffee-script', {'for': 'coffee'}
-
 " Pug
 Plug 'digitaltoad/vim-pug', {'for': 'pug'}
 au FileType pug setlocal formatprg=pug-beautifier\ -s\ 2
+
+" Javascript (ES6)
+Plug 'othree/yajs.vim', { 'for': 'javascript' }
+au FileType javascript setlocal formatprg=js-beautify
 
 call plug#end()
 

@@ -18,8 +18,9 @@ brew install rcm
 rcup
 
 # Setup Neovim
-mkdir -p ~/.config/nvim/
-ln -s ~/.dotfiles/vimrc ~/.config/nvim/init.vim
+mkdir ~/.config
+ln -s ~/.vim ~/.config/nvim
+ln -s ~/.vimrc ~/.config/nvim/init.vim
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 brew install python3

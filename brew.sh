@@ -22,6 +22,9 @@ brew install git
 # tree
 brew install tree
 
+# Exuberant ctags
+brew install ctags
+
 # text editor
 brew tap neovim/neovim
 brew install neovim

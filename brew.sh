@@ -19,6 +19,9 @@ brew install htop
 # newest git
 brew install git
 
+# tree
+brew install tree
+
 # text editor
 brew tap neovim/neovim
 brew install neovim

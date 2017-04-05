@@ -74,9 +74,12 @@ nmap <leader>D :bufdo BD<CR>
 Plug 'vim-scripts/Align', {'on': 'Align'}
 
 " Search
-Plug 'rking/ag.vim', {'on': 'Ag'}
-map <leader>f :Ag<space>
-map <leader>F :Ag<cword><CR> " search word under cursor
+Plug 'mileszs/ack.vim', {'on': 'Ack'}
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+map <leader>f :Ack<space>
+map <leader>F :Ack<cword><CR> " search word under cursor
 
 " Git
 Plug 'tpope/vim-fugitive'

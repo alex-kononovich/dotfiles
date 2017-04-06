@@ -38,6 +38,11 @@ brew cask install font-fira-code
 
 brew install autojump
 
+# haskell
+brew install haskell-stack
+stack setup
+stack install hdevtools stylish-haskell hoogle ghc-mod hasktags
+
 # node
 brew install node
 

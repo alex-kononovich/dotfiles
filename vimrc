@@ -1,7 +1,7 @@
 set nowrap
 set textwidth=80
 set expandtab
-set shiftwidth=4
+set shiftwidth=2
 set noswapfile
 map <space> <leader>
 nmap <leader>w :w<CR>

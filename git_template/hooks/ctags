@@ -2,6 +2,16 @@
 set -e
 dir="`git rev-parse --git-dir`"
 trap 'rm -f "$dir/$$.tags"' EXIT
+
+# Ctags for usual stuff and *.elm files for libraries
 { if [[ -d elm-stuff/packages ]]; then find elm-stuff/packages -type f -name "*.elm"; fi; git ls-files; } | \
   ctags --tag-relative -L - -f"$dir/$$.tags" --languages=-sql
+
+# Haskell tags (based on http://www.atn34.com/posts/git-hooks-and-haskell-tags.html)
+if [[ -x "$(command -v hasktags)" ]] && [[ -f "$dir/../stack.yaml" ]]; then
+  old_dir=$(pwd)
+  (cd "$dir/.." && hasktags -c -x --ignore-close-implementation -a -f "$dir/$$.tags" "$old_dir")
+  LC_COLLATE=C sort "$dir/$$.tags" -o "$dir/$$.tags"
+fi
+
 mv "$dir/$$.tags" "$dir/tags"

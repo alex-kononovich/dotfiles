@@ -61,17 +61,11 @@ nmap <silent><leader>o :CtrlP<CR>
 " nmap <silent><leader>T :CtrlPBufTag<CR>
 nmap <silent><leader>b :CtrlPBuffer<CR>
 
-" Highlight trailing whitespaces
-Plug 'ntpeters/vim-better-whitespace'
-autocmd BufWritePre * StripWhitespace
-
 " Don't quit the window when killing buffer
 Plug 'qpkorr/vim-bufkill'
 let g:BufKillCreateMappings=0
 nmap <leader>d :BD<CR>
 nmap <leader>D :bufdo BD<CR>
-
-Plug 'vim-scripts/Align', {'on': 'Align'}
 
 " Search
 Plug 'mileszs/ack.vim', {'on': 'Ack'}
@@ -109,8 +103,12 @@ if has('nvim')
   let g:deoplete#enable_at_startup = 1
 endif
 
-" Html
-au FileType html setlocal formatprg=html-beautify
+" Autoformat
+Plug 'sbdchd/neoformat'
+let g:neoformat_only_msg_on_error = 1
+let g:neoformat_basic_format_trim = 1
+let g:neoformat_basic_format_retab = 1
+nmap <leader>a :Neoformat<CR>
 
 " Elm
 Plug 'elmcast/elm-vim', {'for': 'elm'}
@@ -121,7 +119,6 @@ au FileType elm setlocal softtabstop=4 shiftwidth=4
 au FileType elm nmap <buffer><leader>t :update\|!clear&elm test<CR>
 au FileType elm nmap <buffer><leader>m :update\|ElmMakeMain<CR>
 au FileType elm nmap <buffer><leader>e :ElmErrorDetail<CR>
-au FileType elm nmap <buffer><leader>a :update\|ElmFormat<CR>
 au BufWritePost *.elm Neomake
 
 " Haskell
@@ -130,7 +127,6 @@ if has('nvim')
   Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
   autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 endif
-au FileType haskell setlocal formatprg=stylish-haskell
 Plug 'pbrisbin/vim-syntax-shakespeare', {'for': ['haskell', 'hamlet', 'cassius', 'lucius', 'julius']}
 Plug 'Twinside/vim-hoogle', {'for': 'haskell'}
 let g:hoogle_search_count=20
@@ -138,11 +134,9 @@ let g:hoogle_search_buf_size=20
 
 " Pug
 Plug 'digitaltoad/vim-pug', {'for': 'pug'}
-au FileType pug setlocal formatprg=pug-beautifier\ -s\ 2
 
 " Javascript (ES6)
 Plug 'othree/yajs.vim', { 'for': 'javascript' }
-au FileType javascript setlocal formatprg=js-beautify
 
 call plug#end()
 

@@ -94,7 +94,6 @@ if has('nvim')
   Plug 'neomake/neomake'
   nmap <silent><leader>m :update\|Neomake<CR>
   nmap <silent><leader>M :update\|Neomake!<CR>
-  let g:neomake_haskell_enabled_makers = ['hdevtools']
 endif
 
 " Autocompletion
@@ -125,6 +124,7 @@ au BufWritePost *.elm Neomake
 if has('nvim')
   Plug 'eagletmt/neco-ghc', {'for': 'haskell'}
   Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
+  let g:neomake_haskell_enabled_makers = ['hdevtools']
   autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 endif
 Plug 'pbrisbin/vim-syntax-shakespeare', {'for': ['haskell', 'hamlet', 'cassius', 'lucius', 'julius']}

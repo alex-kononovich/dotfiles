@@ -21,8 +21,8 @@ brew install ag
 # better top
 brew install htop
 
-# newest git
-brew install git
+# newest git and git client
+brew install git tig
 
 # tree
 brew install tree

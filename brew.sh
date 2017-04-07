@@ -7,6 +7,11 @@ if [[ ! -x "$(command -v brew)" ]]; then
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
+# newest bash
+brew install bash
+echo '/usr/local/bin/bash' | sudo tee -a /etc/shells
+chsh -s /usr/local/bin/bash
+
 # GNU utilities, because macOS's are outdated
 brew install coreutils
 

@@ -49,7 +49,7 @@ brew install autojump
 # haskell
 brew install haskell-stack
 stack setup
-stack install hdevtools stylish-haskell hoogle ghc-mod hasktags
+stack install hdevtools hindent hoogle ghc-mod hasktags
 
 # node
 brew install node

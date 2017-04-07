@@ -125,6 +125,7 @@ if has('nvim')
   Plug 'eagletmt/neco-ghc', {'for': 'haskell'}
   Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
   let g:neomake_haskell_enabled_makers = ['hdevtools']
+  let g:neoformat_enabled_haskell = ['hindent']
   autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 endif
 Plug 'pbrisbin/vim-syntax-shakespeare', {'for': ['haskell', 'hamlet', 'cassius', 'lucius', 'julius']}

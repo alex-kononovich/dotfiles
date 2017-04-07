@@ -27,6 +27,9 @@ brew install git
 # tree
 brew install tree
 
+# tmux
+brew install tmux reattach-to-user-namespace
+
 # Exuberant ctags
 brew install ctags
 

@@ -10,6 +10,10 @@ autocmd BufReadPost quickfix nmap <buffer> q :q<CR>
 nnoremap Y y$
 cnoremap <expr> %% expand('%:h').'/'
 
+" smart case search
+set ignorecase
+set smartcase
+
 " allow unsaved changes
 set hidden
 

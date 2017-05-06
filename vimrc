@@ -102,10 +102,10 @@ if has('nvim')
 endif
 
 " Autocompletion
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
-  let g:deoplete#enable_at_startup = 1
-endif
+" if has('nvim')
+  " Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
+  " let g:deoplete#enable_at_startup = 1
+" endif
 
 " Autoformat
 Plug 'sbdchd/neoformat'
@@ -126,17 +126,23 @@ au FileType elm nmap <buffer><leader>e :ElmErrorDetail<CR>
 au BufWritePost *.elm Neomake
 
 " Haskell
-if has('nvim')
-  Plug 'eagletmt/neco-ghc', {'for': 'haskell'}
-  Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
-  let g:neomake_haskell_enabled_makers = ['hdevtools']
-  let g:neoformat_enabled_haskell = ['hindent']
-  autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
-endif
+let g:neoformat_enabled_haskell = ['hindent']
+
+Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
+let g:haskell_classic_highlighting = 1
+let g:haskell_indent_disable = 1
+
 Plug 'pbrisbin/vim-syntax-shakespeare', {'for': ['haskell', 'hamlet', 'cassius', 'lucius', 'julius']}
+
 Plug 'Twinside/vim-hoogle', {'for': 'haskell'}
 let g:hoogle_search_count=20
 let g:hoogle_search_buf_size=20
+
+if has('nvim')
+  " Plug 'eagletmt/neco-ghc', {'for': 'haskell'}
+  " autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+  let g:neomake_haskell_enabled_makers = ['hdevtools']
+endif
 
 " Pug
 Plug 'digitaltoad/vim-pug', {'for': 'pug'}

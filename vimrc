@@ -85,6 +85,7 @@ nmap <leader>gs :Gstatus<CR>
 nmap <leader>gd :Gdiff<CR>
 nmap <leader>gw :Gwrite<CR>
 nmap <leader>gc :Gcommit --verbose<CR>
+nmap <leader>gr :Gread<CR>
 
 " Gists
 Plug 'mattn/webapi-vim', {'on': 'Gist'}

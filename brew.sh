@@ -66,6 +66,7 @@ brew cask install \
   telegram \
   google-chrome \
   things \
+  the-unarchiver \
   spectacle
 
 # applications from appstore

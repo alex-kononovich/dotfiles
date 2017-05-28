@@ -57,6 +57,9 @@ brew install node
 # elm (using npm until all packages migrate to homebrew)
 npm install -g elm elm-format elm-test elm-oracle elm-upgrade
 
+# ruby
+brew install chruby ruby-install
+
 # code formatters
 npm install -g js-beautify pug-beautifier
 

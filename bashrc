@@ -37,3 +37,6 @@ alias ta="tmux attach-session -t"
 
 # autojump
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+
+# chruby
+source /usr/local/share/chruby/chruby.sh

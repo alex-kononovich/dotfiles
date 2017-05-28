@@ -60,6 +60,9 @@ npm install -g elm elm-format elm-test elm-oracle elm-upgrade
 # ruby
 brew install chruby ruby-install
 
+# heroku
+brew install heroku
+
 # code formatters
 npm install -g js-beautify pug-beautifier
 

@@ -22,7 +22,7 @@ brew install ag
 brew install htop
 
 # newest git and git client
-brew install git tig
+brew install git tig diff-so-fancy
 
 # tree
 brew install tree

@@ -27,6 +27,9 @@ brew install git tig diff-so-fancy
 # tree
 brew install tree
 
+# rename
+brew install rename
+
 # tmux
 brew install tmux reattach-to-user-namespace
 
@@ -65,6 +68,8 @@ brew install heroku
 
 # code formatters
 npm install -g js-beautify pug-beautifier
+
+brew install youtube-dl
 
 # applications from cask
 brew cask install \

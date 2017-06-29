@@ -129,9 +129,9 @@ au BufWritePost *.elm Neomake
 " Haskell
 let g:neoformat_enabled_haskell = ['hindent']
 
-Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
-let g:haskell_classic_highlighting = 1
-let g:haskell_indent_disable = 1
+" Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
+" let g:haskell_classic_highlighting = 1
+" let g:haskell_indent_disable = 1
 
 Plug 'pbrisbin/vim-syntax-shakespeare', {'for': ['haskell', 'hamlet', 'cassius', 'lucius', 'julius']}
 
@@ -154,9 +154,10 @@ Plug 'othree/yajs.vim', { 'for': 'javascript' }
 call plug#end()
 
 " Must go after plug#end()
-colorscheme hybrid
-highlight SignColumn ctermbg=NONE
-highlight NeomakeErrorSignDefault ctermbg=NONE
-highlight NeomakeWarningSignDefault ctermbg=NONE
-highlight NeomakeMessageSignDefault ctermbg=NONE
-highlight NeomakeInfoSignDefault ctermbg=NONE
+" colorscheme hybrid
+colorscheme hipster
+" highlight SignColumn ctermbg=NONE
+" highlight NeomakeErrorSignDefault ctermbg=NONE
+" highlight NeomakeWarningSignDefault ctermbg=NONE
+" highlight NeomakeMessageSignDefault ctermbg=NONE
+" highlight NeomakeInfoSignDefault ctermbg=NONE

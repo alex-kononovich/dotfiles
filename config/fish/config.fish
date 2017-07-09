@@ -1,3 +1,6 @@
+# set vi key bindings
+fish_vi_key_bindings
+
 # remove greeting
 set fish_greeting
 

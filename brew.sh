@@ -8,6 +8,7 @@ if [[ ! -x "$(command -v brew)" ]]; then
 fi
 
 # other package managers
+brew install python3
 brew install python
 brew install node
 

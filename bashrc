@@ -1,4 +1,4 @@
-export PS1="\w \\$ "
+export PS1="\[\e[30;42m\]\w\[\e[0m\] \$ "
 export BROWSER="open"
 export EDITOR="nvim"
 export VISUAL="nvim"

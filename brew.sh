@@ -7,6 +7,10 @@ if [[ ! -x "$(command -v brew)" ]]; then
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
+# other package managers
+brew install python
+brew install node
+
 # newest bash
 brew install bash
 echo '/usr/local/bin/bash' | sudo tee -a /etc/shells
@@ -54,11 +58,11 @@ brew install haskell-stack
 stack setup
 stack install hdevtools hindent hoogle ghc-mod hasktags
 
-# node
-brew install node
-
 # elm (using npm until all packages migrate to homebrew)
 npm install -g elm elm-format elm-test elm-oracle elm-upgrade
+
+# vimscript linter
+pip install vim-vint
 
 # ruby
 brew install chruby ruby-install

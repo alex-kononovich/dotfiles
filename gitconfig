@@ -1,7 +1,7 @@
 [core]
   excludesfile = ~/.gitignore
   quotepath = false
-  pager = diff-so-fancy | less --tabs=4 -RFX
+  pager = diff-so-fancy | less
 [user]
   name = Alex K
   email = flskif@gmail.com

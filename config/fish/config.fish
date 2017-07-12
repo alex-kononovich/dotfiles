@@ -7,6 +7,26 @@ set fish_greeting
 set -x EDITOR 'nvim'
 set -x VISUAL 'nvim'
 set -x BROWSER 'open'
+set -x LESS (echo -n \
+  # display colors and such
+  --RAW-CONTROL-CHARS \
+  # do not ask me to press RETURN if everything fits in one screen
+  --quit-if-one-screen \
+  # do not mess things up
+  --no-init \
+  # do not do line wrapping
+  --chop-long-lines \
+  # show more info
+  --LONG-PROMPT \
+  # highlight only current match, not ALL matches
+  --hilite-search \
+  # ignore case when searching
+  --ignore-case \
+  # keep 4 lines from the previous screen (when using PgDown)
+  --window=-4 \
+  # show tabs as 4 spaces, not 8
+  --tabs=4
+)
 
 # $PATH
 set coreutils_path '/usr/local/opt/coreutils' 

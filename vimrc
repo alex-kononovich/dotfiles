@@ -10,6 +10,9 @@ autocmd BufReadPost quickfix nmap <buffer> q :q<CR>
 nnoremap Y y$
 cnoremap <expr> %% expand('%:h').'/'
 
+" open help in right split
+cnoreabbrev H vert bo h
+
 " smart case search
 set ignorecase
 set smartcase

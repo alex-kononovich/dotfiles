@@ -5,7 +5,7 @@ fish_vi_key_bindings
 set fish_greeting
 
 set -x EDITOR 'nvim'
-set -x VISUAL 'nvim'
+set -x VISUAL $EDITOR
 set -x BROWSER 'open'
 set -x LESS (echo -n \
   # display colors and such
@@ -37,6 +37,8 @@ set fish_user_paths \
   "$coreutils_path/libexec/gnubin"
 
 set -x MANPATH $MANPATH "$coreutils_path/libexec/gnuman"
+
+alias e=$EDITOR
 
 # ls
 alias ls='ls --color=auto'

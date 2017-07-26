@@ -65,3 +65,6 @@ alias ta='tmux attach-session -t'
 # autojump
 [ -f /usr/local/share/autojump/autojump.fish ]; and source /usr/local/share/autojump/autojump.fish
 
+# chruby
+source /usr/local/share/chruby/chruby.fish
+source /usr/local/share/chruby/auto.fish

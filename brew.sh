@@ -66,7 +66,7 @@ npm install -g elm elm-format elm-test elm-oracle elm-upgrade
 pip install vim-vint
 
 # ruby
-brew install chruby ruby-install
+brew install chruby chruby-fish ruby-install
 
 # heroku
 brew install heroku

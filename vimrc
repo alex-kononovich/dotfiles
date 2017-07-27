@@ -65,6 +65,20 @@ let g:ctrlp_match_current_file=1
 let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
 let g:ctrlp_working_path_mode=0
 let g:ctrlp_extensions=['buffertag']
+let g:ctrlp_buffer_func = {
+  \ 'enter': 'HideStatusLine',
+  \ 'exit': 'RestoreStatusLine'
+  \ }
+
+function! HideStatusLine()
+  let g:laststatus_last_value=&laststatus
+  set laststatus=0
+endfunction
+
+function! RestoreStatusLine()
+  let &laststatus=g:laststatus_last_value
+endfunction
+
 nmap <silent><leader>o :CtrlP<CR>
 " nmap <silent><leader>T :CtrlPBufTag<CR>
 nmap <silent><leader>b :CtrlPBuffer<CR>

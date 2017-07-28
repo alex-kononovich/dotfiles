@@ -130,6 +130,7 @@ Plug 'sbdchd/neoformat'
 let g:neoformat_only_msg_on_error = 1
 let g:neoformat_basic_format_trim = 1
 let g:neoformat_basic_format_retab = 1
+let g:neoformat_try_formatprg = 1
 nmap <leader>a :Neoformat<CR>
 
 " Elm
@@ -138,12 +139,14 @@ let g:elm_make_show_warnings = 1
 let g:elm_classic_highlighting = 1
 let g:elm_setup_keybindings = 0
 au FileType elm setlocal softtabstop=4 shiftwidth=4
+au FileType elm setlocal formatprg=elm-format
 au FileType elm nmap <buffer><leader>t :update\|!clear&elm test<CR>
 au FileType elm nmap <buffer><leader>m :update\|ElmMakeMain<CR>
 au FileType elm nmap <buffer><leader>e :ElmErrorDetail<CR>
 au BufWritePost *.elm Neomake
 
 " Haskell
+au FileType haskell setlocal formatprg=stylish-haskell
 let g:neoformat_enabled_haskell = ['hindent']
 
 " Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
@@ -164,9 +167,17 @@ endif
 
 " Pug
 Plug 'digitaltoad/vim-pug', {'for': 'pug'}
+au FileType pug setlocal softtabstop=2 shiftwidth=2
+au FileType pug setlocal formatprg=pug-beautifier\ --fillspace\ 2\ --omitdiv
 
 " Javascript (ES6)
 Plug 'othree/yajs.vim', { 'for': 'javascript' }
+au FileType javascript setlocal softtabstop=2 shiftwidth=2
+au FileType javascript setlocal formatprg=js-beautify\ --indent-size\ 2\ --end-with-newline\ --max-preserve-newlines\ 2\ --jslint-happy\ --wrap-line-length\ 80
+
+" HTML
+au FileType html,xhtml setlocal softtabstop=2 shiftwidth=2
+au FileType html,xhtml setlocal formatprg=html-beautify\ --type\ html\ --indent-size\ 2\ --end-with-newline\ --indent-inner-html\ --max-preserve-newlines\ 2\ --wrap-line-length\ 80
 
 call plug#end()
 

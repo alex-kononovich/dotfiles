@@ -2,15 +2,30 @@
 
 set -u
 
-# install homebrew
+############################################################
+# PACKAGE MANAGERS
+############################################################
+
+# homebrew
 if [[ ! -x "$(command -v brew)" ]]; then
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-# other package managers
+# pip3
 brew install python3
+
+# pip
 brew install python
+
+# npm
 brew install node
+
+# mac app store
+brew install mas
+
+############################################################
+# UTILITIES
+############################################################
 
 # newest bash
 brew install bash
@@ -32,7 +47,7 @@ brew install git tig diff-so-fancy
 # tree
 brew install tree
 
-# rename
+# rename utility
 brew install rename
 
 # tmux
@@ -45,48 +60,57 @@ brew install ctags
 brew tap neovim/neovim
 brew install neovim
 
-# bash files checker
-brew install shellcheck
-
 # programming font
 brew tap caskroom/fonts
 brew cask install font-fira-code
 
+# j to quickly jump to fuzzy-matched directory
 brew install autojump
+
+# heroku cli
+brew install heroku
+
+# video downloader
+brew install youtube-dl
+
+############################################################
+# LANGUAGES
+############################################################
 
 # haskell
 brew install haskell-stack
 stack setup
-stack install hdevtools hindent hoogle ghc-mod hasktags
+stack install hdevtools hindent hoogle ghc-mod hasktags stylish-haskell
 
 # elm (using npm until all packages migrate to homebrew)
 npm install -g elm elm-format elm-test elm-oracle elm-upgrade
 
-# vimscript linter
+# vimscript
 pip install vim-vint
 
 # ruby
 brew install chruby chruby-fish ruby-install
 
-# heroku
-brew install heroku
+# html, js
+npm install -g js-beautify
 
-# code formatters
-npm install -g js-beautify pug-beautifier
+# pug
+npm install -g pug-beautifier
 
-brew install youtube-dl
+# sh
+brew install shellcheck
 
-# applications from cask
+############################################################
+# APPLICATIONS
+############################################################
+
 brew cask install \
   skype \
   telegram \
   google-chrome \
-  things \
   the-unarchiver \
   spectacle
 
-# applications from appstore
-brew install mas
 mas install 427475982 # BreakTime
 mas install 418073146 # Snap
 mas install 568494494 # Pocket

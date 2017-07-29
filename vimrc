@@ -11,7 +11,7 @@ nnoremap Y y$
 cnoremap <expr> %% expand('%:h').'/'
 
 " open help in right split
-cnoreabbrev H vert bo h
+cnoreabbrev h vert bo h
 
 " smart case search
 set ignorecase

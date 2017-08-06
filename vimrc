@@ -32,6 +32,14 @@ set shortmess+=a " use abbreviations
 set shortmess+=T " truncate long messages
 set shortmess+=W " don't show 'written' message
 
+augroup vim
+  autocmd!
+  " auto reload vimrc
+  autocmd BufWritePost vimrc,.vimrc,init.vim source $MYVIMRC
+  " K opens help
+  autocmd FileType vim set keywordprg=:vert\ bo\ h
+augroup END
+
 call plug#begin('~/.vim/plugged')
 
 " Colorscheme

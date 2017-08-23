@@ -154,8 +154,7 @@ au FileType elm nmap <buffer><leader>e :ElmErrorDetail<CR>
 au BufWritePost *.elm Neomake
 
 " Haskell
-au FileType haskell setlocal formatprg=stylish-haskell
-let g:neoformat_enabled_haskell = ['hindent']
+au FileType haskell setlocal formatprg=hindent
 
 " Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
 " let g:haskell_classic_highlighting = 1

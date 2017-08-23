@@ -80,7 +80,7 @@ brew install youtube-dl
 # haskell
 brew install haskell-stack
 stack setup
-stack install hdevtools hindent hoogle ghc-mod hasktags stylish-haskell
+stack install hdevtools hindent hoogle ghc-mod hasktags
 
 # elm (using npm until all packages migrate to homebrew)
 npm install -g elm elm-format elm-test elm-oracle elm-upgrade

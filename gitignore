@@ -5,4 +5,5 @@
 .powenv*
 .powrc
 .powder
+.stack-work
 /tags

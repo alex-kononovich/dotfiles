@@ -155,6 +155,7 @@ au BufWritePost *.elm Neomake
 
 " Haskell
 au FileType haskell setlocal formatprg=hindent
+au FileType haskell setlocal keywordprg=hoogle\ --info
 
 " Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
 " let g:haskell_classic_highlighting = 1

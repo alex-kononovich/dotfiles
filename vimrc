@@ -17,6 +17,11 @@ cnoreabbrev h vert bo h
 set ignorecase
 set smartcase
 
+" live substitution preview
+if has("nvim")
+  set inccommand=nosplit
+endif
+
 " allow unsaved changes
 set hidden
 

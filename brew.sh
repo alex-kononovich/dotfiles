@@ -109,6 +109,7 @@ brew cask install \
   telegram \
   google-chrome \
   the-unarchiver \
+  mac2imgur \
   spectacle
 
 mas install 427475982 # BreakTime

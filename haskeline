@@ -1,0 +1,4 @@
+bellStyle: NoBell
+completionType: MenuCompletion
+maxHistorySize: Just 1000
+historyDuplicates: IgnoreAll

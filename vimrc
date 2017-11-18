@@ -146,6 +146,9 @@ let g:neoformat_basic_format_retab = 1
 let g:neoformat_try_formatprg = 1
 nmap <leader>a :Neoformat<CR>
 
+" Fish
+Plug 'vim-scripts/fish-syntax', {'for': 'fish'}
+
 " Elm
 Plug 'elmcast/elm-vim', {'for': 'elm'}
 let g:elm_make_show_warnings = 1

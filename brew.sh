@@ -27,10 +27,10 @@ brew install mas
 # UTILITIES
 ############################################################
 
-# newest bash
-brew install bash
-echo '/usr/local/bin/bash' | sudo tee -a /etc/shells
-chsh -s /usr/local/bin/bash
+# better shell
+brew install fish
+echo '/usr/local/bin/fish' | sudo tee -a /etc/shells
+chsh -s /usr/local/bin/fish
 
 # GNU utilities, because macOS's are outdated
 brew install coreutils

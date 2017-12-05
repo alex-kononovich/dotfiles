@@ -10,6 +10,11 @@ autocmd BufReadPost quickfix nmap <buffer> q :q<CR>
 nnoremap Y y$
 cnoremap <expr> %% expand('%:h').'/'
 
+map <A-h> <C-W>h
+map <A-j> <C-W>j
+map <A-k> <C-W>k
+map <A-l> <C-W>l
+
 " open help in right split
 cnoreabbrev h vert bo h
 

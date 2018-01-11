@@ -10,11 +10,6 @@ autocmd BufReadPost quickfix nmap <buffer> q :q<CR>
 nnoremap Y y$
 cnoremap <expr> %% expand('%:h').'/'
 
-map <A-h> <C-W>h
-map <A-j> <C-W>j
-map <A-k> <C-W>k
-map <A-l> <C-W>l
-
 " open help in right split
 cnoreabbrev h vert bo h
 
@@ -71,6 +66,16 @@ if has('nvim')
 else
   Plug 'tpope/vim-sensible'
 endif
+
+" seamless tmux pane navigation
+Plug 'christoomey/vim-tmux-navigator'
+let g:tmux_navigator_no_mappings = 1
+let g:tmux_navigator_disable_when_zoomed = 1
+nnoremap <silent> <C-Left> :TmuxNavigateLeft<CR>
+nnoremap <silent> <C-Right> :TmuxNavigateRight<CR>
+nnoremap <silent> <C-Down> :TmuxNavigateDown<CR>
+nnoremap <silent> <C-Up> :TmuxNavigateUp<CR>
+nnoremap <silent> <C-\> :TmuxNavigatePrevious<CR>
 
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'

@@ -75,9 +75,8 @@ alias gc!='git commit --verbose --amend'
 alias gco='git checkout'
 
 # tmux
-alias ts='tmux new-session -s'
+alias ts='tmux new-session -A -s'
 alias tl='tmux list-sessions'
-alias ta='tmux attach-session -t'
 
 # autojump
 [ -f /usr/local/share/autojump/autojump.fish ]; and source /usr/local/share/autojump/autojump.fish

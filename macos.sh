@@ -194,4 +194,9 @@ defaults write com.iktm.snap apps -data 62706c6973743030d40102030405064d4e582476
 # Spectacle
 defaults write com.divisiblebyzero.Spectacle StatusItemEnabled -int 0
 
+# Prevent play/pause media button from starting iTunes
+# TODO: this requires System Integrity Protection to be disabled, check it with
+# `csrutil status` and stop the setup script from running until it is disabled
+# launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist
+
 echo "Done. Note that some of these changes require a logout/restart to take effect."

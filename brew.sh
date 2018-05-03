@@ -73,6 +73,14 @@ brew install heroku
 # video downloader
 brew install youtube-dl
 
+# music player
+brew install cmus
+
+# control cmus using media keys
+brew tap thefox/brewery
+brew install cmus-control
+brew services start thefox/brewery/cmus-control
+
 ############################################################
 # LANGUAGES
 ############################################################

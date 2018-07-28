@@ -161,6 +161,13 @@ let g:neoformat_basic_format_retab = 1
 let g:neoformat_try_formatprg = 1
 nmap <leader>a :Neoformat<CR>
 
+" Text
+au FileType text setlocal wrap linebreak
+au FileType gitcommit,markdown setlocal spell
+
+" Autocomplete with dictionary words when spell check is on
+set complete+=kspell
+
 " Fish
 Plug 'vim-scripts/fish-syntax', {'for': 'fish'}
 

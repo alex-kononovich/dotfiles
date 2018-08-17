@@ -147,6 +147,10 @@ if has('nvim')
   nmap <silent><leader>M :update\|Neomake!<CR>
 endif
 
+" Snippets
+Plug 'SirVer/ultisnips'
+let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/ultisnips']
+
 " Autocompletion
 " if has('nvim')
   " Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}

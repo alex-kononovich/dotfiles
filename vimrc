@@ -136,11 +136,6 @@ nmap <leader>gw :Gwrite<CR>
 nmap <leader>gc :Gcommit --verbose<CR>
 nmap <leader>gr :Gread<CR>
 
-Plug 'airblade/vim-gitgutter'
-let g:gitgutter_map_keys = 0
-nmap [c <Plug>GitGutterPrevHunk
-nmap ]c <Plug>GitGutterNextHunk
-
 " Gists
 Plug 'mattn/webapi-vim', {'on': 'Gist'}
 Plug 'mattn/gist-vim', {'on': 'Gist'}

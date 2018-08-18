@@ -1,0 +1,25 @@
+#!/usr/bin/env fish
+
+set -l file $argv[1];
+
+# check args
+if set -q $file
+  echo 'Usage: '(basename (status -f))' path/to/file';
+  exit 1;
+end
+
+# check if file exists
+if not test -e $file
+  echo "No such file: $file";
+end
+
+# output file name
+set -l output_file (string replace -r '\.(.*)$' '_h264_aac.mp4' $file)
+
+ffmpeg -i $file \
+  -preset medium \
+  -pix_fmt yuv420p \
+  -c:v libx264 -c:a aac \
+  -tune zerolatency \
+  $output_file
+

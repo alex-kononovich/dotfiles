@@ -154,12 +154,6 @@ endif
 Plug 'SirVer/ultisnips'
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/ultisnips']
 
-" Autocompletion
-" if has('nvim')
-  " Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
-  " let g:deoplete#enable_at_startup = 1
-" endif
-
 " Autoformat
 Plug 'sbdchd/neoformat'
 let g:neoformat_only_msg_on_error = 1

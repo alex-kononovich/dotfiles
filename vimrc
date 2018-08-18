@@ -184,7 +184,7 @@ let g:elm_make_show_warnings = 1
 let g:elm_classic_highlighting = 1
 let g:elm_setup_keybindings = 0
 au FileType elm setlocal softtabstop=4 shiftwidth=4
-au FileType elm setlocal formatprg=elm-format
+au FileType elm setlocal formatprg=elm-format\ --yes\ --stdin
 au FileType elm nmap <buffer><leader>t :update\|!clear&elm test<CR>
 au FileType elm nmap <buffer><leader>m :update\|ElmMakeMain<CR>
 au FileType elm nmap <buffer><leader>e :ElmErrorDetail<CR>

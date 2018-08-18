@@ -54,6 +54,13 @@ if has('nvim')
 
   " Esc to go back from terminal mode
   tnoremap <Esc> <C-\><C-n>
+  " C-^ to go to alternate file from terminal mode
+  tnoremap <C-^> <C-\><C-n>:e #<CR>
+
+  " Prefer terminal insert mode to normal mode.
+  autocmd BufEnter term://* startinsert
+  autocmd BufEnter term://* setlocal nonumber
+  autocmd BufLeave term://* stopinsert
 else
   Plug 'tpope/vim-sensible'
 endif

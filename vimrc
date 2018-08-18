@@ -48,14 +48,6 @@ augroup END
 
 call plug#begin('~/.vim/plugged')
 
-" Colorscheme
-Plug 'w0ng/vim-hybrid'
-let g:hybrid_custom_term_colors=1
-let g:hybrid_reduced_contrast=1
-set background=dark
-" Make statusline a bit easier on the eyes
-highlight StatusLine cterm=bold ctermfg=15 ctermbg=8 gui=bold
-
 if has('nvim')
   " Use <C-L> to clear the highlighting of :set hlsearch.
   if maparg('<C-L>', 'n') ==# ''
@@ -222,13 +214,11 @@ au FileType javascript setlocal formatprg=js-beautify\ --indent-size\ 2\ --end-w
 au FileType html,xhtml setlocal softtabstop=2 shiftwidth=2
 au FileType html,xhtml setlocal formatprg=html-beautify\ --type\ html\ --indent-size\ 2\ --end-with-newline\ --indent-inner-html\ --max-preserve-newlines\ 2\ --wrap-line-length\ 80
 
+" Colorscheme
+Plug 'flskif/terminal16.vim'
+
 call plug#end()
 
 " Must go after plug#end()
-" colorscheme hybrid
-colorscheme hipster
-" highlight SignColumn ctermbg=NONE
-" highlight NeomakeErrorSignDefault ctermbg=NONE
-" highlight NeomakeWarningSignDefault ctermbg=NONE
-" highlight NeomakeMessageSignDefault ctermbg=NONE
-" highlight NeomakeInfoSignDefault ctermbg=NONE
+colorscheme terminal16
+hi! HighlightedyankRegion ctermbg=yellow ctermfg=black

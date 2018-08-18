@@ -191,23 +191,34 @@ au FileType elm nmap <buffer><leader>e :ElmErrorDetail<CR>
 au BufWritePost *.elm Neomake
 
 " Haskell
-au FileType haskell setlocal formatprg=hindent
-au FileType haskell setlocal keywordprg=hoogle\ --info
-
-" Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
-" let g:haskell_classic_highlighting = 1
-" let g:haskell_indent_disable = 1
-
 Plug 'pbrisbin/vim-syntax-shakespeare', {'for': ['haskell', 'hamlet', 'cassius', 'lucius', 'julius']}
 
-Plug 'Twinside/vim-hoogle', {'for': 'haskell'}
-let g:hoogle_search_count=20
-let g:hoogle_search_buf_size=20
+au FileType haskell setlocal formatprg=brittany
 
 if has('nvim')
-  " Plug 'eagletmt/neco-ghc', {'for': 'haskell'}
-  " autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
-  let g:neomake_haskell_enabled_makers = ['hdevtools']
+  let g:neomake_haskell_enabled_makers = ['hlint']
+  au BufWritePost *.hs Neomake
+
+  " Intero
+  Plug 'parsonsmatt/intero-neovim', {'for': 'haskell'}
+  au BufWritePost *.hs InteroReload
+
+  " Intero buffer tweaks
+  au BufEnter Intero setlocal nonumber
+  au BufEnter Intero nmap <buffer>q :InteroHide<CR>
+  au BufEnter Intero startinsert
+  au BufLeave Intero stopinsert
+
+  " Intero mappings
+  au FileType haskell nnoremap <leader>in :b Intero<CR>
+  au FileType haskell nnoremap <leader>io :InteroOpen<CR>
+  au FileType haskell nnoremap <leader>ih :InteroHide<CR>
+  au FileType haskell nnoremap <leader>is :vert sb Intero<CR><ESC><C-W><C-\>
+  au FileType haskell nnoremap <leader>il :InteroLoadCurrentFile<CR>
+  au FileType haskell nnoremap <leader>ir :InteroRestart<CR>
+  au FileType haskell nnoremap <leader>it :InteroTypeInsert<CR>
+  au FileType haskell map <buffer>K <Plug>InteroGenericType
+  au FileType haskell nnoremap <silent><buffer><C-]> :InteroGoToDef<CR>
 endif
 
 " Pug

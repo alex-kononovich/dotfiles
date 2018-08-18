@@ -1,13 +1,155 @@
 #!/usr/bin/env bash
 
-# macOS settings
-# based on https://mths.be/macos
+set -u
 
 # Ask for the administrator password upfront
 sudo -v
 
-# Keep-alive: update existing `sudo` time stamp until `.macos` has finished
+# Keep-alive: update existing `sudo` time stamp until script has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+############################################################
+# PACKAGE MANAGERS
+############################################################
+
+# homebrew
+if [[ ! -x "$(command -v brew)" ]]; then
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
+# pip3
+brew install python3
+
+# pip
+brew install python
+
+# npm
+brew install node
+
+# mac app store
+brew install mas
+
+############################################################
+# DOTFILES
+############################################################
+
+ln -s ~/.dotfiles/rcrc ~/.rcrc
+brew tap thoughtbot/formulae
+brew install rcm
+rcup
+
+############################################################
+# UTILITIES
+############################################################
+
+# better shell
+brew install fish
+echo '/usr/local/bin/fish' | sudo tee -a /etc/shells
+chsh -s /usr/local/bin/fish
+
+# GNU utilities, because macOS's are outdated
+brew install coreutils
+
+# better grep
+brew install ag
+
+# better top
+brew install htop
+
+# newest git and git client
+brew install git tig diff-so-fancy
+
+# tree
+brew install tree
+
+# rename utility
+brew install rename
+
+# tmux
+brew install tmux reattach-to-user-namespace
+
+# Exuberant ctags
+brew install ctags
+
+# text editor
+brew tap neovim/neovim
+brew install neovim
+pip install neovim
+pip3 install neovim
+sudo gem install neovim
+npm install -g neovim
+curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+nvim -c "PlugInstall"
+
+# programming font
+brew tap caskroom/fonts
+brew cask install font-fira-code
+
+# j to quickly jump to fuzzy-matched directory
+brew install autojump
+
+# heroku cli
+brew install heroku
+
+# video downloader
+brew install youtube-dl
+
+# music player
+brew install cmus
+
+# control cmus using media keys
+brew tap thefox/brewery
+brew install cmus-control
+brew services start thefox/brewery/cmus-control
+
+############################################################
+# LANGUAGES
+############################################################
+
+# haskell
+brew install haskell-stack
+stack setup
+stack install hdevtools hindent hoogle ghc-mod hasktags
+
+# elm (using npm until all packages migrate to homebrew)
+npm install -g elm elm-format elm-test elm-oracle elm-upgrade
+
+# vimscript
+pip install vim-vint
+
+# ruby
+brew install chruby chruby-fish ruby-install
+
+# html, js
+npm install -g js-beautify
+
+# pug
+npm install -g pug-beautifier
+
+# sh
+brew install shellcheck
+
+############################################################
+# APPLICATIONS
+############################################################
+
+brew cask install \
+  skype \
+  telegram \
+  google-chrome \
+  the-unarchiver \
+  mac2imgur \
+  spectacle
+
+mas install 427475982 # BreakTime
+mas install 418073146 # Snap
+mas install 568494494 # Pocket
+
+############################################################
+# MAC OS CONFIGURATION
+# based on https://mths.be/macos
+############################################################
 
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
@@ -200,3 +342,4 @@ defaults write com.divisiblebyzero.Spectacle StatusItemEnabled -int 0
 # launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist
 
 echo "Done. Note that some of these changes require a logout/restart to take effect."
+

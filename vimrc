@@ -82,6 +82,9 @@ if has('nvim')
   tnoremap <silent> <C-\> <C-\><C-n>:TmuxNavigatePrevious<CR>
 endif
 
+Plug 'machakann/vim-highlightedyank'
+let g:highlightedyank_highlight_duration = 400
+
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-unimpaired'

@@ -59,6 +59,10 @@ brew install ctags
 # text editor
 brew tap neovim/neovim
 brew install neovim
+pip install neovim
+pip3 install neovim
+sudo gem install neovim
+npm install -g neovim
 
 # programming font
 brew tap caskroom/fonts

@@ -7,9 +7,13 @@ set noswapfile
 map <space> <leader>
 nmap <leader>w :w<CR>
 nmap <silent><leader>q :q<CR>
-autocmd BufReadPost quickfix nmap <buffer> q :q<CR>
 nnoremap Y y$
 cnoremap <expr> %% expand('%:h').'/'
+
+augroup quickfix
+  autocmd!
+  autocmd BufReadPost quickfix nmap <buffer> q :q<CR>
+augroup END
 
 " open help in right split
 cnoreabbrev h vert bo h
@@ -58,9 +62,12 @@ if has('nvim')
   tnoremap <C-^> <C-\><C-n>:e #<CR>
 
   " Prefer terminal insert mode to normal mode.
-  autocmd BufEnter term://* startinsert
-  autocmd BufEnter term://* setlocal nonumber
-  autocmd BufLeave term://* stopinsert
+  augroup terminal
+    autocmd!
+    autocmd BufEnter term://* startinsert
+    autocmd BufEnter term://* setlocal nonumber
+    autocmd BufLeave term://* stopinsert
+  augroup END
 else
   Plug 'tpope/vim-sensible'
 endif
@@ -163,8 +170,11 @@ let g:neoformat_try_formatprg = 1
 nmap <leader>a :Neoformat<CR>
 
 " Text
-au FileType text setlocal wrap linebreak
-au FileType gitcommit,markdown setlocal spell
+augroup text
+  autocmd!
+  autocmd FileType text setlocal wrap linebreak
+  autocmd FileType gitcommit,markdown setlocal spell
+augroup END
 
 " Autocomplete with dictionary words when spell check is on
 set complete+=kspell
@@ -177,62 +187,91 @@ Plug 'elmcast/elm-vim', {'for': 'elm'}
 let g:elm_make_show_warnings = 1
 let g:elm_classic_highlighting = 1
 let g:elm_setup_keybindings = 0
-au FileType elm setlocal softtabstop=4 shiftwidth=4
-au FileType elm setlocal formatprg=elm-format\ --yes\ --stdin
-au FileType elm nmap <buffer><leader>t :update\|!clear&elm test<CR>
-au FileType elm nmap <buffer><leader>m :update\|ElmMakeMain<CR>
-au FileType elm nmap <buffer><leader>e :ElmErrorDetail<CR>
-au BufWritePost *.elm Neomake
+augroup elm
+  autocmd!
+  autocmd FileType elm setlocal softtabstop=4 shiftwidth=4
+  autocmd FileType elm setlocal formatprg=elm-format\ --yes\ --stdin
+  autocmd FileType elm nmap <buffer><leader>t :update\|!clear&elm test<CR>
+  autocmd FileType elm nmap <buffer><leader>m :update\|ElmMakeMain<CR>
+  autocmd FileType elm nmap <buffer><leader>e :ElmErrorDetail<CR>
+  if has('nvim')
+    autocmd BufWritePost *.elm Neomake
+  endif
+augroup END
 
 " Haskell
 Plug 'pbrisbin/vim-syntax-shakespeare', {'for': ['haskell', 'hamlet', 'cassius', 'lucius', 'julius']}
 
-au FileType haskell setlocal formatprg=brittany
+augroup haskell
+  autocmd!
+  autocmd FileType haskell setlocal formatprg=brittany
+  if has('nvim')
+    autocmd BufWritePost *.hs Neomake
+  endif
+augroup END
 
 if has('nvim')
   let g:neomake_haskell_enabled_makers = ['hlint']
-  au BufWritePost *.hs Neomake
 
-  " Intero
   Plug 'parsonsmatt/intero-neovim', {'for': 'haskell'}
-  au BufWritePost *.hs InteroReload
 
-  " Intero buffer tweaks
-  au BufEnter Intero setlocal nonumber
-  au BufEnter Intero nmap <buffer>q :InteroHide<CR>
-  au BufEnter Intero startinsert
-  au BufLeave Intero stopinsert
+  augroup intero
+    autocmd!
+    autocmd BufWritePost *.hs InteroReload
+    autocmd BufEnter Intero setlocal nonumber
+    autocmd BufEnter Intero nmap <buffer>q :InteroHide<CR>
+    autocmd BufEnter Intero startinsert
+    autocmd BufLeave Intero stopinsert
+  augroup END
 
-  " Intero mappings
-  au FileType haskell nnoremap <leader>in :b Intero<CR>
-  au FileType haskell nnoremap <leader>io :InteroOpen<CR>
-  au FileType haskell nnoremap <leader>ih :InteroHide<CR>
-  au FileType haskell nnoremap <leader>is :vert sb Intero<CR><ESC><C-W><C-\>
-  au FileType haskell nnoremap <leader>il :InteroLoadCurrentFile<CR>
-  au FileType haskell nnoremap <leader>ir :InteroRestart<CR>
-  au FileType haskell nnoremap <leader>it :InteroTypeInsert<CR>
-  au FileType haskell map <buffer>K <Plug>InteroGenericType
-  au FileType haskell nnoremap <silent><buffer><C-]> :InteroGoToDef<CR>
+  augroup intero_mappings
+    autocmd!
+    autocmd FileType haskell nnoremap <leader>in :b Intero<CR>
+    autocmd FileType haskell nnoremap <leader>io :InteroOpen<CR>
+    autocmd FileType haskell nnoremap <leader>ih :InteroHide<CR>
+    autocmd FileType haskell nnoremap <leader>is :vert sb Intero<CR><ESC><C-W><C-\>
+    autocmd FileType haskell nnoremap <leader>il :InteroLoadCurrentFile<CR>
+    autocmd FileType haskell nnoremap <leader>ir :InteroRestart<CR>
+    autocmd FileType haskell nnoremap <leader>it :InteroTypeInsert<CR>
+    autocmd FileType haskell map <buffer>K <Plug>InteroGenericType
+    autocmd FileType haskell nnoremap <silent><buffer><C-]> :InteroGoToDef<CR>
+  augroup END
 endif
 
 " Pug
 Plug 'digitaltoad/vim-pug', {'for': 'pug'}
-au FileType pug setlocal softtabstop=2 shiftwidth=2
-au FileType pug setlocal formatprg=pug-beautifier\ --fillspace\ 2\ --omitdiv
+augroup pug
+  autocmd!
+  autocmd FileType pug setlocal softtabstop=2 shiftwidth=2
+  autocmd FileType pug setlocal formatprg=pug-beautifier\ --fillspace\ 2\ --omitdiv
+augroup END
 
 " Javascript (ES6)
 Plug 'othree/yajs.vim', { 'for': 'javascript' }
-au FileType javascript setlocal softtabstop=2 shiftwidth=2
-au FileType javascript setlocal formatprg=js-beautify\ --indent-size\ 2\ --end-with-newline\ --max-preserve-newlines\ 2\ --jslint-happy\ --wrap-line-length\ 80
-au BufWritePost *.js Neomake
+augroup js
+  autocmd!
+  autocmd FileType javascript setlocal softtabstop=2 shiftwidth=2
+  autocmd FileType javascript setlocal formatprg=js-beautify\ --indent-size\ 2\ --end-with-newline\ --max-preserve-newlines\ 2\ --jslint-happy\ --wrap-line-length\ 80
+  if has('nvim')
+    autocmd BufWritePost *.js Neomake
+  endif
+augroup END
 
 " HTML
-au FileType html,xhtml setlocal softtabstop=2 shiftwidth=2
-au FileType html,xhtml setlocal formatprg=html-beautify\ --type\ html\ --indent-size\ 2\ --end-with-newline\ --indent-inner-html\ --max-preserve-newlines\ 2\ --wrap-line-length\ 80
+augroup html
+  autocmd!
+  autocmd FileType html,xhtml setlocal softtabstop=2 shiftwidth=2
+  autocmd FileType html,xhtml setlocal formatprg=html-beautify\ --type\ html\ --indent-size\ 2\ --end-with-newline\ --indent-inner-html\ --max-preserve-newlines\ 2\ --wrap-line-length\ 80
+augroup END
 
 " Rust
-au BufWritePost *.rs Neoformat
-au BufWritePost *.rs Neomake
+augroup rust
+  autocmd!
+  if has('nvim')
+    autocmd BufWritePost *.rs Neoformat
+    autocmd BufWritePost *.rs Neomake
+  endif
+augroup END
 
 " Colorscheme
 Plug 'flskif/terminal16.vim'

@@ -37,6 +37,27 @@ set shortmess+=a " use abbreviations
 set shortmess+=T " truncate long messages
 set shortmess+=W " don't show 'written' message
 
+" Use <C-L> to clear the highlighting of :set hlsearch.
+if maparg('<C-L>', 'n') ==# ''
+  nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+endif
+
+" Live substitution preview
+set inccommand=split
+
+" Esc to go back from terminal mode
+tnoremap <Esc> <C-\><C-n>
+" C-^ to go to alternate file from terminal mode
+tnoremap <C-^> <C-\><C-n>:e #<CR>
+
+" Prefer terminal insert mode to normal mode.
+augroup terminal
+  autocmd!
+  autocmd BufEnter term://* startinsert
+  autocmd BufEnter term://* setlocal nonumber
+  autocmd BufLeave term://* stopinsert
+augroup END
+
 augroup vim
   autocmd!
   " auto reload vimrc
@@ -47,31 +68,6 @@ augroup END
 
 call plug#begin('~/.vim/plugged')
 
-if has('nvim')
-  " Use <C-L> to clear the highlighting of :set hlsearch.
-  if maparg('<C-L>', 'n') ==# ''
-    nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
-  endif
-
-  " Live substitution preview
-  set inccommand=split
-
-  " Esc to go back from terminal mode
-  tnoremap <Esc> <C-\><C-n>
-  " C-^ to go to alternate file from terminal mode
-  tnoremap <C-^> <C-\><C-n>:e #<CR>
-
-  " Prefer terminal insert mode to normal mode.
-  augroup terminal
-    autocmd!
-    autocmd BufEnter term://* startinsert
-    autocmd BufEnter term://* setlocal nonumber
-    autocmd BufLeave term://* stopinsert
-  augroup END
-else
-  Plug 'tpope/vim-sensible'
-endif
-
 " seamless tmux pane navigation
 Plug 'christoomey/vim-tmux-navigator'
 let g:tmux_navigator_no_mappings = 1
@@ -81,13 +77,11 @@ nnoremap <silent> <C-Right> :TmuxNavigateRight<CR>
 nnoremap <silent> <C-Down> :TmuxNavigateDown<CR>
 nnoremap <silent> <C-Up> :TmuxNavigateUp<CR>
 nnoremap <silent> <C-\> :TmuxNavigatePrevious<CR>
-if has('nvim')
-  tnoremap <silent> <C-Left> <C-\><C-n>:TmuxNavigateLeft<CR>
-  tnoremap <silent> <C-Right> <C-\><C-n>:TmuxNavigateRight<CR>
-  tnoremap <silent> <C-Down> <C-\><C-n>:TmuxNavigateDown<CR>
-  tnoremap <silent> <C-Up> <C-\><C-n>:TmuxNavigateUp<CR>
-  tnoremap <silent> <C-\> <C-\><C-n>:TmuxNavigatePrevious<CR>
-endif
+tnoremap <silent> <C-Left> <C-\><C-n>:TmuxNavigateLeft<CR>
+tnoremap <silent> <C-Right> <C-\><C-n>:TmuxNavigateRight<CR>
+tnoremap <silent> <C-Down> <C-\><C-n>:TmuxNavigateDown<CR>
+tnoremap <silent> <C-Up> <C-\><C-n>:TmuxNavigateUp<CR>
+tnoremap <silent> <C-\> <C-\><C-n>:TmuxNavigatePrevious<CR>
 
 Plug 'machakann/vim-highlightedyank'
 let g:highlightedyank_highlight_duration = 400
@@ -151,11 +145,9 @@ let g:gist_post_private = 1
 let g:gist_clip_command = 'pbcopy'
 
 " Neomake
-if has('nvim')
-  Plug 'neomake/neomake'
-  nmap <silent><leader>m :update\|Neomake<CR>
-  nmap <silent><leader>M :update\|Neomake!<CR>
-endif
+Plug 'neomake/neomake'
+nmap <silent><leader>m :update\|Neomake<CR>
+nmap <silent><leader>M :update\|Neomake!<CR>
 
 " Snippets
 Plug 'SirVer/ultisnips'
@@ -194,49 +186,37 @@ augroup elm
   autocmd FileType elm nmap <buffer><leader>t :update\|!clear&elm test<CR>
   autocmd FileType elm nmap <buffer><leader>m :update\|ElmMakeMain<CR>
   autocmd FileType elm nmap <buffer><leader>e :ElmErrorDetail<CR>
-  if has('nvim')
-    autocmd BufWritePost *.elm Neomake
-  endif
+  autocmd BufWritePost *.elm Neomake
 augroup END
 
 " Haskell
+let g:neomake_haskell_enabled_makers = ['hlint']
 Plug 'pbrisbin/vim-syntax-shakespeare', {'for': ['haskell', 'hamlet', 'cassius', 'lucius', 'julius']}
-
+Plug 'parsonsmatt/intero-neovim', {'for': 'haskell'}
 augroup haskell
   autocmd!
   autocmd FileType haskell setlocal formatprg=brittany
-  if has('nvim')
-    autocmd BufWritePost *.hs Neomake
-  endif
+
+  autocmd BufWritePost *.hs Neomake
+  autocmd BufWritePost *.hs InteroReload
+
+  " intero buffer
+  autocmd BufEnter Intero setlocal nonumber
+  autocmd BufEnter Intero nmap <buffer>q :InteroHide<CR>
+  autocmd BufEnter Intero startinsert
+  autocmd BufLeave Intero stopinsert
+
+  " intero mappings
+  autocmd FileType haskell nnoremap <leader>in :b Intero<CR>
+  autocmd FileType haskell nnoremap <leader>io :InteroOpen<CR>
+  autocmd FileType haskell nnoremap <leader>ih :InteroHide<CR>
+  autocmd FileType haskell nnoremap <leader>is :vert sb Intero<CR><ESC><C-W><C-\>
+  autocmd FileType haskell nnoremap <leader>il :InteroLoadCurrentFile<CR>
+  autocmd FileType haskell nnoremap <leader>ir :InteroRestart<CR>
+  autocmd FileType haskell nnoremap <leader>it :InteroTypeInsert<CR>
+  autocmd FileType haskell map <buffer>K <Plug>InteroGenericType
+  autocmd FileType haskell nnoremap <silent><buffer><C-]> :InteroGoToDef<CR>
 augroup END
-
-if has('nvim')
-  let g:neomake_haskell_enabled_makers = ['hlint']
-
-  Plug 'parsonsmatt/intero-neovim', {'for': 'haskell'}
-
-  augroup intero
-    autocmd!
-    autocmd BufWritePost *.hs InteroReload
-    autocmd BufEnter Intero setlocal nonumber
-    autocmd BufEnter Intero nmap <buffer>q :InteroHide<CR>
-    autocmd BufEnter Intero startinsert
-    autocmd BufLeave Intero stopinsert
-  augroup END
-
-  augroup intero_mappings
-    autocmd!
-    autocmd FileType haskell nnoremap <leader>in :b Intero<CR>
-    autocmd FileType haskell nnoremap <leader>io :InteroOpen<CR>
-    autocmd FileType haskell nnoremap <leader>ih :InteroHide<CR>
-    autocmd FileType haskell nnoremap <leader>is :vert sb Intero<CR><ESC><C-W><C-\>
-    autocmd FileType haskell nnoremap <leader>il :InteroLoadCurrentFile<CR>
-    autocmd FileType haskell nnoremap <leader>ir :InteroRestart<CR>
-    autocmd FileType haskell nnoremap <leader>it :InteroTypeInsert<CR>
-    autocmd FileType haskell map <buffer>K <Plug>InteroGenericType
-    autocmd FileType haskell nnoremap <silent><buffer><C-]> :InteroGoToDef<CR>
-  augroup END
-endif
 
 " Pug
 Plug 'digitaltoad/vim-pug', {'for': 'pug'}
@@ -252,9 +232,7 @@ augroup js
   autocmd!
   autocmd FileType javascript setlocal softtabstop=2 shiftwidth=2
   autocmd FileType javascript setlocal formatprg=js-beautify\ --indent-size\ 2\ --end-with-newline\ --max-preserve-newlines\ 2\ --jslint-happy\ --wrap-line-length\ 80
-  if has('nvim')
-    autocmd BufWritePost *.js Neomake
-  endif
+  autocmd BufWritePost *.js Neomake
 augroup END
 
 " HTML
@@ -267,10 +245,8 @@ augroup END
 " Rust
 augroup rust
   autocmd!
-  if has('nvim')
-    autocmd BufWritePost *.rs Neoformat
-    autocmd BufWritePost *.rs Neomake
-  endif
+  autocmd BufWritePost *.rs Neoformat
+  autocmd BufWritePost *.rs Neomake
 augroup END
 
 " Colorscheme

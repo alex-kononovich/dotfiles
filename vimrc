@@ -230,6 +230,7 @@ au FileType pug setlocal formatprg=pug-beautifier\ --fillspace\ 2\ --omitdiv
 Plug 'othree/yajs.vim', { 'for': 'javascript' }
 au FileType javascript setlocal softtabstop=2 shiftwidth=2
 au FileType javascript setlocal formatprg=js-beautify\ --indent-size\ 2\ --end-with-newline\ --max-preserve-newlines\ 2\ --jslint-happy\ --wrap-line-length\ 80
+au BufWritePost *.js Neomake
 
 " HTML
 au FileType html,xhtml setlocal softtabstop=2 shiftwidth=2

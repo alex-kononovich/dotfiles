@@ -236,6 +236,10 @@ au BufWritePost *.js Neomake
 au FileType html,xhtml setlocal softtabstop=2 shiftwidth=2
 au FileType html,xhtml setlocal formatprg=html-beautify\ --type\ html\ --indent-size\ 2\ --end-with-newline\ --indent-inner-html\ --max-preserve-newlines\ 2\ --wrap-line-length\ 80
 
+" Rust
+au BufWritePost *.rs Neoformat
+au BufWritePost *.rs Neomake
+
 " Colorscheme
 Plug 'flskif/terminal16.vim'
 

@@ -151,7 +151,6 @@ nmap <silent><leader>M :update\|Neomake!<CR>
 
 " Snippets
 Plug 'SirVer/ultisnips'
-let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/ultisnips']
 
 " Autoformat
 Plug 'sbdchd/neoformat'

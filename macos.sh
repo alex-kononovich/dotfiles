@@ -164,7 +164,7 @@ ln `dirname $0`/osx/DefaultKeyBinding.dict ~/Library/KeyBindings/DefaultKeyBindi
 stty dsusp undef
 
 # Terminal theme
-TERM_PROFILE='hybrid-reduced-contrast';
+TERM_PROFILE='chalk-dark';
 CURRENT_PROFILE="$(defaults read com.apple.terminal 'Default Window Settings')";
 if [ "${CURRENT_PROFILE}" != "${TERM_PROFILE}" ]; then
   open "${HOME}/.dotfiles/osx/${TERM_PROFILE}.terminal";

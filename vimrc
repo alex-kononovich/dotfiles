@@ -74,6 +74,13 @@ nnoremap <silent> <C-Right> :TmuxNavigateRight<CR>
 nnoremap <silent> <C-Down> :TmuxNavigateDown<CR>
 nnoremap <silent> <C-Up> :TmuxNavigateUp<CR>
 nnoremap <silent> <C-\> :TmuxNavigatePrevious<CR>
+if has('nvim')
+  tnoremap <silent> <C-Left> <C-\><C-n>:TmuxNavigateLeft<CR>
+  tnoremap <silent> <C-Right> <C-\><C-n>:TmuxNavigateRight<CR>
+  tnoremap <silent> <C-Down> <C-\><C-n>:TmuxNavigateDown<CR>
+  tnoremap <silent> <C-Up> <C-\><C-n>:TmuxNavigateUp<CR>
+  tnoremap <silent> <C-\> <C-\><C-n>:TmuxNavigatePrevious<CR>
+endif
 
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'

@@ -18,11 +18,6 @@ cnoreabbrev h vert bo h
 set ignorecase
 set smartcase
 
-" live substitution preview
-if has("nvim")
-  set inccommand=nosplit
-endif
-
 " allow unsaved changes
 set hidden
 
@@ -53,6 +48,9 @@ if has('nvim')
   if maparg('<C-L>', 'n') ==# ''
     nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
   endif
+
+  " Live substitution preview
+  set inccommand=split
 
   " Esc to go back from terminal mode
   tnoremap <Esc> <C-\><C-n>

@@ -207,9 +207,9 @@ augroup haskell
 
   " intero mappings
   autocmd FileType haskell nnoremap <leader>in :b Intero<CR>
-  autocmd FileType haskell nnoremap <leader>io :InteroOpen<CR>
+  autocmd FileType haskell nnoremap <leader>iv :vert sb Intero<CR><ESC><C-W><C-\>
+  autocmd FileType haskell nnoremap <leader>is :InteroOpen<CR>
   autocmd FileType haskell nnoremap <leader>ih :InteroHide<CR>
-  autocmd FileType haskell nnoremap <leader>is :vert sb Intero<CR><ESC><C-W><C-\>
   autocmd FileType haskell nnoremap <leader>il :InteroLoadCurrentFile<CR>
   autocmd FileType haskell nnoremap <leader>ir :InteroRestart<CR>
   autocmd FileType haskell nnoremap <leader>it :InteroTypeInsert<CR>

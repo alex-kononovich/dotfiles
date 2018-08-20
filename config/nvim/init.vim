@@ -213,6 +213,7 @@ augroup haskell
   autocmd FileType haskell nnoremap <leader>il :InteroLoadCurrentFile<CR>
   autocmd FileType haskell nnoremap <leader>ir :InteroRestart<CR>
   autocmd FileType haskell nnoremap <leader>it :InteroTypeInsert<CR>
+  autocmd FileType haskell nnoremap <leader>id :execute("InteroEval :doc " . expand('<cword>'))<CR>
   autocmd FileType haskell map <buffer>K <Plug>InteroGenericType
   autocmd FileType haskell nnoremap <silent><buffer><C-]> :InteroGoToDef<CR>
 augroup END

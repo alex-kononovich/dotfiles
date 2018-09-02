@@ -60,10 +60,6 @@ set -x MANPATH "$coreutils_path/libexec/gnuman" "/usr/share/man" "/usr/local/sha
 
 alias e=$EDITOR
 
-# ls
-alias ls='ls --color=auto'
-alias l='ls -lAh'
-
 # git
 abbr --add gr 'git recent'
 abbr --add gf 'git flow'

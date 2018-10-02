@@ -66,7 +66,7 @@ brew install tree
 brew install rename
 
 # tmux
-brew install tmux reattach-to-user-namespace
+brew install tmux
 
 # Exuberant ctags
 brew install ctags

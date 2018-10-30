@@ -164,7 +164,7 @@ nmap <leader>a :Neoformat<CR>
 " Text
 augroup text
   autocmd!
-  autocmd FileType text setlocal wrap linebreak
+  autocmd FileType text,markdown setlocal wrap linebreak
   autocmd FileType gitcommit,markdown setlocal spell
 augroup END
 

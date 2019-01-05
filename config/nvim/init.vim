@@ -253,6 +253,15 @@ augroup rust
   autocmd BufWritePost *.rs Neomake
 augroup END
 
+" Purescript
+Plug 'purescript-contrib/purescript-vim', {'for': 'purescript'}
+augroup purescript
+  autocmd!
+  autocmd BufWritePost *.purs Neoformat
+  autocmd BufWritePost *.purs Neomake
+augroup END
+
+
 " Colorscheme
 Plug 'flskif/terminal16.vim'
 

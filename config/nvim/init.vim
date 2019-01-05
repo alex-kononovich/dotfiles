@@ -232,7 +232,7 @@ Plug 'othree/yajs.vim', { 'for': 'javascript' }
 augroup js
   autocmd!
   autocmd FileType javascript setlocal softtabstop=2 shiftwidth=2
-  autocmd FileType javascript setlocal formatprg=js-beautify\ --indent-size\ 2\ --end-with-newline\ --max-preserve-newlines\ 2\ --jslint-happy\ --wrap-line-length\ 80
+  autocmd FileType javascript setlocal formatprg=prettier\ --stdin\ --stdin-filepath=%:p
   autocmd BufWritePost *.js Neomake
 augroup END
 

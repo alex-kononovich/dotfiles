@@ -1,3 +1,21 @@
+snippet fn "function" i
+() => {
+  $0
+}
+endsnippet
+
 snippet cl "console.log"
-console.log($0);
+console.log($0)
+endsnippet
+
+snippet it "it clause"
+it('$1', () => {
+  $2
+})
+endsnippet
+
+snippet desc "describe clause"
+describe('$1', () => {
+  $2
+})
 endsnippet

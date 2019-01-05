@@ -12,3 +12,5 @@ color id yellow default # commit id
 color graph-commit default default # dot in the main view
 color title-focus color8 black # grey
 color title-blur color8 black # grey
+
+bind status C !git commit --verbose

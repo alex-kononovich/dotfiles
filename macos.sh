@@ -110,7 +110,7 @@ brew services start thefox/brewery/cmus-control
 # haskell
 brew install haskell-stack
 stack setup
-stack install hdevtools hindent hoogle ghc-mod hasktags
+stack install hlint brittany
 
 # elm (using npm until all packages migrate to homebrew)
 npm install -g elm elm-format elm-test elm-oracle elm-upgrade

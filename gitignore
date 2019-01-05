@@ -1,7 +1,6 @@
 .DS_Store
 *.swp
 .sass-cache
-.ruby-version
 .powenv*
 .powrc
 .powder

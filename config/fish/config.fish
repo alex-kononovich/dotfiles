@@ -77,6 +77,9 @@ abbr --add gco 'git checkout'
 alias ts='tmux new-session -A -s'
 alias tl='tmux list-sessions'
 
+# docker
+abbr --add dc 'docker-compose'
+
 # autojump
 [ -f /usr/local/share/autojump/autojump.fish ]; and source /usr/local/share/autojump/autojump.fish
 

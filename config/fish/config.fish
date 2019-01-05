@@ -28,9 +28,6 @@ set -x LESS (echo -n \
 # $PATH
 set -l brew_path '/usr/local/opt'
 
-set -x GOPATH "$HOME/go"
-set -x GOROOT "$brew_path/go/libexec"
-
 set -x RUST_PATH "$HOME/.cargo"
 
 set coreutils_path "$brew_path/coreutils"
@@ -39,8 +36,6 @@ set fish_user_paths \
   '.bin' \
   'node_modules/.bin' \
   "$HOME/.local/bin" \
-  "$GOPATH/bin" \
-  "$GOROOT/bin" \
   "$RUST_PATH/bin" \
   "$coreutils_path/libexec/gnubin"
 

@@ -18,10 +18,10 @@ if [[ ! -x "$(command -v brew)" ]]; then
 fi
 
 # pip3
-brew install python3
+brew install python
 
 # pip
-brew install python
+brew install python@2
 
 # npm
 brew install node

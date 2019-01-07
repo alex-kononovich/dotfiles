@@ -122,7 +122,7 @@ pip install vim-vint
 brew install chruby chruby-fish ruby-install
 
 # html, js
-npm install -g js-beautify
+npm install -g prettier
 
 # pug
 npm install -g pug-beautifier

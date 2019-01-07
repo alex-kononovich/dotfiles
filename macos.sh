@@ -90,7 +90,7 @@ brew cask install font-fira-code
 brew install autojump
 
 # heroku cli
-brew install heroku
+brew install heroku/brew/heroku
 
 # video downloader
 brew install youtube-dl

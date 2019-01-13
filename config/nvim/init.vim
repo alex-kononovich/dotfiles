@@ -95,29 +95,26 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-surround'
 
 " Fuzzy file finder
-Plug 'ctrlpvim/ctrlp.vim'
-let g:ctrlp_switch_buffer=0
-let g:ctrlp_match_current_file=1
-let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
-let g:ctrlp_working_path_mode=0
-let g:ctrlp_extensions=['buffertag']
-let g:ctrlp_buffer_func = {
-  \ 'enter': 'HideStatusLine',
-  \ 'exit': 'RestoreStatusLine'
-  \ }
-
-function! HideStatusLine()
-  let g:laststatus_last_value=&laststatus
-  set laststatus=0
-endfunction
-
-function! RestoreStatusLine()
-  let &laststatus=g:laststatus_last_value
-endfunction
-
-nmap <silent><leader>o :CtrlP<CR>
-" nmap <silent><leader>T :CtrlPBufTag<CR>
-nmap <silent><leader>b :CtrlPBuffer<CR>
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-s': 'split',
+  \ 'ctrl-v': 'vsplit' }
+let $FZF_DEFAULT_COMMAND='ag -g ""'
+let $FZF_DEFAULT_OPTS='--color=bg+:-1 --inline-info'
+let g:fzf_layout = { 'down': '10' }
+let g:fzf_buffers_jump = 0
+augroup fzf
+autocmd! FileType fzf
+  " close on Esc
+  autocmd FileType fzf tnoremap <Esc> <C-c>
+  " hide status line
+  autocmd FileType fzf set laststatus=0 noshowmode noruler
+        \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+augroup END
+nmap <silent><leader>o :Files<CR>
+nmap <silent><leader>b :Buffers<CR>
 
 " Don't quit the window when killing buffer
 Plug 'qpkorr/vim-bufkill'

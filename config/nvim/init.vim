@@ -139,6 +139,9 @@ nmap <leader>gw :Gwrite<CR>
 nmap <leader>gc :Gcommit --verbose<CR>
 nmap <leader>gr :Gread<CR>
 
+" Github
+Plug 'tpope/vim-rhubarb'
+
 " Gists
 Plug 'mattn/webapi-vim', {'on': 'Gist'}
 Plug 'mattn/gist-vim', {'on': 'Gist'}

@@ -152,7 +152,7 @@ let g:gist_post_private = 1
 let g:gist_clip_command = 'pbcopy'
 
 " Neomake
-Plug 'neomake/neomake'
+Plug 'neomake/neomake', {'on': 'Neomake' }
 nmap <silent><leader>m :update\|Neomake<CR>
 nmap <silent><leader>M :update\|Neomake!<CR>
 

@@ -13,6 +13,7 @@
   recent = !git plog -20
   plog = "!. ~/.githelpers && pretty_git_log"
   ctags = "!.git/hooks/ctags"
+  pr-open = !open $(hub pr list -f "%U" -h $(git rev-parse --abbrev-ref HEAD))
 [merge]
   tool = fugitive
   conflictstyle = merge

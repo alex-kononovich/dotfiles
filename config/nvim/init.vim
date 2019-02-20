@@ -264,6 +264,17 @@ augroup purescript
   autocmd BufWritePost *.purs Neomake
 augroup END
 
+" Ruby
+let g:neomake_ruby_reek_remove_invalid_entries=1
+let g:neomake_ruby_flog_remove_invalid_entries=1
+Plug 'tpope/vim-rake', {'for': 'ruby'}
+Plug 'tpope/vim-rails', {'for': 'ruby'}
+Plug 'tpope/vim-rails', {'for': 'ruby'}
+Plug 'tpope/vim-bundler', {'for': 'ruby'}
+
+" TypeScript
+Plug 'leafgarland/typescript-vim'
+let g:typescript_indent_disable = 1
 
 " Colorscheme
 Plug 'flskif/terminal16.vim'

@@ -66,10 +66,11 @@ augroup vim
   autocmd FileType vim set keywordprg=:vert\ bo\ h
 augroup END
 
-" Netrw
-let g:netrw_preview=1 " vertical split for preview using 'p' command
-
 call plug#begin('~/.vim/plugged')
+
+" Netrw
+Plug 'tpope/vim-vinegar'
+let g:netrw_preview=1 " vertical split for preview using 'p' command
 
 " seamless tmux pane navigation
 Plug 'christoomey/vim-tmux-navigator'

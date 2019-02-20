@@ -96,6 +96,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-surround'
 
 " Fuzzy file finder
+" Help: Toggle + down <Tab>, Toggle + up <S-Tab>
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 let g:fzf_action = {

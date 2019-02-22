@@ -52,6 +52,7 @@ set fish_user_paths \
 # path twice.
 # So I figured I'd rather hardcode paths here.
 set -x MANPATH "$coreutils_path/libexec/gnuman" "/usr/share/man" "/usr/local/share/man"
+set -x MANWIDTH 100
 
 alias e=$EDITOR
 

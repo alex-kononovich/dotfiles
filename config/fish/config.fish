@@ -81,3 +81,6 @@ abbr --add dc 'docker-compose'
 # chruby
 source /usr/local/share/chruby/chruby.fish
 source /usr/local/share/chruby/auto.fish
+
+# direnv
+eval (direnv hook fish)

@@ -92,6 +92,9 @@ brew install autojump
 # heroku cli
 brew install heroku/brew/heroku
 
+# direnv
+brew install direnv
+
 ############################################################
 # LANGUAGES
 ############################################################

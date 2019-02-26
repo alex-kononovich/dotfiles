@@ -8,7 +8,7 @@
 [github]
   user = alex-kononovich
 [push]
-  default = matching
+  default = current
 [alias]
   recent = !git plog -20
   plog = "!. ~/.githelpers && pretty_git_log"

@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [[ ! $(command -v aws-ec2-list) ]]; then
+  gem install aws-ec2-list
+fi
+  
+if [[ ! $(command -v fzf) ]]; then
+  brew install fzf
+fi
+
+domain=$(
+  aws-ec2-list --region=us-west-2 --columns='public_dns_name, stack_name, state' |\
+  grep 'running' |\
+  fzf --header='Select EC2 instance' --query='lp-webapp-integration' |\
+  awk -F ' | ' '{print $1}'
+)
+
+if [[ $domain != '' ]]; then
+  if [[ $* == 'console' ]]; then
+    command="RAILS_ENV=integration bundle exec rails console"
+  else
+    command=''
+  fi
+
+  ssh -oStrictHostKeyChecking=accept-new unbounce@"$domain" \
+    -t "cd /opt/lp-webapp/current && tmux new '$command'"
+fi

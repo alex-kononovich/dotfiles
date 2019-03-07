@@ -68,6 +68,7 @@ abbr --add gc 'git commit --verbose'
 abbr --add gca 'git commit --verbose --all'
 abbr --add gc! 'git commit --verbose --amend'
 abbr --add gco 'git checkout'
+abbr --add hco 'hub checkout'
 
 # tmux
 alias ts='tmux new-session -A -s'

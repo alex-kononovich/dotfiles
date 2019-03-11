@@ -2,13 +2,13 @@
 
 set -e
 
-# if [[ ! $(command -v aws-ec2-list) ]]; then
-#   gem install aws-ec2-list
-# fi
+if [[ ! $(command -v aws-ec2-list) ]]; then
+  gem install aws-ec2-list
+fi
   
-# if [[ ! $(command -v fzf) ]]; then
-#   brew install fzf
-# fi
+if [[ ! $(command -v fzf) ]]; then
+  brew install fzf
+fi
 
 env='integration'
 console=false

@@ -22,13 +22,13 @@ if [[ $* =~ 'console' ]]; then
 fi
 
 if [[ $env == 'production' ]]; then
-  region='us-west-1'
+  region='us-east-1'
 else
   region='us-west-2'
 fi
 
 domain=$(
-  aws-ec2-list --region=$region --columns='public_dns_name, stack_name, state' |\
+  aws-ec2-list --region=$region --columns='public_dns_name, stack_name, project, state' |\
   grep 'running' |\
   fzf --header='Select EC2 instance' --query="lp-webapp-${env}" |\
   awk -F ' | ' '{print $1}'

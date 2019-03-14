@@ -12,6 +12,7 @@ fi
 
 env='integration'
 console=false
+copy_domain=false
 
 if [[ $* =~ 'production' ]]; then
   env='production'
@@ -19,6 +20,10 @@ fi
 
 if [[ $* =~ 'console' ]]; then
   console=true
+fi
+
+if [[ $* =~ 'copy' ]]; then
+  copy_domain=true
 fi
 
 if [[ $env == 'production' ]]; then
@@ -41,6 +46,10 @@ if [[ $domain != '' ]]; then
     command=''
   fi
 
-  ssh -oStrictHostKeyChecking=accept-new unbounce@"$domain" \
-    -t "cd /opt/lp-webapp/current && tmux new '$command'"
+  if $copy_domain; then
+    echo "unbounce@${domain}" | pbcopy
+  else
+    ssh -oStrictHostKeyChecking=accept-new unbounce@"$domain" \
+      -t "cd /opt/lp-webapp/current && tmux new '$command'"
+  fi
 fi

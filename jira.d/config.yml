@@ -1,0 +1,27 @@
+endpoint: https://unbounce.atlassian.net
+user: alex.kononovich@unbounce.com
+password-source: keyring
+custom-commands:
+  - name: mine
+    help: display issues assigned to me
+    script: |-
+      {{jira}} list --query "resolution = unresolved and assignee=currentuser() ORDER BY created"
+  - name: mine-edit
+    help: Display issues assigned to me and then pick one to edit
+    script: |-
+      {{jira}} mine | fzf | awk -F ':' '{print $1}' | xargs {{jira}} edit
+  - name: mine-view
+    help: Display issues assigned to me and then pick one to view
+    script: |-
+      {{jira}} mine | fzf | awk -F ':' '{print $1}' | xargs {{jira}} view
+  - name: mine-move
+    help: Move issue to another state
+    script: |-
+      issue=$({{jira}} mine | fzf --sync | awk -F ': ' '{print $1}')
+      if [[ ! -z $issue ]]; then
+        new_state=$(jira transitions ${issue}| fzf --sync | awk -F ': ' '{print $2}')
+      fi
+      if [[ ! -z $issue ]] && [[ ! -z $new_state ]]; then
+        {{jira}} transition "${new_state}" "${issue}"
+        {{jira}} unassign "${issue}"
+      fi

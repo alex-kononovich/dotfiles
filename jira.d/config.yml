@@ -20,7 +20,7 @@ custom-commands:
   - name: view-mine
     help: Display issues assigned to me and then pick one to view
     script: |-
-      {{jira}} mine | fzf | awk -F ':' '{print $1}' | xargs {{jira}} view
+      {{jira}} list-mine | fzf | awk -F ':' '{print $1}' | xargs {{jira}} view
   - name: browse-current
     help: Open ticket for current branch in browser
     script: |-
@@ -56,7 +56,7 @@ custom-commands:
   - name: edit-mine
     help: Display issues assigned to me and then pick one to edit
     script: |-
-      {{jira}} mine | fzf | awk -F ':' '{print $1}' | xargs {{jira}} edit
+      {{jira}} list-mine | fzf | awk -F ':' '{print $1}' | xargs {{jira}} edit
   - name: transition-current
     help: Move current ticket to another state
     script: |-
@@ -64,7 +64,7 @@ custom-commands:
   - name: transition-mine
     help: Display issues assigned to me and then pick one to transition to another state
     script: |-
-      {{jira}} mine | fzf --sync | awk -F ': ' '{print $1}' | xargs {{jira}} transition-and-unassign
+      {{jira}} list-mine | fzf --sync | awk -F ': ' '{print $1}' | xargs {{jira}} transition-and-unassign
   - name: transition-and-unassign
     help: Transition ticket to a new state and unassign
     args:

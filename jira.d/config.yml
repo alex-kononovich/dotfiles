@@ -11,6 +11,8 @@ custom-commands:
       {{jira}} list-review
       echo '\nIn Progress:'
       {{jira}} list-in-progress
+      echo '\nTodo:'
+      {{jira}} list-todo
       echo '\nDeploy:'
       {{jira}} list-deploy
   - name: view-current
@@ -41,6 +43,10 @@ custom-commands:
     help: Display issues in In Progress column
     script: |-
       {{jira}} list --query "resolution=unresolved and issuetype not in ('Epic') and project=PL and status='In Progress' ORDER BY created"
+  - name: list-todo
+    help: Display issues in Todo column
+    script: |-
+      {{jira}} list --query "resolution=unresolved and project=PL and status='Open' and sprint in openSprints () ORDER BY created"
   - name: list-deploy
     help: Display issues in Deploy column
     script: |-

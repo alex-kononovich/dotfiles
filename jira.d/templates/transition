@@ -7,6 +7,11 @@ update:
           {{ or .overrides.comment "" | indent 10 }}
 {{- end -}}
 fields:
+{{- if .meta.fields.customfield_10061}}
+  # {{.meta.fields.customfield_10061.name}}
+  customfield_10061:
+    name: {{if .overrides.assignee}}{{.overrides.assignee}}{{else}}{{if .fields.assignee}}{{.fields.assignee.name}}{{end}}{{end}}
+{{- end -}}
 {{- if .meta.fields.customfield_10060}}
   # {{.meta.fields.customfield_10060.name}}
   customfield_10060:

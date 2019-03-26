@@ -2,26 +2,62 @@ endpoint: https://unbounce.atlassian.net
 user: alex.kononovich@unbounce.com
 password-source: keyring
 custom-commands:
-  - name: mine
-    help: display issues assigned to me
+  - name: view-current
+    help: View ticket for current branch
     script: |-
-      {{jira}} list --query "resolution = unresolved and assignee=currentuser() ORDER BY created"
-  - name: mine-edit
-    help: Display issues assigned to me and then pick one to edit
-    script: |-
-      {{jira}} mine | fzf | awk -F ':' '{print $1}' | xargs {{jira}} edit
-  - name: mine-view
+      current-jira-ticket | xargs {{jira}} view
+  - name: view-mine
     help: Display issues assigned to me and then pick one to view
     script: |-
       {{jira}} mine | fzf | awk -F ':' '{print $1}' | xargs {{jira}} view
-  - name: mine-move
-    help: Move issue to another state
+  - name: browse-current
+    help: Open ticket for current branch in browser
     script: |-
-      issue=$({{jira}} mine | fzf --sync | awk -F ': ' '{print $1}')
-      if [[ ! -z $issue ]]; then
-        new_state=$(jira transitions ${issue}| fzf --sync | awk -F ': ' '{print $2}')
-      fi
-      if [[ ! -z $issue ]] && [[ ! -z $new_state ]]; then
-        {{jira}} transition "${new_state}" "${issue}"
-        {{jira}} unassign "${issue}"
+      current-jira-ticket | xargs {{jira}} browse
+  - name: list-mine
+    help: Display issues assigned to me
+    script: |-
+      {{jira}} list --query "resolution = unresolved and assignee=currentuser() ORDER BY created"
+  - name: list-review
+    help: Display issues in Review column
+    script: |-
+      {{jira}} list --query "resolution=unresolved and project=PL and status=Review ORDER BY created"
+  - name: list-test
+    help: Display issues in Test column
+    script: |-
+      {{jira}} list --query "resolution=unresolved and project=PL and status=Test ORDER BY created"
+  - name: list-in-progress
+    help: Display issues in In Progress column
+    script: |-
+      {{jira}} list --query "resolution=unresolved and project=PL and status='In Progress' ORDER BY created"
+  - name: what-to-review
+    help: Display issues in Review column that are unassigned
+    script: |-
+      {{jira}} list --query "resolution=unresolved and project=PL and status=Review and assignee=null ORDER BY created"
+  - name: what-to-test
+    help: Display issues in Test column that are unassigned
+    script: |-
+      {{jira}} list --query "resolution=unresolved and project=PL and status=Test and assignee=null ORDER BY created"
+  - name: edit-mine
+    help: Display issues assigned to me and then pick one to edit
+    script: |-
+      {{jira}} mine | fzf | awk -F ':' '{print $1}' | xargs {{jira}} edit
+  - name: transition-current
+    help: Move current ticket to another state
+    script: |-
+      current-jira-ticket | xargs {{jira}} transition-and-unassign
+  - name: transition-mine
+    help: Display issues assigned to me and then pick one to transition to another state
+    script: |-
+      {{jira}} mine | fzf --sync | awk -F ': ' '{print $1}' | xargs {{jira}} transition-and-unassign
+  - name: transition-and-unassign
+    help: Transition ticket to a new state and unassign
+    args:
+      - name: ISSUE
+        required: true
+    script: |-
+      new_state=$(jira transitions {{args.ISSUE}}| fzf --sync | awk -F ': ' '{print $2}')
+      if [[ ! -z $new_state ]]; then
+        {{jira}} transition "${new_state}" {{args.ISSUE}}
+        {{jira}} unassign {{args.ISSUE}}
       fi

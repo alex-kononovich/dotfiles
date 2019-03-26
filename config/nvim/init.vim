@@ -273,7 +273,7 @@ Plug 'tpope/vim-rails', {'for': 'ruby'}
 Plug 'tpope/vim-bundler', {'for': 'ruby'}
 
 " TypeScript
-Plug 'leafgarland/typescript-vim'
+Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
 let g:typescript_indent_disable = 1
 
 " Colorscheme

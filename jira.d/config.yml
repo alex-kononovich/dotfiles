@@ -11,6 +11,8 @@ custom-commands:
       {{jira}} list-review
       echo '\nIn Progress:'
       {{jira}} list-in-progress
+      echo '\nDeploy:'
+      {{jira}} list-deploy
   - name: view-current
     help: View ticket for current branch
     script: |-
@@ -39,6 +41,10 @@ custom-commands:
     help: Display issues in In Progress column
     script: |-
       {{jira}} list --query "resolution=unresolved and project=PL and status='In Progress' ORDER BY created"
+  - name: list-deploy
+    help: Display issues in Deploy column
+    script: |-
+      {{jira}} list --query "resolution=unresolved and project=PL and status=Deploy ORDER BY created"
   - name: what-to-review
     help: Display issues in Review column that are unassigned
     script: |-

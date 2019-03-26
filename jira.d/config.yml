@@ -2,6 +2,15 @@ endpoint: https://unbounce.atlassian.net
 user: alex.kononovich@unbounce.com
 password-source: keyring
 custom-commands:
+  - name: overview
+    help: Show tickets in different columns
+    script: |-
+      echo 'Test:'
+      {{jira}} list-test
+      echo '\nReview:'
+      {{jira}} list-review
+      echo '\nIn Progress:'
+      {{jira}} list-in-progress
   - name: view-current
     help: View ticket for current branch
     script: |-

@@ -40,7 +40,7 @@ custom-commands:
   - name: list-in-progress
     help: Display issues in In Progress column
     script: |-
-      {{jira}} list --query "resolution=unresolved and project=PL and status='In Progress' ORDER BY created"
+      {{jira}} list --query "resolution=unresolved and issuetype not in ('Epic') and project=PL and status='In Progress' ORDER BY created"
   - name: list-deploy
     help: Display issues in Deploy column
     script: |-

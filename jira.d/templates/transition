@@ -6,10 +6,11 @@ update:
         body: |~
           {{ or .overrides.comment "" | indent 10 }}
 {{- end -}}
+{{- if .meta.fields }}
 fields:
-{{- if .meta.fields.customfield_10061}}
-  # {{.meta.fields.customfield_10061.name}}
-  customfield_10061:
+{{- end -}}
+{{- if .meta.fields.assignee}}
+  assignee:
     name: {{if .overrides.assignee}}{{.overrides.assignee}}{{else}}{{if .fields.assignee}}{{.fields.assignee.name}}{{end}}{{end}}
 {{- end -}}
 {{- if .meta.fields.customfield_10060}}
@@ -17,8 +18,19 @@ fields:
   customfield_10060:
     name: {{if .overrides.assignee}}{{.overrides.assignee}}{{else}}{{if .fields.assignee}}{{.fields.assignee.name}}{{end}}{{end}}
 {{- end -}}
-{{- if .meta.fields.assignee}}
-  assignee:
+{{- if .meta.fields.customfield_10061}}
+  # {{.meta.fields.customfield_10061.name}}
+  customfield_10061:
+    name: {{if .overrides.assignee}}{{.overrides.assignee}}{{else}}{{if .fields.assignee}}{{.fields.assignee.name}}{{end}}{{end}}
+{{- end -}}
+{{- if .meta.fields.customfield_10062}}
+  # {{.meta.fields.customfield_10062.name}}
+  customfield_10062:
+    name: {{if .overrides.assignee}}{{.overrides.assignee}}{{else}}{{if .fields.assignee}}{{.fields.assignee.name}}{{end}}{{end}}
+{{- end -}}
+{{- if .meta.fields.customfield_10063}}
+  # {{.meta.fields.customfield_10063.name}}
+  customfield_10063:
     name: {{if .overrides.assignee}}{{.overrides.assignee}}{{else}}{{if .fields.assignee}}{{.fields.assignee.name}}{{end}}{{end}}
 {{- end -}}
 {{if .meta.fields.components}}

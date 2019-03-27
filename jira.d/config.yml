@@ -15,6 +15,13 @@ custom-commands:
       {{jira}} list-todo
       echo '\nDeploy:'
       {{jira}} list-deploy
+  - name: assign-current
+    help: Assign ticket for current branch
+    args:
+      - name: ASSIGNEE
+        required: true
+    script: |-
+      current-jira-ticket | xargs -I{} {{jira}} assign {} {{args.ASSIGNEE}}
   - name: view-current
     help: View ticket for current branch
     script: |-

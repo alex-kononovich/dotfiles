@@ -89,3 +89,13 @@ custom-commands:
         {{jira}} transition "${new_state}" {{args.ISSUE}}
         {{jira}} unassign {{args.ISSUE}}
       fi
+  - name: start-ticket
+    help: Start working on a ticket
+    args:
+      - name: ISSUE
+        required: true
+    script: |-
+      jira take {{args.ISSUE}} alex.kononovich
+      jira transition --noedit 'In Progress' {{args.ISSUE}}
+      git checkout -b {{args.ISSUE}}
+      jira view {{args.ISSUE}}

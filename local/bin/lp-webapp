@@ -41,15 +41,15 @@ domain=$(
 
 if [[ $domain != '' ]]; then
   if $console; then
-    command="RAILS_ENV=${env} bundle exec rails console"
+    tmux_command="tmux new 'sudo -u unbounce RAILS_ENV=${env} bundle exec rails console'"
   else
-    command=''
+    tmux_command="tmux new 'sudo su - unbounce'"
   fi
 
   if $copy_domain; then
-    echo "unbounce@${domain}" | pbcopy
+    echo "ubadmin@${domain}" | pbcopy
   else
-    ssh -oStrictHostKeyChecking=accept-new unbounce@"$domain" \
-      -t "cd /opt/lp-webapp/current && tmux new '$command'"
+    ssh -oStrictHostKeyChecking=accept-new ubadmin@"$domain" \
+      -t "cd /opt/lp-webapp/current && $tmux_command"
   fi
 fi

@@ -213,7 +213,7 @@ defaults write NSGlobalDomain InitialKeyRepeat -int 12
 defaults write NSGlobalDomain AppleICUForce24HourTime -int 1
 
 # Input languages
-curl -s -L https://github.com/flskif/russian-layout-for-hardware-workman/raw/master/russian%20for%20hadrware%20workman.keylayout > russian_for_hardware_workman.keylayout
+curl -s -L https://github.com/alex-kononovich/russian-layout-for-hardware-workman/raw/master/russian%20for%20hadrware%20workman.keylayout > russian_for_hardware_workman.keylayout
 sudo mv russian_for_hardware_workman.keylayout /Library/Keyboard\ Layouts/
 # Layout ID is hadrcoded in .keylayout file
 # This settings needs to be XML, otherwise ID will be string http://apple.stackexchange.com/a/127250

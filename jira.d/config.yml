@@ -103,10 +103,11 @@ custom-commands:
     help: Finish ticket, create a PR and put it into Review
     script: |-
       git push origin head
+      hub pull-request
       CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-      PR_URL=$(hub pull-request)
       ISSUE=$(current-jira-ticket)
-      {{jira}} edit -o customfield_10043="${PR_URL}" -o customfield_10051="${CURRENT_BRANCH}" --noedit $ISSUE
+      PR_URL=$(hub pr list -s "all" -f "%U" -h $CURRENT_BRANCH)
+      {{jira}} edit -o customfield_10051="${PR_URL}" -o customfield_10043="${CURRENT_BRANCH}" --noedit $ISSUE
       {{jira}} transition --noedit 'Review' $ISSUE
       {{jira}} unassign $ISSUE
       hub browse-current

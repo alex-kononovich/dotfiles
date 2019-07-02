@@ -57,6 +57,7 @@ set -x MANWIDTH 100
 alias e=$EDITOR
 
 # git
+abbr --add gp 'git push'
 abbr --add gr 'git recent'
 abbr --add gf 'git flow'
 abbr --add gs 'git status'

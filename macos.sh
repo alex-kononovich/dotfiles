@@ -24,7 +24,7 @@ brew install python
 brew install python@2
 
 # npm
-brew install node
+brew install node nodenv
 
 # mac app store
 brew install mas

@@ -180,19 +180,21 @@ set complete+=kspell
 " Fish
 Plug 'vim-scripts/fish-syntax', {'for': 'fish'}
 
+" Conquer of Completion (currently Elm only)
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'for': 'elm'}
+set updatetime=300 " CursorHold timeout, affects diagnostics messages float window
+nmap <silent> <C-]> <Plug>(coc-definition)
+nmap <silent> K :call CocAction('doHover')<CR>
+command! -nargs=0 Rename :call CocAction('rename')
+hi! link CocCodeLens NonText
+
 " Elm
-Plug 'elmcast/elm-vim', {'for': 'elm'}
-let g:elm_make_show_warnings = 1
-let g:elm_classic_highlighting = 1
-let g:elm_setup_keybindings = 0
+Plug 'andys8/vim-elm-syntax', {'for': 'elm'}
 augroup elm
   autocmd!
-  autocmd FileType elm setlocal softtabstop=4 shiftwidth=4
-  autocmd FileType elm setlocal formatprg=elm-format\ --yes\ --stdin
-  autocmd FileType elm nmap <buffer><leader>t :update\|!clear&elm test<CR>
-  autocmd FileType elm nmap <buffer><leader>m :update\|ElmMakeMain<CR>
-  autocmd FileType elm nmap <buffer><leader>e :ElmErrorDetail<CR>
-  autocmd BufWritePost *.elm Neomake
+  autocmd BufWritePost *.elm :call CocAction('format')
+  autocmd FileType elm setlocal comments=:--
+  autocmd FileType elm setlocal commentstring=--\ %s
 augroup END
 
 " Haskell

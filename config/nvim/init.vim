@@ -181,12 +181,17 @@ set complete+=kspell
 Plug 'vim-scripts/fish-syntax', {'for': 'fish'}
 
 " Conquer of Completion (currently Elm only)
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'for': 'elm'}
-set updatetime=300 " CursorHold timeout, affects diagnostics messages float window
-nmap <silent> <C-]> <Plug>(coc-definition)
-nmap <silent> K :call CocAction('doHover')<CR>
-command! -nargs=0 Rename :call CocAction('rename')
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'for': ['elm', 'typescript', 'typescript.tsx', 'javascript']}
 hi! link CocCodeLens NonText
+augroup coc
+  autocmd!
+  autocmd User CocNvimInit
+    \ set signcolumn=yes |
+    \ set updatetime=300 |
+    \ nmap <silent> <C-]> <Plug>(coc-definition) |
+    \ nmap <silent> K :call CocAction('doHover')<CR> |
+    \ command! -nargs=0 Rename :call CocAction('rename')
+augroup END
 
 " Elm
 Plug 'andys8/vim-elm-syntax', {'for': 'elm'}

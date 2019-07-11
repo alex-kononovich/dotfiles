@@ -282,6 +282,10 @@ Plug 'tpope/vim-bundler', {'for': 'ruby'}
 " TypeScript
 Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
 let g:typescript_indent_disable = 1
+augroup typescript
+  autocmd!
+  autocmd BufNewFile,BufRead *.tsx set filetype=typescript.tsx
+augroup END
 
 " Colorscheme
 Plug 'flskif/terminal16.vim'

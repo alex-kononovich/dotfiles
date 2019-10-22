@@ -97,6 +97,8 @@ custom-commands:
     script: |-
       jira take {{args.ISSUE}} alex.kononovich
       jira transition --noedit 'In Progress' {{args.ISSUE}}
+      git checkout master
+      git pull
       git checkout -b {{args.ISSUE}}
       jira view {{args.ISSUE}}
   - name: finish-ticket

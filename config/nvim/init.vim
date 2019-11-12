@@ -293,6 +293,9 @@ augroup typescript
   autocmd BufNewFile,BufRead *.tsx set filetype=typescript.tsx
 augroup END
 
+" GraphQL
+Plug 'jparise/vim-graphql', {'for': 'graphql'}
+
 " Colorscheme
 Plug 'flskif/terminal16.vim'
 

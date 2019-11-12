@@ -69,8 +69,8 @@ augroup END
 call plug#begin('~/.vim/plugged')
 
 " Netrw
-Plug 'tpope/vim-vinegar'
-let g:netrw_preview=1 " vertical split for preview using 'p' command
+" Plug 'tpope/vim-vinegar'
+" let g:netrw_preview=1 " vertical split for preview using 'p' command
 
 " seamless tmux pane navigation
 Plug 'christoomey/vim-tmux-navigator'
@@ -123,6 +123,12 @@ Plug 'qpkorr/vim-bufkill'
 let g:BufKillCreateMappings=0
 nmap <leader>d :BD<CR>
 nmap <leader>D :bufdo BD<CR>
+
+" Filesystem
+Plug 'scrooloose/nerdtree', {'on': ['NERDTreeFind', 'NERDTreeToggle']}
+nmap <leader>n :NERDTreeToggle<CR>
+nmap - :NERDTreeFind<CR>
+let g:NERDTreeQuitOnOpen = 1
 
 " Search
 Plug 'mileszs/ack.vim', {'on': 'Ack'}

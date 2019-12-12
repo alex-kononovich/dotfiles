@@ -1,18 +1,51 @@
 #!/usr/bin/env bash
 
+# Usage: lp-webapp [production] [console] [copy]
+# 
+# Order of arguments doesn't matter
+# 
+# Arguments:
+#   production - connect to production instance instead of integration
+#   console - open Rails console upon connecting
+#   copy - instead of connecting just put host into a clipboard
+#
+# Usage examples:
+# - connect to integration: lp-webapp
+# - open Rails console on integration: lp-webapp console
+# - connect to production: lp-webapp production
+# - open Rails console on production: lp-webapp console production
+#
+# Prerequesties:
+# Script will automatically install all dependencies, but you need to have `brew` installed.
+
 set -e
 
-if [[ ! $(command -v aws-ec2-list) ]]; then
-  gem install aws-ec2-list
-fi
-  
+# check fzf
 if [[ ! $(command -v fzf) ]]; then
   brew install fzf
 fi
 
+# check aws
+if [[ ! $(command -v aws) ]]; then
+  brew install awscli
+  aws configure
+fi
+
+# check SSM
+if [[ ! $(command -v session-manager-plugin) ]]; then
+  curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/mac/sessionmanager-bundle.zip" -o "sessionmanager-bundle.zip"
+  unzip sessionmanager-bundle.zip
+  sudo ./sessionmanager-bundle/install -i /usr/local/sessionmanagerplugin -b /usr/local/bin/session-manager-plugin
+  rm sessionmanager-bundle.zip
+  rm -r ./sessionmanager-bundle
+fi
+
+# defaults
 env='integration'
 console=false
-copy_domain=false
+copy_host=false
+project="lp-webapp,lp-worker"
+tmux_session_name=$(id -F)
 
 if [[ $* =~ 'production' ]]; then
   env='production'
@@ -23,7 +56,7 @@ if [[ $* =~ 'console' ]]; then
 fi
 
 if [[ $* =~ 'copy' ]]; then
-  copy_domain=true
+  copy_host=true
 fi
 
 if [[ $env == 'production' ]]; then
@@ -32,24 +65,31 @@ else
   region='us-west-2'
 fi
 
-domain=$(
-  aws-ec2-list --region=$region --columns='public_dns_name, stack_name, project, state' |\
-  grep 'running' |\
-  fzf --header='Select EC2 instance' --query="lp-webapp-${env}" |\
-  awk -F ' | ' '{print $1}'
+host=$(
+  aws ec2 describe-instances \
+    --region "$region" \
+    --filters "Name=instance-state-name,Values=running,Name=tag:project,Values=$project" \
+    --query 'Reservations[*].Instances[*].[InstanceId,Tags[?Key==`project`]|[0].Value,Tags[?Key==`aws:cloudformation:stack-name`]|[0].Value]' \
+    --output text |\
+  sort --key 2 --reverse |\
+  fzf --header='Select EC2 instance' --no-sort |\
+  awk '{print $1}'
 )
 
-if [[ $domain != '' ]]; then
+if [[ $host != '' ]]; then
   if $console; then
-    tmux_command="'bundle exec rails console'"
+    tmux_command=" \"bundle exec rails console\""
   else
     tmux_command=""
   fi
 
-  if $copy_domain; then
-    echo "ubadmin@${domain}" | pbcopy
+  if $copy_host; then
+    echo "${host}" | pbcopy
   else
-    ssh -oStrictHostKeyChecking=accept-new ubadmin@"$domain" -t \
-      "cd /opt/lp-webapp/current && export RAILS_ENV=${env} && sudo -E -u unbounce tmux new-session -A -s alex_k $tmux_command"
+    ssh \
+      -oStrictHostKeyChecking=accept-new \
+      -oProxyCommand="sh -c 'aws ssm start-session --target %h --region $region --document-name AWS-StartSSHSession --parameters \'portNumber=%p\''" \
+      ubadmin@"$host" \
+      -t "cd /opt/lp-webapp/current && export RAILS_ENV=${env} && sudo -E -u unbounce tmux new-session -A -s \"$tmux_session_name\"$tmux_command"
   fi
 fi

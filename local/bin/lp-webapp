@@ -88,7 +88,7 @@ if [[ $host != '' ]]; then
   else
     ssh \
       -oStrictHostKeyChecking=accept-new \
-      -oProxyCommand="sh -c 'aws ssm start-session --target %h --region $region --document-name AWS-StartSSHSession --parameters \'portNumber=%p\''" \
+      -oProxyCommand="sh -c 'aws ssm start-session --target %h --region $region --document-name AWS-StartSSHSession --parameters 'portNumber=%p''" \
       ubadmin@"$host" \
       -t "cd /opt/lp-webapp/current && export RAILS_ENV=${env} && sudo -E -u unbounce tmux new-session -A -s \"$tmux_session_name\"$tmux_command"
   fi

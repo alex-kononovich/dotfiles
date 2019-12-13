@@ -47,9 +47,6 @@ brew install fish
 echo '/usr/local/bin/fish' | sudo tee -a /etc/shells
 chsh -s /usr/local/bin/fish
 
-# GNU utilities, because macOS's are outdated
-brew install coreutils
-
 # better grep
 brew install ag
 

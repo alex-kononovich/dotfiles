@@ -209,33 +209,10 @@ augroup elm
 augroup END
 
 " Haskell
-let g:neomake_haskell_enabled_makers = ['hlint']
-Plug 'pbrisbin/vim-syntax-shakespeare', {'for': ['haskell', 'hamlet', 'cassius', 'lucius', 'julius']}
-Plug 'parsonsmatt/intero-neovim', {'for': 'haskell'}
+Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
 augroup haskell
   autocmd!
-  autocmd FileType haskell setlocal formatprg=brittany
-
-  autocmd BufWritePost *.hs Neomake
-  autocmd BufWritePost *.hs InteroReload
-
-  " intero buffer
-  autocmd BufEnter Intero setlocal nonumber
-  autocmd BufEnter Intero nmap <buffer>q :InteroHide<CR>
-  autocmd BufEnter Intero startinsert
-  autocmd BufLeave Intero stopinsert
-
-  " intero mappings
-  autocmd FileType haskell nnoremap <leader>in :b Intero<CR>
-  autocmd FileType haskell nnoremap <leader>iv :vert sb Intero<CR><ESC><C-W><C-\>
-  autocmd FileType haskell nnoremap <leader>is :InteroOpen<CR>
-  autocmd FileType haskell nnoremap <leader>ih :InteroHide<CR>
-  autocmd FileType haskell nnoremap <leader>il :InteroLoadCurrentFile<CR>
-  autocmd FileType haskell nnoremap <leader>ir :InteroRestart<CR>
-  autocmd FileType haskell nnoremap <leader>it :InteroTypeInsert<CR>
-  autocmd FileType haskell nnoremap <leader>id :execute("InteroEval :doc " . expand('<cword>'))<CR>
-  autocmd FileType haskell map <buffer>K <Plug>InteroGenericType
-  autocmd FileType haskell nnoremap <silent><buffer><C-]> :InteroGoToDef<CR>
+  autocmd FileType haskell setlocal formatprg=ormolu
 augroup END
 
 " Pug

@@ -124,6 +124,7 @@ brew install shellcheck
 ############################################################
 
 brew cask install \
+  finicky \
   skype \
   telegram \
   google-chrome \

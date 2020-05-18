@@ -53,6 +53,9 @@ abbr --add gco 'git checkout'
 abbr --add gcm 'git checkout master'
 abbr --add hco 'hub checkout'
 
+# do not accidentally remove stuff
+abbr rm trash
+
 # tmux
 alias ts='tmux new-session -A -s'
 alias tl='tmux list-sessions'

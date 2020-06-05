@@ -19,7 +19,7 @@
   conflictstyle = merge
 [mergetool "fugitive"]
   prompt = false
-  cmd = $EDITOR -d "+Gvdiff" $MERGED
+  cmd = $EDITOR -d "+Gvdiffsplit!" $MERGED
 [init]
   templatedir = ~/.git_template
 [color "diff-highlight"]

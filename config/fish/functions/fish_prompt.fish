@@ -11,7 +11,7 @@ function fish_prompt --description "Write out the prompt"
             set suffix '#'
         case '*'
             set color_cwd $fish_color_cwd
-            set suffix '>'
+            set suffix '$'
     end
 
     set -l status_indicator
@@ -19,5 +19,5 @@ function fish_prompt --description "Write out the prompt"
     if test $current_status != 0
       set status_indicator (set_color $fish_color_status)"[$current_status]"(set_color normal)' '
     end
-    echo -n -s $status_indicator (set_color $color_cwd) (prompt_pwd) (set_color normal) "$suffix "
+    echo -n -s $status_indicator (set_color $color_cwd) (prompt_pwd) (set_color normal) " $suffix "
 end

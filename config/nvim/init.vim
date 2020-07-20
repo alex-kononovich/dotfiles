@@ -66,6 +66,9 @@ augroup vim
   autocmd FileType vim set keywordprg=:vert\ bo\ h
 augroup END
 
+" rerun last command in the left page
+nmap <silent><leader>r :update\|exe ":silent !tmux send-keys -t left C-l Up Enter"<CR>
+
 call plug#begin('~/.vim/plugged')
 
 " Netrw

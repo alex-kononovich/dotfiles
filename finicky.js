@@ -6,6 +6,7 @@ module.exports = {
         "localhost",
         "127.0.0.1",
         /(docs|sheets)\.google\.com/,
+        /.*figma.com/,
         /.*newrelic.com/,
         /.*datadoghq.com/,
         /.*miro.com/,

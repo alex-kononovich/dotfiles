@@ -1,0 +1,10 @@
+#!/bin/bash
+
+FILE=$1
+MESSAGE=$(cat $FILE)
+TICKET=$(current-jira-ticket)
+if [[ $TICKET == "" || "$MESSAGE" == "$TICKET"* ]];then
+  exit 0;
+fi
+
+echo "$TICKET $MESSAGE" > $FILE

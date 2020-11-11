@@ -27,3 +27,7 @@
   oldHighlight = black red
   newNormal = green
   newHighlight = black green
+[pull]
+  rebase = false
+[rerere]
+  enabled = true

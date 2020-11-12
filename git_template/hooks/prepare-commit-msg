@@ -2,7 +2,7 @@
 
 FILE=$1
 MESSAGE=$(cat $FILE)
-TICKET=$(current-jira-ticket)
+TICKET=$(current-jira-ticket 2> /dev/null)
 if [[ $TICKET == "" || "$MESSAGE" == "$TICKET"* ]];then
   exit 0;
 fi

@@ -14,7 +14,7 @@ if not test -e $file
 end
 
 # output file name
-set -l output_file (string replace -r '\.(.*)$' '_h264_aac.mp4' $file)
+set -l output_file (string replace -r '^(.*)\..*?$' '$1_h264_aac.mp4' $file)
 
 ffmpeg -i $file \
   -preset medium \

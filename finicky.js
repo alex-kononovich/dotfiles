@@ -1,17 +1,24 @@
 module.exports = {
   defaultBrowser: "Safari",
+  options: {
+    hideIcon: true
+  },
   handlers: [
     {
       match: finicky.matchHostnames([
         "localhost",
         "127.0.0.1",
-        /(docs|sheets)\.google\.com/,
-        /.*figma.com/,
-        /.*newrelic.com/,
-        /.*datadoghq.com/,
-        /.*miro.com/,
-        /.*funretro.io/,
-        /.*latticehq.com/
+        /(docs|sheets|drive)\.google\.com/,
+        /forms\.gle/,
+        /bamboohr\.com/,
+        /expensify\.com/,
+        /.*figma\.com/,
+        /.*newrelic\.com/,
+        /.*datadoghq\.com/,
+        /.*miro\.com/,
+        /.*easyretro\.io/,
+        /.*remo\.co/,
+        /.*latticehq\.com/
       ]),
       browser: "Google Chrome"
     },

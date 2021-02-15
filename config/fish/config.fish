@@ -48,9 +48,10 @@ abbr --add ga 'git add'
 abbr --add gaa 'git add --all'
 abbr --add gc 'git commit --verbose'
 abbr --add gca 'git commit --verbose --all'
-abbr --add gc! 'git commit --verbose --amend'
+abbr --add gc! 'git commit --verbose --amend --no-edit'
 abbr --add gco 'git checkout'
 abbr --add gcm 'git checkout master'
+abbr --add grb 'git rebase -i (git merge-base HEAD origin/master)'
 abbr --add hco 'hub checkout'
 
 # do not accidentally remove stuff

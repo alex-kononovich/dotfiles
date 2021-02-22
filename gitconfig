@@ -31,3 +31,5 @@
   rebase = false
 [rerere]
   enabled = true
+[includeIf "gitdir:~/Projects/Unbounce/"]
+  path = ~/Projects/Unbounce/.gitconfig

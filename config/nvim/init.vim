@@ -110,6 +110,7 @@ let $FZF_DEFAULT_COMMAND='ag -g ""'
 let $FZF_DEFAULT_OPTS='--color=bg+:-1 --inline-info'
 let g:fzf_layout = { 'down': '10' }
 let g:fzf_buffers_jump = 0
+let g:fzf_preview_window = []
 augroup fzf
 autocmd! FileType fzf
   " close on Esc
@@ -128,7 +129,7 @@ nmap <leader>d :BD<CR>
 nmap <leader>D :bufdo BD<CR>
 
 " Filesystem
-Plug 'scrooloose/nerdtree', {'on': ['NERDTreeFind', 'NERDTreeToggle']}
+Plug 'scrooloose/nerdtree' ", {'on': ['NERDTreeFind', 'NERDTreeToggle']}
 nmap <leader>n :NERDTreeToggle<CR>
 nmap - :NERDTreeFind<CR>
 let g:NERDTreeQuitOnOpen = 1
@@ -190,7 +191,7 @@ set complete+=kspell
 Plug 'vim-scripts/fish-syntax', {'for': 'fish'}
 
 " Conquer of Completion (currently Elm only)
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'for': ['elm', 'typescript', 'typescript.tsx', 'javascript']}
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'for': ['elm', 'typescript', 'typescript.tsx', 'javascript', 'rust']}
 hi! link CocCodeLens NonText
 augroup coc
   autocmd!
@@ -199,7 +200,10 @@ augroup coc
     \ set updatetime=300 |
     \ nmap <silent> <C-]> <Plug>(coc-definition) |
     \ nmap <silent> K :call CocAction('doHover')<CR> |
-    \ command! -nargs=0 Rename :call CocAction('rename')
+    \ nmap <silent> [g <Plug>(coc-diagnostic-prev) |
+    \ nmap <silent> ]g <Plug>(coc-diagnostic-next) |
+    \ nmap <leader>cf :CocFix<CR>
+    " \ command! -nargs=0 Rename :call CocAction('rename')
 augroup END
 
 " Elm
@@ -267,6 +271,7 @@ Plug 'tpope/vim-bundler', {'for': 'ruby'}
 " TypeScript
 Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
 let g:typescript_indent_disable = 1
+let g:typescript_compiler_options = '--noEmit'
 augroup typescript
   autocmd!
   autocmd BufNewFile,BufRead *.tsx set filetype=typescript.tsx

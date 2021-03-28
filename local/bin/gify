@@ -1,0 +1,6 @@
+#!/usr/bin/env fish
+
+set -l input_file_name $argv[1];
+set -l output_file_name (string replace -r '\.[^\.]*$' '.gif' "$input_file_name");
+
+ffmpeg -i "$input_file_name" -vf "fps=10,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 "$output_file_name"

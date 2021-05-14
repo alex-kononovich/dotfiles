@@ -137,7 +137,7 @@ let g:NERDTreeQuitOnOpen = 1
 " Search
 Plug 'mileszs/ack.vim', {'on': 'Ack'}
 if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
+  let g:ackprg = 'ag --vimgrep --literal'
 endif
 map <leader>f :Ack<space>
 map <leader>F :Ack<cword><CR> " search word under cursor
@@ -202,8 +202,8 @@ augroup coc
     \ nmap <silent> K :call CocAction('doHover')<CR> |
     \ nmap <silent> [g <Plug>(coc-diagnostic-prev) |
     \ nmap <silent> ]g <Plug>(coc-diagnostic-next) |
-    \ nmap <leader>cf :CocFix<CR>
-    " \ command! -nargs=0 Rename :call CocAction('rename')
+    \ nmap <leader>cf :CocFix<CR> |
+    \ nmap <leader>cr <Plug>(coc-rename)
 augroup END
 
 " Elm

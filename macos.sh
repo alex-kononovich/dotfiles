@@ -93,6 +93,15 @@ brew install heroku/brew/heroku
 brew install direnv
 
 ############################################################
+# Logitech C920 custom setup
+# Automatically set correct settings when camera is connected
+############################################################
+
+cd logitech-c920-camera-settings
+make
+cd ..
+
+############################################################
 # LANGUAGES
 ############################################################
 

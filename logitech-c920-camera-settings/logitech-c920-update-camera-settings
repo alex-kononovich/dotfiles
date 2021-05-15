@@ -1,0 +1,3 @@
+#!/opt/homebrew/bin/fish
+
+cat ~/.config/logitech-c920/camera-settings-alex.json | uvcc import

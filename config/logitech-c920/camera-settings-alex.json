@@ -1,0 +1,21 @@
+{
+  "absolute_exposure_time": 333,
+  "absolute_focus": 30,
+  "absolute_pan_tilt": [
+    0,
+    -36000
+  ],
+  "absolute_zoom": 140,
+  "auto_exposure_mode": 8,
+  "auto_exposure_priority": 0,
+  "auto_focus": 0,
+  "auto_white_balance_temperature": 1,
+  "backlight_compensation": 1,
+  "brightness": 150,
+  "contrast": 128,
+  "gain": 73,
+  "power_line_frequency": 2,
+  "saturation": 128,
+  "sharpness": 128,
+  "white_balance_temperature": 3750
+}

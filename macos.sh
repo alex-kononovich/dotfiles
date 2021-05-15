@@ -2,12 +2,6 @@
 
 set -u
 
-# Ask for the administrator password upfront
-sudo -v
-
-# Keep-alive: update existing `sudo` time stamp until script has finished
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
-
 ############################################################
 # PACKAGE MANAGERS
 ############################################################
@@ -15,13 +9,11 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 # homebrew
 if [[ ! -x "$(command -v brew)" ]]; then
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 # pip3
 brew install python
-
-# pip
-brew install python@2
 
 # npm
 brew install node nodenv
@@ -44,8 +36,11 @@ rcup
 
 # better shell
 brew install fish
-echo '/usr/local/bin/fish' | sudo tee -a /etc/shells
-chsh -s /usr/local/bin/fish
+which fish | sudo tee -a /etc/shells
+chsh -s $(which fish)
+
+# trash instead of rm
+brew install trash
 
 # better grep
 brew install ag
@@ -54,7 +49,7 @@ brew install ag
 brew install htop
 
 # newest git and git client
-brew install git hub tig diff-so-fancy
+brew install git gh tig diff-so-fancy
 
 # tree
 brew install tree
@@ -71,7 +66,6 @@ brew install ctags
 # text editor
 brew tap neovim/neovim
 brew install neovim
-pip install neovim
 pip3 install neovim
 sudo gem install neovim
 npm install -g neovim
@@ -80,8 +74,8 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
 nvim -c "PlugInstall"
 
 # programming font
-brew tap caskroom/fonts
-brew cask install font-fira-code
+brew tap homebrew/cask-fonts
+brew install font-fira-code
 
 # j to quickly jump to fuzzy-matched directory
 brew install autojump
@@ -105,25 +99,11 @@ cd ..
 # LANGUAGES
 ############################################################
 
-# haskell
-brew install haskell-stack
-stack setup
-stack install hlint brittany
-
-# elm (using npm until all packages migrate to homebrew)
-npm install -g elm elm-format elm-test elm-oracle elm-upgrade
-
-# vimscript
-pip install vim-vint
-
 # ruby
 brew install chruby chruby-fish ruby-install
 
 # html, js
 npm install -g prettier
-
-# pug
-npm install -g pug-beautifier
 
 # sh
 brew install shellcheck
@@ -132,16 +112,18 @@ brew install shellcheck
 # APPLICATIONS
 ############################################################
 
-brew cask install \
+brew install \
   finicky \
   skype \
+  slack \
+  zoom \
+  karabiner-elements \
   telegram \
   google-chrome \
   the-unarchiver \
   mac2imgur \
   spectacle
 
-mas install 427475982 # BreakTime
 mas install 418073146 # Snap
 mas install 568494494 # Pocket
 
@@ -157,6 +139,16 @@ osascript -e 'tell application "System Preferences" to quit'
 # Custom keybindings like Ctrl-w to delete last word in any textfield
 mkdir -p ~/Library/KeyBindings
 ln `dirname $0`/osx/DefaultKeyBinding.dict ~/Library/KeyBindings/DefaultKeyBinding.dict
+
+# Input languages
+curl -s -L https://github.com/alex-kononovich/russian-layout-for-hardware-workman/raw/master/russian%20for%20hadrware%20workman.keylayout > russian_for_hardware_workman.keylayout
+sudo mv russian_for_hardware_workman.keylayout /Library/Keyboard\ Layouts/
+# Layout ID is hadrcoded in .keylayout file
+# This settings needs to be XML, otherwise ID will be string http://apple.stackexchange.com/a/127250
+# Layout will appear after logout/login
+defaults write com.apple.HIToolbox AppleEnabledInputSources -array-add '<dict><key>InputSourceKind</key><string>Keyboard Layout</string><key>KeyboardLayout ID</key><integer>8920</integer><key>KeyboardLayout Name</key><string>Russian</string></dict>'
+sudo rm /System/Library/Caches/com.apple.IntlDataCache*
+sudo find /var/ -name "*IntlDataCache*" -exec rm {} \;
 
 # Fix problem with Tig - it gets suspended when C-y is pressed
 # https://github.com/jonas/tig/issues/214
@@ -174,30 +166,6 @@ fi;
 
 # Restart automatically if the computer freezes
 sudo systemsetup -setrestartfreeze on
-
-# Disable the sound effects on boot
-sudo nvram SystemAudioVolume=" "
-
-# Disable hibernation (speeds up entering sleep mode)
-sudo pmset -a hibernatemode 0
-
-# Remove the sleep image file to save disk space
-sudo rm /private/var/vm/sleepimage
-# Create a zero-byte file instead…
-sudo touch /private/var/vm/sleepimage
-# …and make sure it can’t be rewritten
-sudo chflags uchg /private/var/vm/sleepimage
-
-# Menu bar
-defaults write com.apple.systemuiserver menuExtras -array \
-	"/System/Library/CoreServices/Menu Extras/TimeMachine.menu" \
-	"/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
-	"/System/Library/CoreServices/Menu Extras/AirPort.menu" \
-	"/System/Library/CoreServices/Menu Extras/TextInput.menu" \
-	"/System/Library/CoreServices/Menu Extras/Clock.menu"
-
-# Disable the over-the-top focus ring animation
-defaults write NSGlobalDomain NSUseAnimatedFocusRing -bool false
 
 # Expand save panel by default
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
@@ -218,16 +186,6 @@ defaults write NSGlobalDomain InitialKeyRepeat -int 12
 
 # Time format
 defaults write NSGlobalDomain AppleICUForce24HourTime -int 1
-
-# Input languages
-curl -s -L https://github.com/alex-kononovich/russian-layout-for-hardware-workman/raw/master/russian%20for%20hadrware%20workman.keylayout > russian_for_hardware_workman.keylayout
-sudo mv russian_for_hardware_workman.keylayout /Library/Keyboard\ Layouts/
-# Layout ID is hadrcoded in .keylayout file
-# This settings needs to be XML, otherwise ID will be string http://apple.stackexchange.com/a/127250
-# Layout will appear after logout/login
-defaults write com.apple.HIToolbox AppleEnabledInputSources -array-add '<dict><key>InputSourceKind</key><string>Keyboard Layout</string><key>KeyboardLayout ID</key><integer>8920</integer><key>KeyboardLayout Name</key><string>Russian</string></dict>'
-sudo rm /System/Library/Caches/com.apple.IntlDataCache*
-sudo find /var/ -name "*IntlDataCache*" -exec rm {} \;
 
 # Disable shadow in screenshots
 defaults write com.apple.screencapture disable-shadow -bool true
@@ -321,13 +279,6 @@ defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
 
 # Disable double space as period
 defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
-
-# Snap
-defaults write com.iktm.snap showInStatusBar -int 0
-defaults write com.iktm.snap apps -data 62706c6973743030d40102030405064d4e582476657273696f6e58246f626a65637473592461726368697665725424746f7012000186a0af1012070811191f2027282b3034353a3e3f44484955246e756c6cd2090a0b105a4e532e6f626a656374735624636c617373a40c0d0e0f80028008800b800e8011d41213140a151617185661707055524c576b6579436f6465586b6579466c6167738003100580068007d31a0a1b1c1d1e574e532e626173655b4e532e72656c61746976658000800580045f103166696c653a2f2f6c6f63616c686f73742f4170706c69636174696f6e732f476f6f676c652532304368726f6d652e617070d2212223245a24636c6173736e616d655824636c6173736573554e5355524ca22526554e5355524c584e534f626a65637412000a0000d22122292a5b4170706c69636174696f6ea22926d41213140a2c2d17188009100b80068007d31a0a1b1c1d3380008005800a5f102866696c653a2f2f6c6f63616c686f73742f4170706c69636174696f6e732f5361666172692e617070d41213140a36371718800c100180068007d31a0a1b1c1d3d80008005800d5f103466696c653a2f2f6c6f63616c686f73742f4170706c69636174696f6e732f5574696c69746965732f5465726d696e616c2e617070d41213140a40411718800f101180068007d31a0a1b1c1d478000800580105f102866696c653a2f2f6c6f63616c686f73742f4170706c69636174696f6e732f5468696e67732e617070d221224a4b5e4e534d757461626c654172726179a34a4c26574e5341727261795f100f4e534b657965644172636869766572d14f5054726f6f74800100080011001a0023002d00320037004c0052005700620069006e007000720074007600780081008800900099009b009d009f00a100a800b000bc00be00c000c200f600fb0106010f01150118011e0127012c0131013d01400149014b014d014f01510158015a015c015e01890192019401960198019a01a101a301a501a701de01e701e901eb01ed01ef01f601f801fa01fc0227022c023b023f02470259025c02610000000000000201000000000000005100000000000000000000000000000263
-
-# Spectacle
-defaults write com.divisiblebyzero.Spectacle StatusItemEnabled -int 0
 
 echo "Done. Note that some of these changes require a logout/restart to take effect."
 

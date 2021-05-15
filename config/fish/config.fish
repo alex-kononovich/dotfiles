@@ -1,6 +1,9 @@
 # remove greeting
 set fish_greeting
 
+# init homebrew
+eval (/opt/homebrew/bin/brew shellenv)
+
 set -x EDITOR 'nvim'
 set -x VISUAL $EDITOR
 set -x BROWSER 'open'
@@ -66,11 +69,11 @@ alias tl='tmux list-sessions'
 abbr --add dc 'docker-compose'
 
 # autojump
-[ -f /usr/local/share/autojump/autojump.fish ]; and source /usr/local/share/autojump/autojump.fish
+[ -f $HOMEBREW_PREFIX/share/autojump/autojump.fish ]; and source $HOMEBREW_PREFIX/share/autojump/autojump.fish
 
 # chruby
-source /usr/local/share/chruby/chruby.fish
-source /usr/local/share/chruby/auto.fish
+source $HOMEBREW_PREFIX/share/chruby/chruby.fish
+source $HOMEBREW_PREFIX/share/chruby/auto.fish
 
 # direnv
 eval (direnv hook fish)

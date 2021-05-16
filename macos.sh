@@ -124,6 +124,7 @@ brew install \
   mac2imgur \
   spectacle
 
+mas install 904280696 # Things 3
 mas install 418073146 # Snap
 mas install 568494494 # Pocket
 

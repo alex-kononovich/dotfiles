@@ -191,6 +191,10 @@ defaults write NSGlobalDomain AppleICUForce24HourTime -int 1
 # Disable shadow in screenshots
 defaults write com.apple.screencapture disable-shadow -bool true
 
+# Change where screenshots are saved
+mkdir ~/Screenshots
+defaults write com.apple.screencapture.location ~/Screenshots
+
 # Set Home as the default location for new Finder windows
 defaults write com.apple.finder NewWindowTarget -string "PfHm"
 defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/"

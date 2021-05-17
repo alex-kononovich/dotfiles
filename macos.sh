@@ -54,6 +54,9 @@ brew install git gh tig diff-so-fancy
 # tree
 brew install tree
 
+# better ssh
+brew install mosh
+
 # rename utility
 brew install rename
 

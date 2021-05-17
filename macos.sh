@@ -133,6 +133,9 @@ mas install 568494494 # Pocket
 # based on https://mths.be/macos
 ############################################################
 
+# Propmt for switching default browser
+open -a "Finicky"
+
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
 osascript -e 'tell application "System Preferences" to quit'

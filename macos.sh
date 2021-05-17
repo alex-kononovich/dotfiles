@@ -125,7 +125,7 @@ brew install \
   spectacle
 
 mas install 904280696 # Things 3
-mas install 418073146 # Snap
+mas install 975890633 # HotKey App
 mas install 568494494 # Pocket
 
 ############################################################

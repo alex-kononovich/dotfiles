@@ -86,6 +86,9 @@ brew install autojump
 # heroku cli
 brew install heroku/brew/heroku
 
+# aws
+brew install awscli
+
 # direnv
 brew install direnv
 

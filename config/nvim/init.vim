@@ -4,6 +4,8 @@ set number
 set expandtab
 set shiftwidth=2
 set noswapfile
+set undodir=~/.vim/undo-dir
+set undofile
 map <space> <leader>
 nmap <leader>w :w<CR>
 nmap <silent><leader>q :q<CR>

@@ -241,6 +241,9 @@ augroup js
   autocmd BufWritePost *.js Neomake
 augroup END
 
+" Slim
+Plug 'slim-template/vim-slim', { 'for': 'slim' }
+
 " HTML
 augroup html
   autocmd!

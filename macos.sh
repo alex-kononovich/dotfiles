@@ -39,6 +39,9 @@ brew install fish
 which fish | sudo tee -a /etc/shells
 chsh -s $(which fish)
 
+# JSON processor
+brew install jq
+
 # trash instead of rm
 brew install trash
 

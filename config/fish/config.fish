@@ -45,6 +45,7 @@ abbr --add gp 'git push'
 abbr --add gr 'git recent'
 abbr --add gf 'git flow'
 abbr --add gs 'git status'
+abbr --add gsh 'git show head'
 abbr --add gd 'git diff -w'
 abbr --add gdc 'git diff --cached -w'
 abbr --add ga 'git add'
@@ -54,6 +55,7 @@ abbr --add gca 'git commit --verbose --all'
 abbr --add gc! 'git commit --verbose --amend --no-edit'
 abbr --add gco 'git checkout'
 abbr --add gcm 'git checkout main'
+abbr --add gmt 'git mergetool'
 abbr --add grb 'git rebase -i (git merge-base HEAD origin/main)'
 abbr --add pco 'gh pr checkout'
 abbr --add pv 'gh pr view --web'
@@ -67,6 +69,10 @@ alias tl='tmux list-sessions'
 
 # docker
 abbr --add dc 'docker-compose'
+
+# rails
+abbr --add rt 'bin/rails test'
+abbr --add rc 'bin/rails console'
 
 # autojump
 [ -f $HOMEBREW_PREFIX/share/autojump/autojump.fish ]; and source $HOMEBREW_PREFIX/share/autojump/autojump.fish
@@ -84,3 +90,6 @@ status --is-interactive; and source (nodenv init - | psub)
 
 # aws completions
 test -x (which aws_completer); and complete --command aws --no-files --arguments '(begin; set --local --export COMP_SHELL fish; set --local --export COMP_LINE (commandline); aws_completer | sed \'s/ $//\'; end)'
+
+# change max number of file descriptors per process
+ulimit -n 2048

@@ -11,11 +11,11 @@
   "auto_focus": 0,
   "auto_white_balance_temperature": 1,
   "backlight_compensation": 1,
-  "brightness": 150,
+  "brightness": 160,
   "contrast": 128,
   "gain": 73,
   "power_line_frequency": 2,
-  "saturation": 128,
-  "sharpness": 128,
+  "saturation": 140,
+  "sharpness": 140,
   "white_balance_temperature": 3750
 }

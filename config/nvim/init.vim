@@ -146,11 +146,11 @@ map <leader>F :Ack<cword><CR> " search word under cursor
 
 " Git
 Plug 'tpope/vim-fugitive'
-nmap <leader>gs :Gstatus<CR>
-nmap <leader>gb :Gblame<CR>
+nmap <leader>gs :Git<CR>
+nmap <leader>gb :Git blame<CR>
 nmap <leader>gd :Gdiff<CR>
 nmap <leader>gw :Gwrite<CR>
-nmap <leader>gc :Gcommit --verbose<CR>
+nmap <leader>gc :Git commit --verbose<CR>
 nmap <leader>gr :Gread<CR>
 
 " Github

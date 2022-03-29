@@ -11,6 +11,7 @@ module.exports = {
         /(docs|sheets|drive)\.google\.com/,
         /forms\.gle/,
         /bamboohr\.com/,
+        /breezy\.hr/,
         /expensify\.com/,
         /.*figma\.com/,
         /.*newrelic\.com/,
@@ -18,12 +19,24 @@ module.exports = {
         /.*miro\.com/,
         /.*easyretro\.io/,
         /.*remo\.co/,
-        /.*latticehq\.com/
+        /.*getguru\.com/,
+        /.*37signals\.com/,
+        /.*basecamp\.com/,
+        /.*latticehq\.com/,
+        /.*sentry\.io/,
+        /.*knowyourteam\.com/,
+        /.*heroku\.com/,
+        /.*brex\.com/,
+        /.*circleci\.com/,
+        /.*datadog.*\.com/,
+        /.*zipline.*/,
+        /.*loom.com/,
+        /.*browserstack.com/,
       ]),
       browser: "Google Chrome"
     },
     {
-      match: /unbounce/,
+      match: /retailzipline/,
       browser: "Google Chrome"
     },
     {

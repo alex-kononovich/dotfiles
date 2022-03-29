@@ -285,6 +285,12 @@ augroup END
 " GraphQL
 Plug 'jparise/vim-graphql', {'for': 'graphql'}
 
+" CoffeeScript
+Plug 'kchmck/vim-coffee-script', {'for': 'coffee' }
+
+" Zig
+Plug 'ziglang/zig.vim', {'for': 'zig' }
+
 " Colorscheme
 Plug 'flskif/terminal16.vim'
 

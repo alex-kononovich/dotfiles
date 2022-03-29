@@ -14,6 +14,16 @@ it('$1', () => {
 })
 endsnippet
 
+snippet test "test clause"
+test('should $1', () => {
+  $2
+})
+endsnippet
+
+snippet ttodo "test.todo clause"
+test.todo('should $1')
+endsnippet
+
 snippet desc "describe clause"
 describe('$1', () => {
   $2

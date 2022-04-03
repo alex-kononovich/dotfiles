@@ -1,0 +1,9 @@
+theme = "terminal16"
+
+[editor]
+scrolloff = 0
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "block"

@@ -208,6 +208,13 @@ augroup coc
     \ nmap <leader>cr <Plug>(coc-rename)
 augroup END
 
+" Indentation guides
+Plug 'lukas-reineke/indent-blankline.nvim', {'for': 'slim'}
+let g:indent_blankline_filetype = ['slim']
+let g:indent_blankline_char = '┊'
+let g:indent_blankline_show_first_indent_level = v:false
+let g:indent_blankline_show_trailing_blankline_indent = v:false
+
 " Elm
 Plug 'andys8/vim-elm-syntax', {'for': 'elm'}
 augroup elm
@@ -299,3 +306,4 @@ call plug#end()
 " Must go after plug#end()
 colorscheme terminal16
 hi! HighlightedyankRegion ctermbg=yellow ctermfg=black
+highlight! IndentBlanklineChar ctermfg=black

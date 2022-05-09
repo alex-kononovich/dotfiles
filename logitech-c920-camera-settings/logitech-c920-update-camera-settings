@@ -1,3 +1,4 @@
 #!/opt/homebrew/bin/fish
 
+eval "$(nodenv init -)"
 cat ~/.config/logitech-c920/camera-settings-alex.json | uvcc import

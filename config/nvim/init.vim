@@ -194,17 +194,19 @@ Plug 'vim-scripts/fish-syntax', {'for': 'fish'}
 
 " Conquer of Completion (currently Elm only)
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'for': ['elm', 'typescript', 'typescript.tsx', 'javascript', 'rust']}
-hi! link CocCodeLens NonText
+
 augroup coc
   autocmd!
   autocmd User CocNvimInit
     \ set signcolumn=yes |
     \ set updatetime=300 |
+    \ hi! CocMenuSel ctermbg=yellow ctermfg=black |
+    \ hi! link CocCodeLens NonText |
     \ nmap <silent> <C-]> <Plug>(coc-definition) |
     \ nmap <silent> K :call CocAction('doHover')<CR> |
     \ nmap <silent> [g <Plug>(coc-diagnostic-prev) |
     \ nmap <silent> ]g <Plug>(coc-diagnostic-next) |
-    \ nmap <leader>cf :CocFix<CR> |
+    \ nmap <leader>cf <Plug>(coc-fix)<CR> |
     \ nmap <leader>cr <Plug>(coc-rename)
 augroup END
 

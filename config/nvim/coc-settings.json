@@ -9,5 +9,6 @@
       }
     }
   },
+  "suggest.noselect": true,
   "coc.preferences.formatOnType": false
 }

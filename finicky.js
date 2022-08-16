@@ -31,7 +31,10 @@ module.exports = {
         /.*datadog.*\.com/,
         /.*zipline.*/,
         /.*loom.com/,
+        /.*slack.com/,
         /.*browserstack.com/,
+        /.*launchdarkly.com/,
+        /.*leapsome.com/,
       ]),
       browser: "Google Chrome"
     },

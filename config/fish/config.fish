@@ -105,11 +105,6 @@ abbr --add rc 'bin/rails console'
 # autojump
 [ -f $HOMEBREW_PREFIX/share/autojump/autojump.fish ]; and source $HOMEBREW_PREFIX/share/autojump/autojump.fish
 
-# chruby
-set -x CHRUBY_ROOT $HOMEBREW_PREFIX
-source $HOMEBREW_PREFIX/share/chruby/chruby.fish
-source $HOMEBREW_PREFIX/share/chruby/auto.fish
-
 # direnv
 eval (direnv hook fish)
 

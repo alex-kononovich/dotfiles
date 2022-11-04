@@ -206,7 +206,7 @@ augroup coc
     \ nmap <silent> K :call CocAction('doHover')<CR> |
     \ nmap <silent> [g <Plug>(coc-diagnostic-prev) |
     \ nmap <silent> ]g <Plug>(coc-diagnostic-next) |
-    \ nmap <leader>cf <Plug>(coc-fix)<CR> |
+    \ nmap <leader>cf <Plug>(coc-codeaction) |
     \ nmap <leader>cr <Plug>(coc-rename)
 augroup END
 

@@ -140,7 +140,6 @@ brew install \
 mas install 904280696 # Things 3
 brew install thingsmacsandboxhelper # Things Helper
 
-mas install 975890633 # HotKey App
 mas install 568494494 # Pocket
 
 ############################################################

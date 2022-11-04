@@ -170,6 +170,7 @@ nmap <silent><leader>M :update\|Neomake!<CR>
 
 " Snippets
 Plug 'SirVer/ultisnips'
+let g:python3_host_prog='/opt/homebrew/bin/python3'
 
 " Autoformat
 Plug 'sbdchd/neoformat'

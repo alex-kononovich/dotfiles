@@ -95,6 +95,10 @@ brew install awscli
 # direnv
 brew install direnv
 
+# systemwide hotkeys
+brew install koekeishiya/formulae/skhd
+brew services start skhd
+
 ############################################################
 # Logitech C920 custom setup
 # Automatically set correct settings when camera is connected

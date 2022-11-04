@@ -1,0 +1,5 @@
+shift + alt - b : osascript -e 'tell app "Safari" to activate'
+shift + alt - s : osascript -e 'tell app "kitty" to activate'
+shift + alt - g : osascript -e 'tell app "Google Chrome" to activate'
+shift + alt - t : osascript -e 'tell app "Things" to activate'
+shift + alt - m : osascript -e 'tell app "Mail" to activate'

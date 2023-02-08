@@ -109,7 +109,7 @@ let g:fzf_action = {
   \ 'ctrl-s': 'split',
   \ 'ctrl-v': 'vsplit' }
 let $FZF_DEFAULT_COMMAND='ag -g ""'
-let $FZF_DEFAULT_OPTS='--color=bg+:-1 --inline-info'
+let $FZF_DEFAULT_OPTS='--color=bg+:-1 --inline-info --no-scrollbar --no-separator'
 let g:fzf_layout = { 'down': '10' }
 let g:fzf_buffers_jump = 0
 let g:fzf_preview_window = []

@@ -178,6 +178,8 @@ let g:neoformat_only_msg_on_error = 1
 let g:neoformat_basic_format_trim = 1
 let g:neoformat_basic_format_retab = 1
 let g:neoformat_try_formatprg = 1
+let g:neoformat_try_node_exe = 1
+let g:neoformat_enabled_javascript = []
 nmap <leader>a :Neoformat<CR>
 
 " Text
@@ -247,8 +249,7 @@ Plug 'othree/yajs.vim', { 'for': 'javascript' }
 augroup js
   autocmd!
   autocmd FileType javascript setlocal softtabstop=2 shiftwidth=2
-  autocmd FileType javascript setlocal formatprg=prettier\ --stdin\ --stdin-filepath=%:p
-  autocmd BufWritePost *.js Neomake
+  autocmd FileType javascript setlocal formatprg=prettier\ --stdin-filepath=%:p
 augroup END
 
 " Slim
@@ -290,7 +291,7 @@ let g:typescript_compiler_options = '--noEmit'
 augroup typescript
   autocmd!
   autocmd BufNewFile,BufRead *.tsx set filetype=typescript.tsx
-  autocmd FileType typescript,typescriptreact,typescript.tsx compiler tsc | setlocal makeprg=tsc
+  autocmd FileType typescript,typescriptreact,typescript.tsx compiler tsc | setlocal makeprg=tsc | setlocal formatprg=prettier\ --stdin-filepath=%:p
 augroup END
 
 " GraphQL

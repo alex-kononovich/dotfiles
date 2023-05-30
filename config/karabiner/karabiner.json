@@ -16,6 +16,37 @@
         },
         "rules": [
           {
+            "description": "Left Cmd to Ctrl in Kitty",
+            "manipulators": [
+              {
+                "conditions": [
+                  {
+                    "bundle_identifiers": ["^net\\.kovidgoyal\\.kitty"],
+                    "type": "frontmost_application_if"
+                  },
+                  {
+                    "type": "device_if",
+                    "identifiers": [
+                      {
+                        "product_id": 641,
+                        "vendor_id": 1452
+                      }
+                    ]
+                  }
+                ],
+                "from": {
+                  "key_code": "left_command"
+                },
+                "to": [
+                  {
+                    "key_code": "left_control"
+                  }
+                ],
+                "type": "basic"
+              }
+            ]
+          },
+          {
             "description": "Remap ESC to Option-ESC in Safari",
             "manipulators": [
               {
@@ -53,14 +84,6 @@
           "ignore": false,
           "manipulate_caps_lock_led": true,
           "simple_modifications": [
-            {
-              "from": {
-                "key_code": "left_option"
-              },
-              "to": {
-                "key_code": "left_control"
-              }
-            },
             {
               "from": {
                 "key_code": "b"

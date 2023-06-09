@@ -1,0 +1,18 @@
+#!/bin/sh
+
+WORKDIR=~/Projects/RZ/zipline-app
+SESSION_NAME=zipline-app
+
+# layout
+tmux new-session -d -n "code" -c $WORKDIR -s $SESSION_NAME
+tmux new-window -d -n "tests" -c $WORKDIR -t $SESSION_NAME
+tmux new-window -d -n "server" -c $WORKDIR -t $SESSION_NAME
+tmux split-window -d -h -t "$SESSION_NAME:server" -c $WORKDIR
+
+# programs
+tmux send-keys -t "$SESSION_NAME:server.1" "rails server" Enter
+tmux send-keys -t "$SESSION_NAME:server.2" "foreman start -f Procfile.dev" Enter
+tmux send-keys -t "$SESSION_NAME:code" "nvim" Enter
+
+# connect
+tmux attach-session -d -t $SESSION_NAME

@@ -179,7 +179,7 @@ let g:neoformat_basic_format_trim = 1
 let g:neoformat_basic_format_retab = 1
 let g:neoformat_try_formatprg = 1
 let g:neoformat_try_node_exe = 1
-let g:neoformat_enabled_ruby = []
+let g:neoformat_enabled_ruby = ['standard']
 let g:neoformat_enabled_javascript = []
 nmap <leader>a :Neoformat<CR>
 
@@ -284,10 +284,6 @@ let g:neomake_ruby_flog_remove_invalid_entries=1
 Plug 'tpope/vim-rake', {'for': 'ruby'}
 Plug 'tpope/vim-rails', {'for': 'ruby'}
 Plug 'tpope/vim-bundler', {'for': 'ruby'}
-augroup ruby
-  autocmd!
-  autocmd FileType ruby setlocal formatprg=stree\ format
-augroup END
 
 " TypeScript
 Plug 'leafgarland/typescript-vim', {'for': 'typescript'}

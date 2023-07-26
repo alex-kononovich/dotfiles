@@ -31,6 +31,7 @@ set -U fish_pager_color_selected_background --background=black
 
 # init homebrew
 eval (/opt/homebrew/bin/brew shellenv)
+set -x HOMEBREW_NO_AUTO_UPDATE 1
 
 set -x EDITOR 'nvim'
 set -x VISUAL $EDITOR

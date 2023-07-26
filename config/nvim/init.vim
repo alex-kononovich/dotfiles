@@ -92,6 +92,9 @@ tnoremap <silent> <C-Down> <C-\><C-n>:TmuxNavigateDown<CR>
 tnoremap <silent> <C-Up> <C-\><C-n>:TmuxNavigateUp<CR>
 tnoremap <silent> <C-\> <C-\><C-n>:TmuxNavigatePrevious<CR>
 
+" Highlight trailing whitespace
+Plug 'ntpeters/vim-better-whitespace'
+
 Plug 'machakann/vim-highlightedyank'
 let g:highlightedyank_highlight_duration = 400
 

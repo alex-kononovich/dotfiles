@@ -307,6 +307,15 @@ Plug 'kchmck/vim-coffee-script', {'for': 'coffee' }
 " Zig
 Plug 'ziglang/zig.vim', {'for': 'zig' }
 
+" Yaml
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'cuducos/yaml.nvim', { 'for': 'yaml', 'commit': '7925bd2' }
+augroup yaml
+  autocmd!
+  autocmd FileType yaml
+    \ nmap <silent> K :YAMLView<CR>
+augroup END
+
 " OCaml
 augroup ocaml
   autocmd!

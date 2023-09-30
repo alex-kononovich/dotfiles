@@ -7,6 +7,11 @@
       "initializationOptions": {
         "runtime": "node"
       }
+    },
+    "ocaml-lsp": {
+      "command": "opam",
+      "args": ["config", "exec", "--", "ocamllsp"],
+      "filetypes": ["ocaml", "reason"]
     }
   },
   "suggest.noselect": true,

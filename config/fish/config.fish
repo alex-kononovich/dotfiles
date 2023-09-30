@@ -117,3 +117,6 @@ test -x (which aws_completer); and complete --command aws --no-files --arguments
 
 # change max number of file descriptors per process
 ulimit -n 2048
+
+# ocaml
+eval (opam env)

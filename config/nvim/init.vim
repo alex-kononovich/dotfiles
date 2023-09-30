@@ -200,7 +200,7 @@ set complete+=kspell
 Plug 'vim-scripts/fish-syntax', {'for': 'fish'}
 
 " Conquer of Completion (currently Elm only)
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'for': ['elm', 'typescript', 'typescript.tsx', 'javascript', 'rust']}
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'for': ['elm', 'typescript', 'typescript.tsx', 'javascript', 'rust', 'ocaml']}
 
 augroup coc
   autocmd!
@@ -306,6 +306,12 @@ Plug 'kchmck/vim-coffee-script', {'for': 'coffee' }
 
 " Zig
 Plug 'ziglang/zig.vim', {'for': 'zig' }
+
+" OCaml
+augroup ocaml
+  autocmd!
+  autocmd BufWritePost *.ml Neoformat
+augroup END
 
 " Colorscheme
 Plug 'flskif/terminal16.vim'

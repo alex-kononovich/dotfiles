@@ -138,6 +138,7 @@ Plug 'scrooloose/nerdtree' ", {'on': ['NERDTreeFind', 'NERDTreeToggle']}
 nmap <leader>n :NERDTreeToggle<CR>
 nmap - :NERDTreeFind<CR>
 let g:NERDTreeQuitOnOpen = 1
+let g:NERDTreeWinSize = 60
 
 " Search
 Plug 'mileszs/ack.vim', {'on': 'Ack'}

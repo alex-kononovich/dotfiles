@@ -296,7 +296,7 @@ let g:typescript_compiler_options = '--noEmit'
 augroup typescript
   autocmd!
   autocmd BufNewFile,BufRead *.tsx set filetype=typescript.tsx
-  autocmd FileType typescript,typescriptreact,typescript.tsx compiler tsc | setlocal makeprg=tsc | setlocal formatprg=prettier\ --stdin-filepath=%:p
+  autocmd FileType typescript,typescriptreact,typescript.tsx compiler tsc | setlocal makeprg=tsc\ --noEmit | setlocal formatprg=prettier\ --stdin-filepath=%:p
 augroup END
 
 " GraphQL

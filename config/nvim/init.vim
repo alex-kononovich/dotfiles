@@ -210,7 +210,7 @@ augroup coc
     \ set updatetime=300 |
     \ hi! CocMenuSel ctermbg=yellow ctermfg=black |
     \ hi! link CocCodeLens NonText |
-    \ nmap <silent> <C-]> <Plug>(coc-definition) |
+    \ nmap <silent> <C-]> :call CocAction('jumpImplementation')<CR> |
     \ nmap <silent> K :call CocAction('doHover')<CR> |
     \ nmap <silent> [g <Plug>(coc-diagnostic-prev) |
     \ nmap <silent> ]g <Plug>(coc-diagnostic-next) |

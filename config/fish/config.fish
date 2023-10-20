@@ -107,7 +107,9 @@ abbr --add rc 'bin/rails console'
 [ -f $HOMEBREW_PREFIX/share/autojump/autojump.fish ]; and source $HOMEBREW_PREFIX/share/autojump/autojump.fish
 
 # fix Ctrl-q and such
-stty -ixon
+if status --is-interactive
+  stty -ixon
+end
 
 # direnv
 eval (direnv hook fish)

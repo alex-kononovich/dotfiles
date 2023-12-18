@@ -35,6 +35,7 @@ module.exports = {
         /.*browserstack.com/,
         /.*launchdarkly.com/,
         /.*leapsome.com/,
+        /.*fathom.video/,
       ]),
       browser: "Google Chrome"
     },

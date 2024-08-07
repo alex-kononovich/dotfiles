@@ -115,6 +115,12 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     update_in_insert = false
   }
 )
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+  vim.lsp.handlers.hover, {
+    border = "single",
+    wrap_at = 80
+  }
+)
 
 require("lazy").setup({
   spec = {
@@ -255,14 +261,10 @@ require("lazy").setup({
       config = function()
         local lsp = require("lspconfig")
         lsp.lua_ls.setup{
-          settings = {
-            Lua = {
-              diagnostics = {
-                globals = {'vim'},
-              },
-            },
-          },
+          settings = { Lua = { diagnostics = { globals = {'vim'} } } },
         }
+
+        vim.api.nvim_set_hl(0, "FloatBorder", { link = "WinSeparator" })
       end
     },
     {

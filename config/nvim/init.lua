@@ -66,6 +66,7 @@ vim.o.fillchars = "fold:—,vert:│"
 vim.opt.shortmess:append("a")
 vim.opt.shortmess:append("T")
 vim.opt.shortmess:append("W")
+vim.o.signcolumn = "number"
 
 -- higlight yanked region
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -104,6 +105,12 @@ vim.keymap.set("n", "<leader>gs", "<cmd>Git<cr>", { silent = true })
 vim.keymap.set("n", "<leader>gb", "<cmd>Git blame<cr>", { silent = true })
 vim.keymap.set("n", "<leader>gw", "<cmd>Gwrite<cr>", { silent = true })
 vim.keymap.set("n", "<leader>gr", "<cmd>Gread<cr>", { silent = true })
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    update_in_insert = false
+  }
+)
 
 require("lazy").setup({
   spec = {
@@ -213,11 +220,11 @@ require("lazy").setup({
           },
           {
             event = "neo_tree_window_after_open",
-            handler = function(args) vim.cmd("wincmd =") end
+            handler = function() vim.cmd("wincmd =") end
           },
           {
             event = "neo_tree_window_after_close",
-            handler = function(args) vim.cmd("wincmd =") end
+            handler = function() vim.cmd("wincmd =") end
           }
         }
       }
@@ -233,7 +240,35 @@ require("lazy").setup({
       "tpope/vim-fugitive",
       dependencies = { "tpope/vim-rhubarb" },
       cmd = { "Git", "Gread", "Gwrite" }
-    }
+    },
+    {
+      "williamboman/mason.nvim",
+      cmd = { "Mason", "MasonInstall" },
+      opts = { ui = { border = "rounded" } }
+    },
+    {
+      "neovim/nvim-lspconfig",
+      config = function()
+        local lsp = require("lspconfig")
+        lsp.lua_ls.setup{
+          settings = {
+            Lua = {
+              diagnostics = {
+                globals = {'vim'},
+              },
+            },
+          },
+        }
+      end
+    },
+    {
+      "williamboman/mason-lspconfig.nvim",
+      opts = {
+        ensure_installed = {
+          "lua_ls"
+        }
+      }
+    },
   },
   install = { colorscheme = { "terminal16" } },
   checker = { enabled = false },

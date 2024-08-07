@@ -1,3 +1,5 @@
+---@diagnostic disable: undefined-global
+
 -- Prevent some default plugins from loading
 -- TODO: check if it has any effect
 vim.g.loaded_2html_plugin = 1
@@ -61,6 +63,9 @@ vim.o.secure = true
 -- live substitution preview
 vim.o.inccommand = "split"
 
+-- do not use :Man for K
+vim.o.keywordprg = nil
+
 -- UI
 vim.o.fillchars = "fold:—,vert:│"
 vim.opt.shortmess:append("a")
@@ -106,19 +111,43 @@ vim.keymap.set("n", "<leader>gb", "<cmd>Git blame<cr>", { silent = true })
 vim.keymap.set("n", "<leader>gw", "<cmd>Gwrite<cr>", { silent = true })
 vim.keymap.set("n", "<leader>gr", "<cmd>Gread<cr>", { silent = true })
 
-vim.diagnostic.config({
-  signs = false
+-- LSP
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+
+    -- don't use LSP syntax highlighting (use Treesitter instead)
+    client.server_capabilities.semanticTokensProvider = nil
+
+    -- code actions
+    if client.supports_method('textDocument/codeAction') then
+      vim.keymap.set("n", "<leader>cf", function() vim.lsp.buf.code_action({apply=true}) end)
+    end
+
+    -- rename
+    if client.supports_method('textDocument/rename') then
+      vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename)
+    end
+  end,
 })
 
+-- don't show signs for diagnostics
+vim.diagnostic.config({
+  signs = false,
+})
+
+-- don't update diagnostics as I type
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
-    update_in_insert = false
+    update_in_insert = false,
   }
 )
+
+-- put a border around hover window so I can see it
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
   vim.lsp.handlers.hover, {
     border = "single",
-    wrap_at = 80
+    wrap_at = 80,
   }
 )
 
@@ -152,19 +181,15 @@ require("lazy").setup({
     },
     {
       "nvim-telescope/telescope.nvim", tag = "0.1.8",
-      dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" }},
-      cmd = "Telescope",
+      dependencies = {
+        "nvim-lua/plenary.nvim",
+        { "nvim-telescope/telescope-fzf-native.nvim", build = "make" }
+      },
+      event = "VeryLazy",
       opts = {
         defaults = {
           preview = false,
           results_title = false,
-          layout_strategy = "vertical",
-          sorting_strategy = "ascending",
-          layout_config = {
-            prompt_position = "top",
-            width = 80,
-            height = 30
-          },
           mappings = {
             i = {
               ["<esc>"] = "close",
@@ -173,7 +198,10 @@ require("lazy").setup({
             }
           },
         },
-        pickers = { find_files = { prompt_title = "Files" } },
+        pickers = {
+          find_files = { prompt_title = "Files", theme = "dropdown" },
+          buffers = { theme = "dropdown" }
+        },
       },
       config = function(_,opts)
         require("telescope").load_extension("fzf")
@@ -266,10 +294,8 @@ require("lazy").setup({
       "neovim/nvim-lspconfig",
       config = function()
         local lsp = require("lspconfig")
-        lsp.lua_ls.setup{
-          settings = { Lua = { diagnostics = { globals = {'vim'} } } },
-        }
 
+        lsp.lua_ls.setup{}
         lsp.ruby_lsp.setup{}
 
         vim.api.nvim_set_hl(0, "FloatBorder", { link = "WinSeparator" })
@@ -283,6 +309,30 @@ require("lazy").setup({
           "ruby_lsp",
         }
       }
+    },
+    {
+      "stevearc/dressing.nvim",
+      dependencies = { "nvim-telescope/telescope.nvim" },
+      event = "VeryLazy",
+      config = function()
+        require("dressing").setup({
+          input = {
+            border = "single",
+            title_pos = "center",
+            win_options = {
+              winhl = "FloatBorder:Normal" -- for input borders should be more distinctive
+            },
+            mappings = {
+              i = {
+                ["<Esc>"] = "Close"
+              }
+            }
+          },
+          select = {
+            telescope = require("telescope.themes").get_cursor()
+          }
+        })
+      end,
     },
   },
   install = { colorscheme = { "terminal16" } },

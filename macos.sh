@@ -48,6 +48,9 @@ brew install trash
 # better grep
 brew install ag
 
+# better find
+brew install fd
+
 # better top
 brew install htop
 

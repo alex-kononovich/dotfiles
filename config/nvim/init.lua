@@ -72,6 +72,10 @@ vim.opt.shortmess:append("a")
 vim.opt.shortmess:append("T")
 vim.opt.shortmess:append("W")
 vim.o.signcolumn = "number"
+local telescope_borderchars = {
+  prompt = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
+  results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
+}
 
 -- higlight yanked region
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -199,8 +203,15 @@ require("lazy").setup({
           },
         },
         pickers = {
-          find_files = { prompt_title = "Files", theme = "dropdown" },
-          buffers = { theme = "dropdown" }
+          find_files = {
+            prompt_title = "Files",
+            theme = "dropdown",
+            borderchars = telescope_borderchars
+          },
+          buffers = {
+            theme = "dropdown",
+            borderchars = telescope_borderchars
+          }
         },
       },
       config = function(_,opts)
@@ -329,7 +340,9 @@ require("lazy").setup({
             }
           },
           select = {
-            telescope = require("telescope.themes").get_cursor()
+            telescope = require("telescope.themes").get_cursor({
+              borderchars = telescope_borderchars
+            })
           }
         })
       end,

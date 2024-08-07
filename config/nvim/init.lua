@@ -169,9 +169,9 @@ require("lazy").setup({
             i = {
               ["<esc>"] = "close",
               ["<C-s>"] = "select_horizontal",
-              ["<C-x>"] = false
+              ["<C-x>"] = false,
             }
-          }
+          },
         },
         pickers = { find_files = { prompt_title = "Files" } },
       },
@@ -219,7 +219,13 @@ require("lazy").setup({
               ["os"] = "none",
               ["ot"] = "none",
               ["z"] = "none",
+              ["s"] = "none",
+              ["S"] = "none",
+              ["t"] = "none",
               ["o"] = "toggle_node",
+              ["<C-s>"] = "open_split",
+              ["<C-v>"] = "open_vsplit",
+              ["<C-t>"] = "open_tabnew",
             }
           }
         },

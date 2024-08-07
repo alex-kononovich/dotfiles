@@ -106,6 +106,10 @@ vim.keymap.set("n", "<leader>gb", "<cmd>Git blame<cr>", { silent = true })
 vim.keymap.set("n", "<leader>gw", "<cmd>Gwrite<cr>", { silent = true })
 vim.keymap.set("n", "<leader>gr", "<cmd>Gread<cr>", { silent = true })
 
+vim.diagnostic.config({
+  signs = false
+})
+
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
     update_in_insert = false

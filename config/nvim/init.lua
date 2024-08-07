@@ -184,6 +184,7 @@ require("lazy").setup({
       cmd = "Neotree",
       opts = {
         popup_border_style = "rounded",
+        enable_git_status = false,
         filesystem = {
           window = {
             mappings = {
@@ -200,6 +201,7 @@ require("lazy").setup({
               ["on"] = "none",
               ["os"] = "none",
               ["ot"] = "none",
+              ["z"] = "none",
               ["o"] = "toggle_node",
             }
           }

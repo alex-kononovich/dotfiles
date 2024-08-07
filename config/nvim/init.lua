@@ -264,6 +264,8 @@ require("lazy").setup({
           settings = { Lua = { diagnostics = { globals = {'vim'} } } },
         }
 
+        lsp.ruby_lsp.setup{}
+
         vim.api.nvim_set_hl(0, "FloatBorder", { link = "WinSeparator" })
       end
     },
@@ -271,7 +273,8 @@ require("lazy").setup({
       "williamboman/mason-lspconfig.nvim",
       opts = {
         ensure_installed = {
-          "lua_ls"
+          "lua_ls",
+          "ruby_lsp",
         }
       }
     },

@@ -14,7 +14,7 @@ vim.g.loaded_tutor_mode_plugin = 1
 vim.g.loaded_zip = 1
 vim.g.loaded_zipPlugin = 1
 
--- Bootstrap lazy.nvim
+-- Bootstrap `lazy.nvim`
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -32,38 +32,38 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- Make sure to setup `mapleader` and `maplocalleader` before
--- loading lazy.nvim so that mappings are correct.
+-- loading `lazy.nvim` so that mappings are correct.
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
--- general text options
+-- General text options
 vim.o.wrap = false
 vim.o.textwidth = 80
 vim.o.shiftwidth = 2
 vim.o.expandtab = true
 
--- always show line numbers
+-- Always show line numbers
 vim.o.number = true
 
--- don't use swap file
+-- Don't use swap file
 vim.o.swapfile = false
 
--- persist undo history
+-- Persist undo history
 vim.o.undodir = "~/.vim/undo-dir"
 vim.o.undofile = true
 
--- smart case search
+-- Smart case search
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
--- read custom configurations in .vimrc per folder
+-- Read custom configurations in `.vimrc` per folder
 vim.o.exrc = true
 vim.o.secure = true
 
--- live substitution preview
+-- Live substitution preview
 vim.o.inccommand = "split"
 
--- do not use :Man for K
+-- Do not use :Man for K
 vim.o.keywordprg = nil
 
 -- UI
@@ -77,14 +77,14 @@ local telescope_borderchars = {
   results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
 }
 
--- higlight yanked region
+-- Highlight yanked region
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
     vim.highlight.on_yank({ higroup="Visual", timeout=300 })
   end
 })
 
--- higlight trailing whitespace, but only in Normal mode
+-- Highlight trailing whitespace, but only in Normal mode
 vim.fn.matchadd("TrailingWhitespace", [[\s\+$]])
 vim.api.nvim_create_autocmd("ModeChanged", {
   callback = function()
@@ -99,7 +99,7 @@ vim.api.nvim_create_autocmd("ModeChanged", {
   pattern = "n:*"
 })
 
--- global keymappings
+-- Global keymappings
 vim.cmd([[cnoremap <expr> %% expand('%:h').'/']])
 vim.keymap.set("n", "<leader>w", "<cmd>w<cr>")
 vim.keymap.set("n", "<leader>q", "<cmd>q<cr>", { silent = true })
@@ -120,34 +120,34 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
 
-    -- don't use LSP syntax highlighting (use Treesitter instead)
+    -- Don't use LSP syntax highlighting (use Tree-sitter instead)
     client.server_capabilities.semanticTokensProvider = nil
 
-    -- code actions
+    -- Code actions
     if client.supports_method('textDocument/codeAction') then
       vim.keymap.set("n", "<leader>cf", function() vim.lsp.buf.code_action({apply=true}) end)
     end
 
-    -- rename
+    -- Rename
     if client.supports_method('textDocument/rename') then
       vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename)
     end
   end,
 })
 
--- don't show signs for diagnostics
+-- Don't show signs for diagnostics
 vim.diagnostic.config({
   signs = false,
 })
 
--- don't update diagnostics as I type
+-- Don't update diagnostics as I type
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
     update_in_insert = false,
   }
 )
 
--- put a border around hover window so I can see it
+-- Put a border around hover window so I can see it
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
   vim.lsp.handlers.hover, {
     border = "single",
@@ -162,7 +162,7 @@ require("lazy").setup({
       lazy = false,
       priority = 1000,
       config = function()
-        vim.o.termguicolors = false -- needs to be set for neovim >= 0.10
+        vim.o.termguicolors = false -- Needs to be set for Neovim >= 0.10
         vim.cmd.colorscheme "terminal16"
       end,
     },
@@ -241,7 +241,7 @@ require("lazy").setup({
       opts = {
         popup_border_style = "single",
         enable_git_status = false,
-        use_popups_for_input = false, -- use custom vim.ui.input from dressing.nvim
+        use_popups_for_input = false, -- Use custom `vim.ui.input` from `dressing.nvim`
         filesystem = {
           window = {
             mappings = {
@@ -316,6 +316,11 @@ require("lazy").setup({
         lsp.lua_ls.setup{}
         lsp.ruby_lsp.setup{}
         lsp.tsserver.setup{}
+        lsp.harper_ls.setup({
+          settings = {
+            ["harper-ls"] = { userDictPath = "~/.config/harper-ls/dictionary.txt" }
+          }
+        })
 
         vim.api.nvim_set_hl(0, "FloatBorder", { link = "WinSeparator" })
       end
@@ -327,6 +332,7 @@ require("lazy").setup({
           "lua_ls",
           "ruby_lsp",
           "tsserver",
+          "harper_ls",
         }
       }
     },
@@ -341,7 +347,7 @@ require("lazy").setup({
             title_pos = "center",
             min_width = 60,
             win_options = {
-              winhl = "FloatBorder:Normal" -- for input borders should be more distinctive
+              winhl = "FloatBorder:Normal" -- For input borders should be more distinctive
             },
             mappings = {
               i = {

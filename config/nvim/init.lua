@@ -239,8 +239,9 @@ require("lazy").setup({
       },
       cmd = "Neotree",
       opts = {
-        popup_border_style = "rounded",
+        popup_border_style = "single",
         enable_git_status = false,
+        use_popups_for_input = false, -- use custom vim.ui.input from dressing.nvim
         filesystem = {
           window = {
             mappings = {
@@ -281,8 +282,14 @@ require("lazy").setup({
             event = "neo_tree_window_after_close",
             handler = function() vim.cmd("wincmd =") end
           }
+        },
+        default_component_configs = {
+          indent = {
+            highlight = "WinSeparator",
+            indent_marker = "┊",
+          }
         }
-      }
+      },
     },
     {
       "mileszs/ack.vim",
@@ -299,7 +306,7 @@ require("lazy").setup({
     {
       "williamboman/mason.nvim",
       cmd = { "Mason", "MasonInstall" },
-      opts = { ui = { border = "rounded" } }
+      opts = { ui = { border = "single" } }
     },
     {
       "neovim/nvim-lspconfig",
@@ -330,6 +337,7 @@ require("lazy").setup({
           input = {
             border = "single",
             title_pos = "center",
+            min_width = 60,
             win_options = {
               winhl = "FloatBorder:Normal" -- for input borders should be more distinctive
             },
@@ -350,5 +358,5 @@ require("lazy").setup({
   },
   install = { colorscheme = { "terminal16" } },
   checker = { enabled = false },
-  ui = { border = "rounded" }
+  ui = { border = "single" }
 })

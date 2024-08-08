@@ -315,6 +315,7 @@ require("lazy").setup({
 
         lsp.lua_ls.setup{}
         lsp.ruby_lsp.setup{}
+        lsp.tsserver.setup{}
 
         vim.api.nvim_set_hl(0, "FloatBorder", { link = "WinSeparator" })
       end
@@ -325,6 +326,7 @@ require("lazy").setup({
         ensure_installed = {
           "lua_ls",
           "ruby_lsp",
+          "tsserver",
         }
       }
     },

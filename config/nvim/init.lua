@@ -188,7 +188,7 @@ require("lazy").setup({
       "nvim-telescope/telescope.nvim", tag = "0.1.8",
       dependencies = {
         "nvim-lua/plenary.nvim",
-        { "nvim-telescope/telescope-fzf-native.nvim", build = "make" }
+        "natecraddock/telescope-zf-native.nvim",
       },
       event = "VeryLazy",
       opts = {
@@ -213,10 +213,10 @@ require("lazy").setup({
             theme = "dropdown",
             borderchars = telescope_borderchars
           }
-        },
+        }
       },
       config = function(_,opts)
-        require("telescope").load_extension("fzf")
+        require("telescope").load_extension("zf-native")
         require("telescope").setup(opts)
       end
     },

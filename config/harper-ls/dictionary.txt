@@ -1,4 +1,11 @@
+STI
+JSON
+UUID
 Neovim
+rubocop
+nullable
+preloading
 keymappings
 ActiveRecord
-TooManyInstanceVariables
+deserialized
+config

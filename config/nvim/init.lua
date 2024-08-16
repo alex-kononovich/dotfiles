@@ -115,6 +115,7 @@ vim.keymap.set("n", "<leader>gs", "<cmd>Git<cr>", { silent = true })
 vim.keymap.set("n", "<leader>gb", "<cmd>Git blame<cr>", { silent = true })
 vim.keymap.set("n", "<leader>gw", "<cmd>Gwrite<cr>", { silent = true })
 vim.keymap.set("n", "<leader>gr", "<cmd>Gread<cr>", { silent = true })
+vim.keymap.set("n", "<leader>gd", "<cmd>Gdiff<cr>", { silent = true })
 
 -- LSP
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -302,7 +303,7 @@ require("lazy").setup({
     {
       "tpope/vim-fugitive",
       dependencies = { "tpope/vim-rhubarb" },
-      cmd = { "Git", "Gread", "Gwrite" }
+      cmd = { "Git", "Gread", "Gwrite", "Gdiff" }
     },
     {
       "williamboman/mason.nvim",

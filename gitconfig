@@ -19,7 +19,7 @@
   conflictstyle = merge
 [mergetool "fugitive"]
   prompt = false
-  cmd = $EDITOR -d "+Gvdiffsplit!" $MERGED
+  cmd = $EDITOR -d $LOCAL $MERGED $REMOTE
 [init]
   templatedir = ~/.git_template
 	defaultBranch = main

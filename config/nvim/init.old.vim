@@ -1,3 +1,4 @@
+set notermguicolors
 set nowrap
 set textwidth=80
 set number

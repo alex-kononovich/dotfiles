@@ -103,6 +103,7 @@ vim.api.nvim_create_autocmd("ModeChanged", {
 vim.cmd([[cnoremap <expr> %% expand('%:h').'/']])
 vim.keymap.set("n", "<leader>w", "<cmd>silent w<cr>")
 vim.keymap.set("n", "<leader>q", "<cmd>q<cr>", { silent = true })
+vim.keymap.set("n", "<leader>Q", "<cmd>tabclose<cr>", { silent = true })
 vim.keymap.set("n", "<leader>d", "<cmd>Bdelete<cr>", { silent = true })
 vim.keymap.set("n", "<leader>o", "<cmd>Telescope find_files<cr>", { silent = true })
 vim.keymap.set("n", "<leader>b", "<cmd>Telescope buffers<cr>", { silent = true })

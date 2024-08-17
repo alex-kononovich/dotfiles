@@ -108,7 +108,7 @@ vim.keymap.set("n", "<leader>d", "<cmd>Bdelete<cr>", { silent = true })
 vim.keymap.set("n", "<leader>o", "<cmd>Telescope find_files<cr>", { silent = true })
 vim.keymap.set("n", "<leader>b", "<cmd>Telescope buffers<cr>", { silent = true })
 vim.keymap.set("n", "<leader>n", "<cmd>Neotree toggle filesystem<cr>", { silent = true })
-vim.keymap.set("n", "-", "<cmd>Neotree filesystem reveal<cr>", { silent = true })
+vim.keymap.set("n", "-", "<cmd>Oil<cr>", { silent = true })
 vim.keymap.set("n", "<leader>f", ":Ack<space>")
 vim.keymap.set("n", "<leader>F", "<cmd>Ack<cword><cr>", { silent = true })
 vim.keymap.set("n", "<leader>gs", "<cmd>Git<cr>", { silent = true })
@@ -232,68 +232,6 @@ require("lazy").setup({
       event = "VeryLazy"
     },
     {
-      "nvim-neo-tree/neo-tree.nvim",
-      branch = "v3.x",
-      dependencies = {
-        "nvim-lua/plenary.nvim",
-        "MunifTanjim/nui.nvim",
-        "nvim-tree/nvim-web-devicons",
-      },
-      cmd = "Neotree",
-      opts = {
-        popup_border_style = "single",
-        enable_git_status = false,
-        use_popups_for_input = false, -- Use custom `vim.ui.input` from `dressing.nvim`
-        filesystem = {
-          window = {
-            mappings = {
-              ["/"] = "none",
-              [">"] = "none",
-              ["<"] = "none",
-              ["#"] = "none",
-              ["w"] = "none",
-              ["f"] = "none",
-              ["oc"] = "none",
-              ["od"] = "none",
-              ["og"] = "none",
-              ["om"] = "none",
-              ["on"] = "none",
-              ["os"] = "none",
-              ["ot"] = "none",
-              ["z"] = "none",
-              ["s"] = "none",
-              ["S"] = "none",
-              ["t"] = "none",
-              ["o"] = "toggle_node",
-              ["<C-s>"] = "open_split",
-              ["<C-v>"] = "open_vsplit",
-              ["<C-t>"] = "open_tabnew",
-            }
-          }
-        },
-        event_handlers = {
-          {
-            event = "file_open_requested",
-            handler = function() vim.cmd("Neotree close") end
-          },
-          {
-            event = "neo_tree_window_after_open",
-            handler = function() vim.cmd("wincmd =") end
-          },
-          {
-            event = "neo_tree_window_after_close",
-            handler = function() vim.cmd("wincmd =") end
-          }
-        },
-        default_component_configs = {
-          indent = {
-            highlight = "WinSeparator",
-            indent_marker = "┊",
-          }
-        }
-      },
-    },
-    {
       "mileszs/ack.vim",
       cmd = "Ack",
       init = function()
@@ -365,6 +303,33 @@ require("lazy").setup({
         })
       end,
     },
+    {
+      "stevearc/oil.nvim",
+      opts = {
+        keymaps = {
+          ["<C-p>"] = {
+            function()
+              require("oil").open_preview({ split = "belowright" })
+            end,
+            desc = "Preview the entry",
+          },
+          ["<C-s>"] = false,
+          ["<C-v>"] = { "actions.select", opts = { vertical = true, split = "belowright" }, desc = "Open the entry in a vertical split" },
+        },
+        columns = {},
+        git = {
+          add = function()
+            return true
+          end,
+          mv = function()
+            return true
+          end,
+          rm = function()
+            return true
+          end
+        }
+      },
+    }
   },
   install = { colorscheme = { "terminal16" } },
   checker = { enabled = false },

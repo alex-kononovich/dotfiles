@@ -117,6 +117,13 @@ vim.keymap.set("n", "<leader>gw", "<cmd>Gwrite<cr>", { silent = true })
 vim.keymap.set("n", "<leader>gr", "<cmd>Gread<cr>", { silent = true })
 vim.keymap.set("n", "<leader>gd", "<cmd>Gdiff<cr>", { silent = true })
 
+-- YAML keymappings
+vim.api.nvim_create_autocmd("FileType", { pattern = "yaml", callback = function()
+  vim.schedule(function()
+    vim.keymap.set("n", "K", "<cmd>YAMLView<cr>", { silent = true, buffer = true })
+  end)
+end })
+
 -- LSP
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
@@ -331,7 +338,16 @@ require("lazy").setup({
           end
         }
       },
-    }
+    },
+    {
+      "cuducos/yaml.nvim",
+      dependencies = {
+        "nvim-treesitter/nvim-treesitter",
+        "nvim-telescope/telescope.nvim",
+      },
+      ft = { "yaml" },
+      opts = {},
+    },
   },
   install = { colorscheme = { "terminal16" } },
   checker = { enabled = false },

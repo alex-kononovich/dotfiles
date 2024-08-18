@@ -305,6 +305,8 @@ require("lazy").setup({
     },
     {
       "stevearc/oil.nvim",
+      dependencies = { "nvim-tree/nvim-web-devicons" },
+      event = "VeryLazy",
       opts = {
         keymaps = {
           ["<C-p>"] = {
@@ -316,7 +318,7 @@ require("lazy").setup({
           ["<C-s>"] = false,
           ["<C-v>"] = { "actions.select", opts = { vertical = true, split = "belowright" }, desc = "Open the entry in a vertical split" },
         },
-        columns = {},
+        columns = { { "icon", directory = "", add_padding = false } },
         git = {
           add = function()
             return true

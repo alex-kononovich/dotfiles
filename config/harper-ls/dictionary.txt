@@ -1,11 +1,12 @@
 STI
 JSON
 UUID
+YAML
 Neovim
+config
 rubocop
 nullable
 preloading
 keymappings
 ActiveRecord
 deserialized
-config

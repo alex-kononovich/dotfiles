@@ -326,17 +326,6 @@ require("lazy").setup({
           ["<C-v>"] = { "actions.select", opts = { vertical = true, split = "belowright" }, desc = "Open the entry in a vertical split" },
         },
         columns = { { "icon", directory = "", add_padding = false } },
-        git = {
-          add = function()
-            return true
-          end,
-          mv = function()
-            return true
-          end,
-          rm = function()
-            return true
-          end
-        }
       },
     },
     {

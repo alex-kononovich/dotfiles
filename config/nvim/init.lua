@@ -316,12 +316,6 @@ require("lazy").setup({
       event = "VeryLazy",
       opts = {
         keymaps = {
-          ["<C-p>"] = {
-            function()
-              require("oil").open_preview({ split = "belowright" })
-            end,
-            desc = "Preview the entry",
-          },
           ["<C-s>"] = false,
           ["<C-v>"] = { "actions.select", opts = { vertical = true, split = "belowright" }, desc = "Open the entry in a vertical split" },
         },

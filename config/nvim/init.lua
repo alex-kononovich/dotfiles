@@ -331,6 +331,10 @@ require("lazy").setup({
       ft = { "yaml" },
       opts = {},
     },
+    {
+      "slim-template/vim-slim",
+      ft = { "slim" },
+    }
   },
   install = { colorscheme = { "terminal16" } },
   checker = { enabled = false },

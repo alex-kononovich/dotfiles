@@ -140,12 +140,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
     if client.supports_method('textDocument/rename') then
       vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename)
     end
+
+    -- Diagnostics float
+    vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float)
   end,
 })
 
 -- Don't show signs for diagnostics
 vim.diagnostic.config({
   signs = false,
+  float = {
+    border = "single"
+  },
 })
 
 -- Don't update diagnostics as I type

@@ -49,7 +49,6 @@ vim.o.number = true
 vim.o.swapfile = false
 
 -- Persist undo history
-vim.o.undodir = "~/.vim/undo-dir"
 vim.o.undofile = true
 
 -- Smart case search

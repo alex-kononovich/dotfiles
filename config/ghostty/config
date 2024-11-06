@@ -3,6 +3,8 @@ font-size = 13
 
 cursor-style = block
 cursor-style-blink = false
+mouse-hide-while-typing = true
+shell-integration-features=no-cursor,sudo,title
 
 background = 262626
 foreground = D6D6D6

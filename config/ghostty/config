@@ -1,0 +1,38 @@
+font-family = FiraCode Nerd Font Mono Ret
+font-size = 13
+
+cursor-style = block
+cursor-style-blink = false
+
+background = 262626
+foreground = D6D6D6
+
+selection-foreground = D6D6D6
+selection-background = 646464
+
+# black
+palette = 0=#646464
+palette = 8=#979797
+# red
+palette = 1=#F58E8E
+palette = 9=#F58E8E
+# green
+palette = 2=#A8D2AA
+palette = 10=#A8D2AA
+# yellow
+palette = 3=#FCD27E
+palette = 11=#FCD27E
+# blue
+palette = 4=#7AAAD3
+palette = 12=#7AAAD3
+# purple
+palette = 5=#D6ADD5
+palette = 13=#D6ADD5
+# aqua
+palette = 6=#79D4D5
+palette = 14=#79D4D5
+# white
+palette = 7=#D6D6D6
+palette = 15=#D6D6D6
+
+macos-option-as-alt = true

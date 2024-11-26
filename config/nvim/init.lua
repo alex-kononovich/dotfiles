@@ -76,6 +76,9 @@ local telescope_borderchars = {
   results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
 }
 
+-- invisible characters
+vim.opt.listchars = "tab:▶ ,space:·,nbsp:␣,eol:¬"
+
 -- Highlight yanked region
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()

@@ -271,11 +271,6 @@ require("lazy").setup({
         lsp.lua_ls.setup{}
         lsp.ruby_lsp.setup{}
         lsp.tsserver.setup{}
-        lsp.harper_ls.setup({
-          settings = {
-            ["harper-ls"] = { userDictPath = "~/.config/harper-ls/dictionary.txt" }
-          }
-        })
 
         vim.api.nvim_set_hl(0, "FloatBorder", { link = "WinSeparator" })
       end
@@ -287,9 +282,23 @@ require("lazy").setup({
           "lua_ls",
           "ruby_lsp",
           "tsserver",
-          "harper_ls",
         }
       }
+    },
+    {
+      "nvimtools/none-ls.nvim",
+      dependencies = {
+        "davidmh/cspell.nvim"
+      },
+      config = function()
+        local cspell = require("cspell")
+        require("null-ls").setup({
+          sources = {
+            cspell.diagnostics,
+            cspell.code_actions,
+          }
+        })
+      end
     },
     {
       "stevearc/dressing.nvim",

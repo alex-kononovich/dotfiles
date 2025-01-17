@@ -119,6 +119,17 @@ vim.keymap.set("n", "<leader>gw", "<cmd>Gwrite<cr>", { silent = true })
 vim.keymap.set("n", "<leader>gr", "<cmd>Gread<cr>", { silent = true })
 vim.keymap.set("n", "<leader>gd", "<cmd>Gdiff<cr>", { silent = true })
 
+-- Things 3 integration
+vim.keymap.set("n", "<leader>ds", function()
+  local output = vim.fn.trim(vim.fn.system("osascript ~/.dotfiles/osx/things3/next_todo.scpt"))
+  print("□ " .. output)
+end, { silent = true })
+
+vim.keymap.set("n", "<leader>dc", function()
+  local output = vim.fn.trim(vim.fn.system("osascript ~/.dotfiles/osx/things3/complete_todo.scpt"))
+  print("☑︎ " .. output)
+end, { silent = true })
+
 -- YAML keymappings
 vim.api.nvim_create_autocmd("FileType", { pattern = "yaml", callback = function()
   vim.schedule(function()

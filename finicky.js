@@ -1,7 +1,7 @@
 module.exports = {
   defaultBrowser: "Safari",
   options: {
-    hideIcon: true
+    hideIcon: true,
   },
   handlers: [
     {
@@ -36,16 +36,19 @@ module.exports = {
         /.*launchdarkly.com/,
         /.*leapsome.com/,
         /.*fathom.video/,
+        /.*crunchybridge.com/,
+        /.*vanta.com/,
+        /.*parabol.co/,
       ]),
-      browser: "Google Chrome"
+      browser: "Google Chrome",
     },
     {
       match: /retailzipline/,
-      browser: "Google Chrome"
+      browser: "Google Chrome",
     },
     {
       match: ({ keys }) => keys.option,
-      browser: "Google Chrome"
-    }
-  ]
+      browser: "Google Chrome",
+    },
+  ],
 };

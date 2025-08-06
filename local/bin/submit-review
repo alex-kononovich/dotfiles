@@ -1,0 +1,6 @@
+#!/usr/bin/env fish
+
+set -l pr_number (gh pr view --json number --jq '.number')
+
+prr submit $pr_number
+prr remove $pr_number

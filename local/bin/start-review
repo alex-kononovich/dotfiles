@@ -1,0 +1,6 @@
+#!/usr/bin/env fish
+
+set -l pr_number (gh pr view --json number --jq '.number')
+
+prr get $pr_number
+prr edit $pr_number

@@ -69,9 +69,6 @@ brew install rename
 # tmux
 brew install tmux
 
-# Exuberant ctags
-brew install ctags
-
 # text editor
 brew tap neovim/neovim
 brew install neovim

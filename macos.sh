@@ -113,7 +113,7 @@ cd ..
 ############################################################
 
 # ruby
-brew install chruby chruby-fish ruby-install
+brew install chruby-fish ruby-install
 
 # html, js
 npm install -g prettier

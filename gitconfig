@@ -9,18 +9,18 @@
   user = alex-kononovich
 [push]
   default = current
+  autoSetupRemote = true
 [alias]
   recent = !git plog -20
   plog = "!. ~/.githelpers && pretty_git_log"
-  browse-current = !open $(hub pr list -f "%U" -h $(git rev-parse --abbrev-ref HEAD))
 [merge]
   tool = fugitive
   conflictstyle = merge
 [mergetool "fugitive"]
   prompt = false
-  cmd = $EDITOR -d $LOCAL $MERGED $REMOTE
+  cmd = $EDITOR -d "+Gvdiffsplit!" $MERGED
 [init]
-	defaultBranch = main
+  defaultBranch = main
 [color "diff-highlight"]
   oldNormal = red
   oldHighlight = black red

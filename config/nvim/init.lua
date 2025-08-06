@@ -1,18 +1,5 @@
 ---@diagnostic disable: undefined-global
-
--- Prevent some default plugins from loading
--- TODO: check if it has any effect
-vim.g.loaded_2html_plugin = 1
-vim.g.loaded_gzip = 1
-vim.g.loaded_man = 1
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-vim.g.loaded_remote_plugins = 1
-vim.g.loaded_tar = 1
-vim.g.loaded_tarPlugin = 1
-vim.g.loaded_tutor_mode_plugin = 1
-vim.g.loaded_zip = 1
-vim.g.loaded_zipPlugin = 1
+---cSpell:dictionaries vim,cpp
 
 -- Bootstrap `lazy.nvim`
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -71,10 +58,7 @@ vim.opt.shortmess:append("a")
 vim.opt.shortmess:append("T")
 vim.opt.shortmess:append("W")
 vim.o.signcolumn = "number"
-local telescope_borderchars = {
-  prompt = { "─", "│", " ", "│", "┌", "┐", "│", "│" },
-  results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
-}
+vim.o.winborder = "single" -- border for floating windows
 
 -- invisible characters
 vim.opt.listchars = "tab:▶ ,space:·,nbsp:␣,eol:¬"
@@ -86,11 +70,11 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end
 })
 
--- Highlight trailing whitespace, but only in Normal mode
+-- Highlight trailing whitespace, but only in Normal mode   
 vim.fn.matchadd("TrailingWhitespace", [[\s\+$]])
 vim.api.nvim_create_autocmd("ModeChanged", {
   callback = function()
-    vim.api.nvim_set_hl(0, "TrailingWhitespace", { link = "ErrorMsg" })
+    vim.api.nvim_set_hl(0, "TrailingWhitespace", { link = "Error" })
   end,
   pattern = "*:n"
 })
@@ -106,36 +90,48 @@ vim.cmd([[cnoremap <expr> %% expand('%:h').'/']])
 vim.keymap.set("n", "<leader>w", "<cmd>silent w<cr>")
 vim.keymap.set("n", "<leader>q", "<cmd>q<cr>", { silent = true })
 vim.keymap.set("n", "<leader>Q", "<cmd>tabclose<cr>", { silent = true })
-vim.keymap.set("n", "<leader>d", "<cmd>Bdelete<cr>", { silent = true })
-vim.keymap.set("n", "<leader>o", "<cmd>Telescope find_files<cr>", { silent = true })
-vim.keymap.set("n", "<leader>b", "<cmd>Telescope buffers<cr>", { silent = true })
-vim.keymap.set("n", "<leader>n", "<cmd>Neotree toggle filesystem<cr>", { silent = true })
-vim.keymap.set("n", "-", "<cmd>Oil<cr>", { silent = true })
-vim.keymap.set("n", "<leader>f", ":Ack<space>")
-vim.keymap.set("n", "<leader>F", "<cmd>Ack<cword><cr>", { silent = true })
-vim.keymap.set("n", "<leader>gs", "<cmd>Git<cr>", { silent = true })
-vim.keymap.set("n", "<leader>gb", "<cmd>Git blame<cr>", { silent = true })
-vim.keymap.set("n", "<leader>gw", "<cmd>Gwrite<cr>", { silent = true })
-vim.keymap.set("n", "<leader>gr", "<cmd>Gread<cr>", { silent = true })
-vim.keymap.set("n", "<leader>gd", "<cmd>Gdiff<cr>", { silent = true })
 
--- Things 3 integration
-vim.keymap.set("n", "<leader>ds", function()
-  local output = vim.fn.trim(vim.fn.system("osascript ~/.dotfiles/osx/things3/next_todo.scpt"))
-  print("□ " .. output)
-end, { silent = true })
+-- Things 3 integration: show and complete current task
+-- Commands:
+-- :Todo
+-- :Todo complete
+vim.api.nvim_create_user_command("Todo", function(opts)
+  local complete = opts.fargs[1] == "complete"
 
-vim.keymap.set("n", "<leader>dc", function()
-  local output = vim.fn.trim(vim.fn.system("osascript ~/.dotfiles/osx/things3/complete_todo.scpt"))
-  print("☑︎ " .. output)
-end, { silent = true })
+  local show_todo_script = [=[
+tell application "Things3"
+  repeat with todo in to dos of list "Today"
+    if status of todo is open then
+      return name of todo
+    end if
+  end repeat
+end tell
+]=]
 
--- YAML keymappings
-vim.api.nvim_create_autocmd("FileType", { pattern = "yaml", callback = function()
-  vim.schedule(function()
-    vim.keymap.set("n", "K", "<cmd>YAMLView<cr>", { silent = true, buffer = true })
-  end)
-end })
+  local complete_todo_script = [=[
+tell application "Things3"
+  repeat with todo in to dos of list "Today"
+    if status of todo is open then
+      set status of todo to completed
+      return name of todo
+    end if
+  end repeat
+end tell
+]=]
+
+  local icon = "□"
+  local script = show_todo_script
+
+  if complete then
+    icon = "☑︎"
+    script = complete_todo_script
+  end
+
+
+  local output = vim.fn.trim(vim.fn.system("osascript -e '" .. script .. "'"))
+
+  print(icon .. " " .. output)
+end, { nargs = "?" })
 
 -- LSP
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -144,28 +140,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     -- Don't use LSP syntax highlighting (use Tree-sitter instead)
     client.server_capabilities.semanticTokensProvider = nil
-
-    -- Code actions
-    if client.supports_method('textDocument/codeAction') then
-      vim.keymap.set("n", "<leader>cf", function() vim.lsp.buf.code_action({apply=true}) end)
-    end
-
-    -- Rename
-    if client.supports_method('textDocument/rename') then
-      vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename)
-    end
-
-    -- Diagnostics float
-    vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float)
   end,
 })
 
 -- Don't show signs for diagnostics
 vim.diagnostic.config({
   signs = false,
-  float = {
-    border = "single"
-  },
 })
 
 -- Don't update diagnostics as I type
@@ -175,31 +155,58 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   }
 )
 
--- Put a border around hover window so I can see it
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-  vim.lsp.handlers.hover, {
-    border = "single",
-    wrap_at = 80,
-  }
-)
-
 require("lazy").setup({
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        "gzip",
+        "man",
+        "netrwPlugin",
+        "osc52",
+        "rplugin",
+        "spellplugin",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    }
+  },
   spec = {
     {
-      "alex-kononovich/terminal16.vim",
-      lazy = false,
-      priority = 1000,
+      dir = "~/Projects/terminal16.vim",
+      dependencies = {
+        "rktjmp/lush.nvim",
+        "rktjmp/shipwright.nvim",
+      },
       config = function()
-        vim.o.termguicolors = false -- Needs to be set for Neovim >= 0.10
-        vim.cmd.colorscheme "terminal16"
-      end,
+        vim.cmd.colorscheme("terminal16")
+
+        -- Color theme development commands
+        vim.api.nvim_create_user_command("ThemeEdit", "vsp ~/Projects/terminal16.vim/lua/lush_theme/terminal16.lua | Lushify", {})
+        vim.api.nvim_create_user_command("ThemeCheck", "so $VIMRUNTIME/tools/check_colors.vim", {})
+        vim.api.nvim_create_user_command("ThemeTest", "so $VIMRUNTIME/syntax/hitest.vim", {})
+
+        -- :filter GroupName hi
+      end
     },
+    -- {
+    --   "alex-kononovich/terminal16.vim",
+    --   lazy = false,
+    --   priority = 1000,
+    --   config = function()
+    --     -- vim.o.termguicolors = false -- Needs to be set for Neovim >= 0.10
+    --     vim.cmd.colorscheme "terminal16"
+    --   end,
+    -- },
     {
       "famiu/bufdelete.nvim",
-      cmd = "Bdelete",
+      keys = {
+        { "<leader>d", "<cmd>Bdelete<cr>" }
+      }
     },
     {
-      "alexghergh/nvim-tmux-navigation",
+      "srithon/nvim-tmux-navigation",
       event = "VeryLazy",
       opts = {
         disable_when_zoomed = true,
@@ -212,39 +219,33 @@ require("lazy").setup({
       }
     },
     {
-      "nvim-telescope/telescope.nvim", tag = "0.1.8",
-      dependencies = {
-        "nvim-lua/plenary.nvim",
-        "natecraddock/telescope-zf-native.nvim",
-      },
-      event = "VeryLazy",
+      "dmtrKovalenko/fff.nvim",
+      build = "cargo build --release",
       opts = {
-        defaults = {
-          preview = false,
-          results_title = false,
-          mappings = {
-            i = {
-              ["<esc>"] = "close",
-              ["<C-s>"] = "select_horizontal",
-              ["<C-x>"] = false,
-            }
-          },
-        },
-        pickers = {
-          find_files = {
-            prompt_title = "Files",
-            theme = "dropdown",
-            borderchars = telescope_borderchars
-          },
-          buffers = {
-            theme = "dropdown",
-            borderchars = telescope_borderchars
-          }
-        }
+        prompt = "> ",
+        width = 0.5,
+        height = 0.4,
+        preview = { enabled = false }
       },
-      config = function(_,opts)
-        require("telescope").load_extension("zf-native")
-        require("telescope").setup(opts)
+      keys = {
+        {
+          "<leader>o",
+          function()
+            require("fff").find_files()
+          end,
+          desc = "Open file finder",
+        },
+      },
+    },
+    {
+      "mileszs/ack.vim",
+      cmd = "Ack",
+      keys = {
+        { "<leader>f", ":Ack<space>", desc = "Search in files" },
+        { "<leader>F", "<cmd>Ack<cword><cr>", desc = "Search for current word" },
+      },
+      init = function()
+        vim.g.ackprg = "ag --vimgrep --literal"
       end
     },
     {
@@ -253,52 +254,42 @@ require("lazy").setup({
       event = "VeryLazy"
     },
     {
-      "tpope/vim-unimpaired",
-      dependencies = { "tpope/vim-repeat" },
-      event = "VeryLazy"
-    },
-    {
-      "mileszs/ack.vim",
-      cmd = "Ack",
-      init = function()
-        vim.g.ackprg = "ag --vimgrep --literal"
-      end
-    },
-    {
       "tpope/vim-fugitive",
       dependencies = { "tpope/vim-rhubarb" },
-      cmd = { "Git", "Gread", "Gwrite", "Gdiff" }
-    },
-    {
-      "williamboman/mason.nvim",
-      cmd = { "Mason", "MasonInstall" },
-      opts = { ui = { border = "single" } }
+      event = "VeryLazy",
+      -- lazy = false,
+      keys = {
+        { "<leader>gs", "<cmd>tab Git<cr>", desc = "Git status" },
+        { "<leader>gb", "<cmd>Git blame<cr>", desc = "Git blame" },
+        { "<leader>gw", "<cmd>Gwrite<cr>", desc = "Git stage current file" },
+        { "<leader>gr", "<cmd>Gread<cr>", desc = "Git reset current file to staged version" },
+        { "<leader>gd", "<cmd>Gdiff<cr>", desc = "Git diff" },
+        { "<leader>gc", "<cmd>tab Git commit --verbose<cr>", desc = "Git commit" },
+      },
+      config = function()
+        vim.g.fugitive_dynamic_colors = 0
+        -- TODO git log search command
+        vim.api.nvim_create_user_command("Gstash", "Gclog -g stash", {})
+      end
     },
     {
       "neovim/nvim-lspconfig",
       config = function()
-        local lsp = require("lspconfig")
+        vim.lsp.enable("lua_ls")
+        vim.lsp.enable("ts_ls")
 
-        lsp.lua_ls.setup{}
-        lsp.ruby_lsp.setup{}
-        lsp.tsserver.setup{}
-
-        vim.api.nvim_set_hl(0, "FloatBorder", { link = "WinSeparator" })
+        vim.lsp.config("ruby_lsp", {
+          init_options = {
+            linters = { "rubocop_internal", "reek" },
+          }
+        })
+        vim.lsp.enable("ruby_lsp")
       end
-    },
-    {
-      "williamboman/mason-lspconfig.nvim",
-      opts = {
-        ensure_installed = {
-          "lua_ls",
-          "ruby_lsp",
-          "tsserver",
-        }
-      }
     },
     {
       "nvimtools/none-ls.nvim",
       dependencies = {
+        "nvim-lua/plenary.nvim",
         "davidmh/cspell.nvim"
       },
       config = function()
@@ -312,59 +303,98 @@ require("lazy").setup({
       end
     },
     {
-      "stevearc/dressing.nvim",
-      dependencies = { "nvim-telescope/telescope.nvim" },
-      event = "VeryLazy",
+      "nvim-treesitter/nvim-treesitter",
+      dependencies = {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        "nvim-treesitter/playground",
+      },
+      build = ":TSUpdate",
       config = function()
-        require("dressing").setup({
-          input = {
-            border = "single",
-            title_pos = "center",
-            min_width = 60,
-            win_options = {
-              winhl = "FloatBorder:Normal" -- For input borders should be more distinctive
-            },
-            mappings = {
-              i = {
-                ["<Esc>"] = "Close"
-              }
-            }
-          },
-          select = {
-            telescope = require("telescope.themes").get_cursor({
-              borderchars = telescope_borderchars
-            })
-          }
+        require'nvim-treesitter.configs'.setup({
+          auto_install = true,
+          highlight = { enable = true },
+          indent = { enable = true },
+          text_objects = { enable = true },
+          incremental_selection = { enable = true },
         })
+      end
+    },
+    {
+      'stevearc/conform.nvim',
+      init = function()
+        vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
       end,
+      keys = {
+        {
+          "<leader>a",
+          function()
+            require("conform").format()
+          end,
+          desc = "Format file"
+        },
+      },
+      opts = {
+        formatters_by_ft = {
+          lua = { "stylua" },
+          javascript = { "prettier" },
+          typescript = { "prettier" },
+          typescriptreact = { "prettier" },
+          scss = { "prettier" },
+          css = { "prettier" },
+          json = { "prettier" },
+          sql = { "sleek" }
+        }
+      },
     },
     {
       "stevearc/oil.nvim",
       dependencies = { "nvim-tree/nvim-web-devicons" },
       event = "VeryLazy",
+      keys = {
+        { "-", "<cmd>Oil<cr>", desc = "Open file explorer" }
+      },
       opts = {
         keymaps = {
           ["<C-s>"] = false,
           ["<C-v>"] = { "actions.select", opts = { vertical = true, split = "belowright" }, desc = "Open the entry in a vertical split" },
         },
         columns = { { "icon", directory = "", add_padding = false } },
+        skip_confirm_for_simple_edits = true,
       },
     },
     {
       "cuducos/yaml.nvim",
       dependencies = {
         "nvim-treesitter/nvim-treesitter",
-        "nvim-telescope/telescope.nvim",
       },
-      ft = { "yaml" },
-      opts = {},
+      ft = "yaml",
+      keys = {
+        {
+          "K",
+          function()
+            require("yaml_nvim").view()
+          end,
+          ft = "yaml",
+          desc = "View current Yaml key path"
+        },
+      },
     },
     {
       "slim-template/vim-slim",
-      ft = { "slim" },
-    }
+      ft = "slim",
+    },
+    {
+      "danobi/prr",
+      ft = "prr",
+      init = function()
+        -- Manually set up filetype because `ftplugin` can't load automatically (see rtp adjustments below)
+        vim.filetype.add({ extension = { prr = "prr" } })
+      end,
+      config = function(plugin)
+        vim.opt.rtp:append(plugin.dir .. "/vim")
+      end
+    },
   },
   install = { colorscheme = { "terminal16" } },
   checker = { enabled = false },
-  ui = { border = "single" }
 })

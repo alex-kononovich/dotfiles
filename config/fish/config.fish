@@ -59,16 +59,17 @@ set -x LESS (echo -n \
 
 set -x MANWIDTH 100
 
+# $PATH adjustments
+fish_add_path "$HOME/.local/bin" # my custom scripts
+fish_add_path 'node_modules/.bin' # easy access to installed node packages
+
+# Rust
 set -x RUST_PATH "$HOME/.cargo"
+fish_add_path "$RUST_PATH/bin"
 
+# Bun
 set -x BUN_INSTALL "$HOME/.bun"
-
-set fish_user_paths \
-  '.bin' \
-  'node_modules/.bin' \
-  "$HOME/.local/bin" \
-  "$RUST_PATH/bin" \
-  "$BUN_INSTALL/bin"
+fish_add_path "$BUN_INSTALL/bin"
 
 alias e=$EDITOR
 

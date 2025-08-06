@@ -61,11 +61,14 @@ set -x MANWIDTH 100
 
 set -x RUST_PATH "$HOME/.cargo"
 
+set -x BUN_INSTALL "$HOME/.bun"
+
 set fish_user_paths \
   '.bin' \
   'node_modules/.bin' \
   "$HOME/.local/bin" \
-  "$RUST_PATH/bin"
+  "$RUST_PATH/bin" \
+  "$BUN_INSTALL/bin"
 
 alias e=$EDITOR
 

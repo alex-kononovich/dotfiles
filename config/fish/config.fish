@@ -120,15 +120,5 @@ eval (direnv hook fish)
 # nodenv
 status --is-interactive; and source (nodenv init - | psub)
 
-# aws completions
-test -x (which aws_completer); and complete --command aws --no-files --arguments '(begin; set --local --export COMP_SHELL fish; set --local --export COMP_LINE (commandline); aws_completer | sed \'s/ $//\'; end)'
-
 # change max number of file descriptors per process
 ulimit -n 2048
-
-# bun
-set --export BUN_INSTALL "$HOME/.bun"
-set --export PATH $BUN_INSTALL/bin $PATH
-
-# ocaml
-eval (opam env)

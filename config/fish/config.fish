@@ -1,5 +1,5 @@
 # remove greeting
-set fish_greeting
+set -g fish_greeting
 
 # colorscheme
 set -U fish_color_normal normal
@@ -114,9 +114,6 @@ abbr --add rc 'bin/rails console'
 if status --is-interactive
   stty -ixon
 end
-
-# direnv
-eval (direnv hook fish)
 
 # nodenv
 status --is-interactive; and source (nodenv init - | psub)

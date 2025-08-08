@@ -74,7 +74,10 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 vim.fn.matchadd("TrailingWhitespace", [[\s\+$]])
 vim.api.nvim_create_autocmd("ModeChanged", {
   callback = function()
-    vim.api.nvim_set_hl(0, "TrailingWhitespace", { link = "Error" })
+    -- prr adds trailing whitespaces but we don't want to highlight them
+    if vim.bo.filetype ~= "prr" then
+      vim.api.nvim_set_hl(0, "TrailingWhitespace", { link = "Error" })
+    end
   end,
   pattern = "*:n"
 })

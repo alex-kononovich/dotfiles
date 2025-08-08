@@ -391,6 +391,12 @@ require("lazy").setup({
       init = function()
         -- Manually set up filetype because `ftplugin` can't load automatically (see rtp adjustments below)
         vim.filetype.add({ extension = { prr = "prr" } })
+
+        -- Skip text width restrictions - it doesn't look pretty in Github UI
+        vim.api.nvim_create_autocmd("BufReadPost", {
+          pattern = "*.prr",
+          callback = function() vim.bo.textwidth = 0 end
+        })
       end,
       config = function(plugin)
         vim.opt.rtp:append(plugin.dir .. "/vim")

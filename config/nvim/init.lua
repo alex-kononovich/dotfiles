@@ -259,8 +259,7 @@ require("lazy").setup({
     {
       "tpope/vim-fugitive",
       dependencies = { "tpope/vim-rhubarb" },
-      event = "VeryLazy",
-      -- lazy = false,
+      lazy = false,
       keys = {
         { "<leader>gs", "<cmd>tab Git<cr>", desc = "Git status" },
         { "<leader>gb", "<cmd>Git blame<cr>", desc = "Git blame" },

@@ -130,7 +130,6 @@ end tell
     script = complete_todo_script
   end
 
-
   local output = vim.fn.trim(vim.fn.system("osascript -e '" .. script .. "'"))
 
   print(icon .. " " .. output)
@@ -225,10 +224,14 @@ require("lazy").setup({
       "dmtrKovalenko/fff.nvim",
       build = "cargo build --release",
       opts = {
+        title = "⎯",
         prompt = "> ",
-        width = 0.5,
-        height = 0.4,
-        preview = { enabled = false }
+        preview = { enabled = false },
+        layout = {
+          prompt_position = "top",
+          width = 0.4,
+          height = 0.4,
+        }
       },
       keys = {
         {
@@ -357,7 +360,7 @@ require("lazy").setup({
       },
       opts = {
         keymaps = {
-          ["<C-s>"] = false,
+          ["<C-h>"] = false,
           ["<C-v>"] = { "actions.select", opts = { vertical = true, split = "belowright" }, desc = "Open the entry in a vertical split" },
         },
         columns = { { "icon", directory = "", add_padding = false } },

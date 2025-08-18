@@ -1,5 +1,4 @@
 ---cSpell:dictionaries vim,cpp
----@diagnostic disable: undefined-global
 
 -- Override `gx` for git buffers to open GitHub PRs if called on a PR number
 

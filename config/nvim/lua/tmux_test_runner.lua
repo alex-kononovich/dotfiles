@@ -1,4 +1,3 @@
----@diagnostic disable: undefined-global
 ---cSpell:dictionaries vim,cpp
 
 -- Runs a command in `tests` Tmux pane

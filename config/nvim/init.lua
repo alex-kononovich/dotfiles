@@ -1,4 +1,3 @@
----@diagnostic disable: undefined-global
 ---cSpell:dictionaries vim,cpp
 
 -- Bootstrap `lazy.nvim`

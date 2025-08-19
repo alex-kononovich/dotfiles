@@ -1,6 +1,0 @@
-#!/usr/bin/env fish
-
-set -l pr_number (branch-pr-number)
-
-prr submit $pr_number
-prr remove $pr_number

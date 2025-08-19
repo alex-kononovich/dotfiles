@@ -1,0 +1,10 @@
+ActiveRecord
+Ai
+Api
+TODO
+Tmux
+cmd
+cspell
+desc
+json
+url

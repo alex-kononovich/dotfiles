@@ -16,3 +16,4 @@ node_modules
 .streerc
 .prr.toml
 cspell.json
+.harper-dictionary.txt

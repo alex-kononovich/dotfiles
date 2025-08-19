@@ -71,7 +71,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 vim.fn.matchadd("TrailingWhitespace", [[\s\+$]])
 vim.api.nvim_create_autocmd("ModeChanged", {
   callback = function()
-    -- prr adds trailing whitespaces but we don't want to highlight them
+    -- `prr` adds trailing whitespaces but we don't want to highlight them
     if vim.bo.filetype ~= "prr" then
       vim.api.nvim_set_hl(0, "TrailingWhitespace", { link = "Error" })
     end
@@ -85,7 +85,7 @@ vim.api.nvim_create_autocmd("ModeChanged", {
   pattern = "n:*"
 })
 
--- No textwrap for certain file types
+-- No textwrap for certain filetypes
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "prr", "markdown" },
   callback = function()
@@ -190,7 +190,7 @@ require("lazy").setup({
       config = function()
         vim.cmd.colorscheme("terminal16")
 
-        -- Color theme development commands
+        -- Colour theme development commands
         vim.api.nvim_create_user_command("ThemeEdit", "vsp ~/Projects/terminal16.vim/lua/lush_theme/terminal16.lua | Lushify", {})
         vim.api.nvim_create_user_command("ThemeCheck", "so $VIMRUNTIME/tools/check_colors.vim", {})
         vim.api.nvim_create_user_command("ThemeTest", "so $VIMRUNTIME/syntax/hitest.vim", {})
@@ -279,7 +279,7 @@ require("lazy").setup({
       },
       config = function()
         vim.g.fugitive_dynamic_colors = 0
-        -- TODO git log search command
+        -- TODO: git log search command
         vim.api.nvim_create_user_command("Gstash", "Gclog -g stash", {})
       end
     },
@@ -296,6 +296,22 @@ require("lazy").setup({
         })
         vim.lsp.enable("ruby_lsp")
         vim.lsp.enable("cspell_ls")
+
+        vim.lsp.config("harper_ls", {
+          settings = {
+            ["harper-ls"] = {
+              dialect = "Canadian",
+              userDictPath = "~/.config/harper-ls/dictionary.txt",
+              codeActions = {
+                ForceStable = true
+              },
+              linters = {
+                ToDoHyphen = false
+              }
+            }
+          },
+        })
+        vim.lsp.enable("harper_ls")
       end
     },
     {

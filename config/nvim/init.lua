@@ -85,6 +85,15 @@ vim.api.nvim_create_autocmd("ModeChanged", {
   pattern = "n:*"
 })
 
+-- No textwrap for certain file types
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "prr", "markdown" },
+  callback = function()
+    vim.bo.textwidth = 0
+    vim.opt_local.wrap = true
+  end
+})
+
 -- Global keymappings
 vim.cmd([[cnoremap <expr> %% expand('%:h').'/']])
 vim.keymap.set("n", "<leader>w", "<cmd>silent w<cr>")
@@ -376,12 +385,6 @@ require("lazy").setup({
       init = function()
         -- Manually set up filetype because `ftplugin` can't load automatically (see rtp adjustments below)
         vim.filetype.add({ extension = { prr = "prr" } })
-
-        -- Skip text width restrictions - it doesn't look pretty in GitHub UI
-        vim.api.nvim_create_autocmd("BufReadPost", {
-          pattern = "*.prr",
-          callback = function() vim.bo.textwidth = 0 end
-        })
       end,
       config = function(plugin)
         vim.opt.rtp:append(plugin.dir .. "/vim")

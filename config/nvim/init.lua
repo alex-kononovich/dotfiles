@@ -1,5 +1,3 @@
----cSpell:dictionaries vim,cpp
-
 -- Bootstrap `lazy.nvim`
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -288,22 +286,7 @@ require("lazy").setup({
           }
         })
         vim.lsp.enable("ruby_lsp")
-      end
-    },
-    {
-      "nvimtools/none-ls.nvim",
-      dependencies = {
-        "nvim-lua/plenary.nvim",
-        "davidmh/cspell.nvim"
-      },
-      config = function()
-        local cspell = require("cspell")
-        require("null-ls").setup({
-          sources = {
-            cspell.diagnostics,
-            cspell.code_actions,
-          }
-        })
+        vim.lsp.enable("cspell_ls")
       end
     },
     {
@@ -394,7 +377,7 @@ require("lazy").setup({
         -- Manually set up filetype because `ftplugin` can't load automatically (see rtp adjustments below)
         vim.filetype.add({ extension = { prr = "prr" } })
 
-        -- Skip text width restrictions - it doesn't look pretty in Github UI
+        -- Skip text width restrictions - it doesn't look pretty in GitHub UI
         vim.api.nvim_create_autocmd("BufReadPost", {
           pattern = "*.prr",
           callback = function() vim.bo.textwidth = 0 end

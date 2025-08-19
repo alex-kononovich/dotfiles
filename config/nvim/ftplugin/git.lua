@@ -1,5 +1,3 @@
----cSpell:dictionaries vim,cpp
-
 -- Override `gx` for git buffers to open GitHub PRs if called on a PR number
 
 if not vim.b.loaded_gx_github then

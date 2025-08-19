@@ -1,5 +1,3 @@
----cSpell:dictionaries vim,cpp
-
 -- Runs a command in `tests` Tmux pane
 --- @param cmd string
 local function run_in_tests_pane(cmd)

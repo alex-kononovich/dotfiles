@@ -26,7 +26,6 @@ if not vim.b.loaded_gx_github then
 
     if current_word:match("#%d+") then
       local pr_number = current_word:match("%d+")
-      print("Opening GitHub #"..pr_number.." ")
       open_github_pr(pr_number)
     elseif current_word:match("%u%u%u+%-%d+") then
       local jira_issue = current_word:match("%u%u%u+%-%d+")

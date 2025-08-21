@@ -42,6 +42,9 @@
     "Rubocop",
     "pgvector",
     "rplugin",
-    "spellplugin"
+    "spellplugin",
+    "Distributables",
+    "KLASSES",
+    "ical"
   ]
 }

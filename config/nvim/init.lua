@@ -315,6 +315,27 @@ require("lazy").setup({
       end
     },
     {
+      "nvim-telescope/telescope-ui-select.nvim",
+      dependencies = {
+        "nvim-telescope/telescope.nvim"
+      },
+      event = "VeryLazy",
+      config = function()
+        local telescope = require("telescope")
+        telescope.setup({
+          defaults = {
+            mappings = {
+              i = { ["<Esc>"] = "close" }
+            },
+          },
+          extensions = {
+            ["ui-select"] = { require("telescope.themes").get_cursor{} }
+          }
+        })
+        telescope.load_extension("ui-select")
+      end
+    },
+    {
       "nvim-treesitter/nvim-treesitter",
       dependencies = {
         "nvim-treesitter/nvim-treesitter-textobjects",

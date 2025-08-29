@@ -67,12 +67,18 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end
 })
 
--- Highlight TODO items
-vim.fn.matchadd("Todo", "TODO")
-vim.fn.matchadd("Todo", "FIXME")
+vim.api.nvim_create_autocmd({"WinNew", "BufWinEnter"}, {
+  callback = function()
+    -- Highlight TODO items
+    vim.fn.matchadd("Todo", "TODO")
+    vim.fn.matchadd("Todo", "FIXME")
 
--- Highlight trailing whitespace, but only in Normal mode   
-vim.fn.matchadd("TrailingWhitespace", [[\s\+$]])
+    -- Highlight trailing whitespace
+    vim.fn.matchadd("TrailingWhitespace", [[\s\+$]])
+  end
+})
+
+-- Only highlight trailing whitespace in Normal mode   
 vim.api.nvim_create_autocmd("ModeChanged", {
   callback = function()
     -- `prr` adds trailing whitespaces but we don't want to highlight them

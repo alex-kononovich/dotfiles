@@ -29,6 +29,14 @@ set -U fish_pager_color_completion normal
 set -U fish_pager_color_description yellow
 set -U fish_pager_color_selected_background --background=black
 
+# Autocompletion key bindings to match system-wide/Neovim: 
+# <Tab> to accept suggested completion
+bind --user tab accept-autosuggestion
+bind --user ctrl-n complete # trigger completion
+bind --user ctrl-e cancel # cancel completion
+# re-map right arrow to break muscle memory
+bind --user right forward-char-passive
+
 # init homebrew
 eval (/opt/homebrew/bin/brew shellenv)
 set -x HOMEBREW_NO_AUTO_UPDATE 1

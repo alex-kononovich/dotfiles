@@ -1,5 +1,4 @@
 {
-  "ack.vim": { "branch": "master", "commit": "36e40f9ec91bdbf6f1adf408522a73a6925c3042" },
   "bufdelete.nvim": { "branch": "master", "commit": "f6bcea78afb3060b198125256f897040538bcb81" },
   "conform.nvim": { "branch": "master", "commit": "9ddab4e14c44196d393a72b958b4da6dab99ecef" },
   "fff.nvim": { "branch": "main", "commit": "e6e58f91d29e4660bcdf09a2bb901a5abe261573" },

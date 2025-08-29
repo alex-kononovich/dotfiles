@@ -90,6 +90,15 @@ vim.api.nvim_create_autocmd("ModeChanged", {
 })
 
 
+-- Better grep
+vim.o.grepprg = "ag --vimgrep --literal"
+vim.api.nvim_create_user_command("Grep", function (opts)
+  vim.cmd.grep({ args = opts.fargs, mods = { silent = true } })
+  vim.cmd.copen()
+end, { nargs = "+", complete = "file", desc = "More usable grep" })
+vim.keymap.set("n", "<leader>f", ":Grep<space>", { desc = "Search in files" })
+vim.keymap.set("n", "<leader>F", "<cmd>Grep<cword><cr>", { desc = "Search for word under cursor" })
+
 -- Global keymappings
 vim.cmd([[cnoremap <expr> %% expand('%:h').'/']])
 vim.keymap.set("n", "<leader>w", "<cmd>silent w<cr>")
@@ -203,17 +212,6 @@ require("lazy").setup({
           desc = "Open file finder",
         },
       },
-    },
-    {
-      "mileszs/ack.vim",
-      cmd = "Ack",
-      keys = {
-        { "<leader>f", ":Ack<space>", desc = "Search in files" },
-        { "<leader>F", "<cmd>Ack<cword><cr>", desc = "Search for current word" },
-      },
-      init = function()
-        vim.g.ackprg = "ag --vimgrep --literal"
-      end
     },
     {
       "tpope/vim-surround",

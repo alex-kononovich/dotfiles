@@ -100,47 +100,6 @@ vim.keymap.set("n", "<leader>w", "<cmd>silent w<cr>")
 vim.keymap.set("n", "<leader>q", "<cmd>q<cr>", { silent = true })
 vim.keymap.set("n", "<leader>Q", "<cmd>tabclose<cr>", { silent = true })
 
--- Things 3 integration: show and complete current task
--- Commands:
--- :Todo
--- :Todo complete
-vim.api.nvim_create_user_command("Todo", function(opts)
-  local complete = opts.fargs[1] == "complete"
-
-  local show_todo_script = [=[
-tell application "Things3"
-  repeat with todo in to dos of list "Today"
-    if status of todo is open then
-      return name of todo
-    end if
-  end repeat
-end tell
-]=]
-
-  local complete_todo_script = [=[
-tell application "Things3"
-  repeat with todo in to dos of list "Today"
-    if status of todo is open then
-      set status of todo to completed
-      return name of todo
-    end if
-  end repeat
-end tell
-]=]
-
-  local icon = "□"
-  local script = show_todo_script
-
-  if complete then
-    icon = "☑︎"
-    script = complete_todo_script
-  end
-
-  local output = vim.fn.trim(vim.fn.system("osascript -e '" .. script .. "'"))
-
-  print(icon .. " " .. output)
-end, { nargs = "?" })
-
 -- LSP
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)

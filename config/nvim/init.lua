@@ -67,6 +67,10 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end
 })
 
+-- Highlight TODO items
+vim.fn.matchadd("Todo", "TODO")
+vim.fn.matchadd("Todo", "FIXME")
+
 -- Highlight trailing whitespace, but only in Normal mode   
 vim.fn.matchadd("TrailingWhitespace", [[\s\+$]])
 vim.api.nvim_create_autocmd("ModeChanged", {

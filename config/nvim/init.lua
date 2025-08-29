@@ -85,14 +85,6 @@ vim.api.nvim_create_autocmd("ModeChanged", {
   pattern = "n:*"
 })
 
--- No textwrap for certain filetypes
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "prr", "markdown" },
-  callback = function()
-    vim.bo.textwidth = 0
-    vim.opt_local.wrap = true
-  end
-})
 
 -- Global keymappings
 vim.cmd([[cnoremap <expr> %% expand('%:h').'/']])

@@ -75,6 +75,11 @@ vim.api.nvim_create_autocmd({"WinNew", "BufWinEnter"}, {
   end
 })
 
+-- Turn buffer into a scratch buffer
+vim.api.nvim_create_user_command("Scratch", function ()
+  vim.bo.buftype = "nofile"
+  vim.bo.bufhidden = "hide"
+end, {})
 
 -- Better grep
 vim.o.grepprg = "ag --vimgrep --literal"

@@ -44,4 +44,9 @@ vim.api.nvim_create_user_command("Todo", function(opts)
   else
     run_todo_script("□", show_todo_script)
   end
-end, { nargs = "?", complete = function() return { "complete" } end})
+end, {
+  nargs = "?",
+  complete = function()
+    return { "complete" }
+  end,
+})

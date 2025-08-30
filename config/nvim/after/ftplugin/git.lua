@@ -29,7 +29,7 @@ if not vim.b.loaded_gx_github then
       open_github_pr(pr_number)
     elseif current_word:match("%u%u%u+%-%d+") then
       local jira_issue = current_word:match("%u%u%u+%-%d+")
-      print("Not implemented: opening JIRA ticket "..jira_issue)
+      print("Not implemented: opening JIRA ticket " .. jira_issue)
     else
       -- fall back to `vim.ui.open`
       vim.ui.open(current_word)
@@ -37,7 +37,12 @@ if not vim.b.loaded_gx_github then
   end
 
   local gx_desc = "Open PR in GitHub"
-  vim.keymap.set({"n", "v"}, "gx", open_github_or_jira, { noremap = true, buffer = true, desc = gx_desc })
+  vim.keymap.set(
+    { "n", "v" },
+    "gx",
+    open_github_or_jira,
+    { noremap = true, buffer = true, desc = gx_desc }
+  )
 end
 
 vim.b.loaded_gx_github = true

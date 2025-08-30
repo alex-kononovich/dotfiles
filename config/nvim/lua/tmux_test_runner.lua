@@ -2,8 +2,8 @@
 --- @param cmd string
 local function run_in_tests_pane(cmd)
   vim.cmd("update") -- save current buffer
-  vim.system({"tmux", "send-keys", "-t", "tests", cmd, "Enter"}) -- type in tests followed by Enter
-  vim.system({"tmux", "select-window", "-t", "tests"}) -- switch to tests
+  vim.system({ "tmux", "send-keys", "-t", "tests", cmd, "Enter" }) -- type in tests followed by Enter
+  vim.system({ "tmux", "select-window", "-t", "tests" }) -- switch to tests
 end
 
 local tmuxTestRunnerGroup = vim.api.nvim_create_augroup("Tmux test runner", { clear = true })
@@ -32,10 +32,10 @@ function M.create_run_test_keymapping(pattern, cmd, keymapping, desc)
     pattern = pattern,
     callback = function()
       vim.keymap.set("n", keymapping, function()
-        run_in_tests_pane(cmd.." "..vim.fn.expand("%:."))
+        run_in_tests_pane(cmd .. " " .. vim.fn.expand("%:."))
       end, { desc = desc, nowait = true, buffer = true })
     end,
-    group = tmuxTestRunnerGroup
+    group = tmuxTestRunnerGroup,
   })
 end
 

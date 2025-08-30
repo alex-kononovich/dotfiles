@@ -2,7 +2,14 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+  local out = vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "--branch=stable",
+    lazyrepo,
+    lazypath,
+  })
   if vim.v.shell_error ~= 0 then
     vim.api.nvim_echo({
       { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
@@ -63,27 +70,27 @@ vim.opt.listchars = "tab:▶ ,space:·,nbsp:␣,eol:¬"
 -- Highlight yanked region
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
-    vim.highlight.on_yank({ higroup="Visual", timeout=300 })
-  end
+    vim.highlight.on_yank({ higroup = "Visual", timeout = 300 })
+  end,
 })
 
-vim.api.nvim_create_autocmd({"WinNew", "BufWinEnter"}, {
+vim.api.nvim_create_autocmd({ "WinNew", "BufWinEnter" }, {
   callback = function()
     -- Highlight TODO items
     vim.fn.matchadd("Todo", "TODO")
     vim.fn.matchadd("Todo", "FIXME")
-  end
+  end,
 })
 
 -- Turn buffer into a scratch buffer
-vim.api.nvim_create_user_command("Scratch", function ()
+vim.api.nvim_create_user_command("Scratch", function()
   vim.bo.buftype = "nofile"
   vim.bo.bufhidden = "hide"
 end, {})
 
 -- Better grep
 vim.o.grepprg = "ag --vimgrep --literal"
-vim.api.nvim_create_user_command("Grep", function (opts)
+vim.api.nvim_create_user_command("Grep", function(opts)
   vim.cmd.grep({ args = opts.fargs, mods = { silent = true } })
   vim.cmd.copen()
 end, { nargs = "+", complete = "file", desc = "More usable grep" })
@@ -112,11 +119,10 @@ vim.diagnostic.config({
 })
 
 -- Don't update diagnostics as I type
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
+vim.lsp.handlers["textDocument/publishDiagnostics"] =
+  vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
     update_in_insert = false,
-  }
-)
+  })
 
 require("lazy").setup({
   performance = {
@@ -133,7 +139,7 @@ require("lazy").setup({
         "tutor",
         "zipPlugin",
       },
-    }
+    },
   },
   spec = {
     {
@@ -146,12 +152,16 @@ require("lazy").setup({
         vim.cmd.colorscheme("terminal16")
 
         -- Colour theme development commands
-        vim.api.nvim_create_user_command("ThemeEdit", "vsp ~/Projects/terminal16.vim/lua/lush_theme/terminal16.lua | Lushify", {})
+        vim.api.nvim_create_user_command(
+          "ThemeEdit",
+          "vsp ~/Projects/terminal16.vim/lua/lush_theme/terminal16.lua | Lushify",
+          {}
+        )
         vim.api.nvim_create_user_command("ThemeCheck", "so $VIMRUNTIME/tools/check_colors.vim", {})
         vim.api.nvim_create_user_command("ThemeTest", "so $VIMRUNTIME/syntax/hitest.vim", {})
 
         -- :filter GroupName hi
-      end
+      end,
     },
     -- {
     --   "alex-kononovich/terminal16.vim",
@@ -165,8 +175,8 @@ require("lazy").setup({
     {
       "famiu/bufdelete.nvim",
       keys = {
-        { "<leader>d", "<cmd>Bdelete<cr>" }
-      }
+        { "<leader>d", "<cmd>Bdelete<cr>" },
+      },
     },
     {
       "srithon/nvim-tmux-navigation",
@@ -177,9 +187,9 @@ require("lazy").setup({
           left = "<C-Left>",
           down = "<C-Down>",
           up = "<C-Up>",
-          right = "<C-Right>"
-        }
-      }
+          right = "<C-Right>",
+        },
+      },
     },
     {
       "dmtrKovalenko/fff.nvim",
@@ -192,7 +202,7 @@ require("lazy").setup({
           prompt_position = "top",
           width = 0.4,
           height = 0.4,
-        }
+        },
       },
       keys = {
         {
@@ -207,7 +217,7 @@ require("lazy").setup({
     {
       "tpope/vim-surround",
       dependencies = { "tpope/vim-repeat" },
-      event = "VeryLazy"
+      event = "VeryLazy",
     },
     {
       "tpope/vim-fugitive",
@@ -225,7 +235,7 @@ require("lazy").setup({
         vim.g.fugitive_dynamic_colors = 0
         -- TODO: git log search command
         vim.api.nvim_create_user_command("Gstash", "Gclog -g stash", {})
-      end
+      end,
     },
     {
       "neovim/nvim-lspconfig",
@@ -236,7 +246,7 @@ require("lazy").setup({
         vim.lsp.config("ruby_lsp", {
           init_options = {
             linters = { "rubocop_internal", "reek" },
-          }
+          },
         })
         vim.lsp.enable("ruby_lsp")
         vim.lsp.enable("cspell_ls")
@@ -247,21 +257,21 @@ require("lazy").setup({
               dialect = "Canadian",
               userDictPath = "~/.config/harper-ls/dictionary.txt",
               codeActions = {
-                ForceStable = true
+                ForceStable = true,
               },
               linters = {
-                ToDoHyphen = false
-              }
-            }
+                ToDoHyphen = false,
+              },
+            },
           },
         })
         vim.lsp.enable("harper_ls")
-      end
+      end,
     },
     {
       "nvim-telescope/telescope-ui-select.nvim",
       dependencies = {
-        "nvim-telescope/telescope.nvim"
+        "nvim-telescope/telescope.nvim",
       },
       event = "VeryLazy",
       config = function()
@@ -269,15 +279,15 @@ require("lazy").setup({
         telescope.setup({
           defaults = {
             mappings = {
-              i = { ["<Esc>"] = "close" }
+              i = { ["<Esc>"] = "close" },
             },
           },
           extensions = {
-            ["ui-select"] = { require("telescope.themes").get_cursor{} }
-          }
+            ["ui-select"] = { require("telescope.themes").get_cursor({}) },
+          },
         })
         telescope.load_extension("ui-select")
-      end
+      end,
     },
     {
       "nvim-treesitter/nvim-treesitter",
@@ -287,17 +297,17 @@ require("lazy").setup({
       },
       build = ":TSUpdate",
       config = function()
-        require'nvim-treesitter.configs'.setup({
+        require("nvim-treesitter.configs").setup({
           auto_install = true,
           highlight = { enable = true },
           indent = { enable = true },
           text_objects = { enable = true },
           incremental_selection = { enable = true },
         })
-      end
+      end,
     },
     {
-      'stevearc/conform.nvim',
+      "stevearc/conform.nvim",
       init = function()
         vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
       end,
@@ -307,7 +317,7 @@ require("lazy").setup({
           function()
             require("conform").format()
           end,
-          desc = "Format file"
+          desc = "Format file",
         },
       },
       opts = {
@@ -319,8 +329,8 @@ require("lazy").setup({
           scss = { "prettier" },
           css = { "prettier" },
           json = { "prettier" },
-          sql = { "sleek" }
-        }
+          sql = { "sleek" },
+        },
       },
     },
     {
@@ -328,12 +338,16 @@ require("lazy").setup({
       dependencies = { "nvim-tree/nvim-web-devicons" },
       event = "VeryLazy",
       keys = {
-        { "-", "<cmd>Oil<cr>", desc = "Open file explorer" }
+        { "-", "<cmd>Oil<cr>", desc = "Open file explorer" },
       },
       opts = {
         keymaps = {
           ["<C-h>"] = false,
-          ["<C-v>"] = { "actions.select", opts = { vertical = true, split = "belowright" }, desc = "Open the entry in a vertical split" },
+          ["<C-v>"] = {
+            "actions.select",
+            opts = { vertical = true, split = "belowright" },
+            desc = "Open the entry in a vertical split",
+          },
         },
         columns = { { "icon", directory = "", add_padding = false } },
         skip_confirm_for_simple_edits = true,
@@ -352,7 +366,7 @@ require("lazy").setup({
             require("yaml_nvim").view()
           end,
           ft = "yaml",
-          desc = "View current Yaml key path"
+          desc = "View current Yaml key path",
         },
       },
     },
@@ -369,7 +383,7 @@ require("lazy").setup({
       end,
       config = function(plugin)
         vim.opt.rtp:append(plugin.dir .. "/vim")
-      end
+      end,
     },
   },
   install = { colorscheme = { "terminal16" } },

@@ -45,6 +45,9 @@
     "spellplugin",
     "Distributables",
     "KLASSES",
-    "ical"
+    "ical",
+    "unarchived",
+    "awesomify",
+    "grepprg"
   ]
 }

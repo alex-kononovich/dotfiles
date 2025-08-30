@@ -1,10 +1,16 @@
 ActiveRecord
 Ai
 Api
+AppleScript
+BUGFIX
+HOTFIX
 TODO
 Tmux
 cmd
 cspell
 desc
 json
+quickfix
+unarchived
 url
+uuid

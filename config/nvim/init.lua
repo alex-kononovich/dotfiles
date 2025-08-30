@@ -72,27 +72,7 @@ vim.api.nvim_create_autocmd({"WinNew", "BufWinEnter"}, {
     -- Highlight TODO items
     vim.fn.matchadd("Todo", "TODO")
     vim.fn.matchadd("Todo", "FIXME")
-
-    -- Highlight trailing whitespace
-    vim.fn.matchadd("TrailingWhitespace", [[\s\+$]])
   end
-})
-
--- Only highlight trailing whitespace in Normal mode   
-vim.api.nvim_create_autocmd("ModeChanged", {
-  callback = function()
-    -- `prr` adds trailing whitespaces but we don't want to highlight them
-    if vim.bo.filetype ~= "prr" then
-      vim.api.nvim_set_hl(0, "TrailingWhitespace", { link = "Error" })
-    end
-  end,
-  pattern = "*:n"
-})
-vim.api.nvim_create_autocmd("ModeChanged", {
-  callback = function()
-    vim.api.nvim_set_hl(0, "TrailingWhitespace", { link = nil })
-  end,
-  pattern = "n:*"
 })
 
 

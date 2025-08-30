@@ -87,9 +87,9 @@ vim.keymap.set("n", "<leader>F", "<cmd>Grep<cword><cr>", { desc = "Search for wo
 
 -- Global keymappings
 vim.cmd([[cnoremap <expr> %% expand('%:h').'/']])
-vim.keymap.set("n", "<leader>w", "<cmd>silent w<cr>")
-vim.keymap.set("n", "<leader>q", "<cmd>q<cr>", { silent = true })
-vim.keymap.set("n", "<leader>Q", "<cmd>tabclose<cr>", { silent = true })
+vim.keymap.set("n", "<leader>w", "<cmd>w<cr>")
+vim.keymap.set("n", "<leader>q", "<cmd>q<cr>")
+vim.keymap.set("n", "<leader>Q", "<cmd>tabclose<cr>", { desc = "Close current tab page" })
 
 -- LSP
 vim.api.nvim_create_autocmd("LspAttach", {

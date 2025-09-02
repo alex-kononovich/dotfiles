@@ -64,6 +64,9 @@ vim.opt.shortmess:append("W")
 vim.o.signcolumn = "number"
 vim.o.winborder = "single" -- border for floating windows
 
+vim.ui.input = require("ui/input").create
+vim.ui.select = require("ui/select").create
+
 -- invisible characters
 vim.opt.listchars = "tab:▶ ,space:·,nbsp:␣,eol:¬"
 
@@ -266,27 +269,6 @@ require("lazy").setup({
           },
         })
         vim.lsp.enable("harper_ls")
-      end,
-    },
-    {
-      "nvim-telescope/telescope-ui-select.nvim",
-      dependencies = {
-        "nvim-telescope/telescope.nvim",
-      },
-      event = "VeryLazy",
-      config = function()
-        local telescope = require("telescope")
-        telescope.setup({
-          defaults = {
-            mappings = {
-              i = { ["<Esc>"] = "close" },
-            },
-          },
-          extensions = {
-            ["ui-select"] = { require("telescope.themes").get_cursor({}) },
-          },
-        })
-        telescope.load_extension("ui-select")
       end,
     },
     {

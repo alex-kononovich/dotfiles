@@ -97,6 +97,9 @@ function Input.destroy()
     vim.api.nvim_buf_delete(Input.buf_id, { force = true })
     Input.buf_id = nil
     vim.cmd.stopinsert()
+    -- Move cursor back because `startinsert`/`stopinsert`
+    -- moves it to one character to the left.
+    vim.cmd.norm({ "l", bang = true })
   end
 
   if focus_timer then

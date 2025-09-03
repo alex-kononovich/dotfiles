@@ -113,4 +113,9 @@ function Input.get_value()
   return value
 end
 
+function Input.set_width(width)
+  Input.width = width
+  vim.api.nvim_win_set_width(Input.win_id, Input.width)
+end
+
 return Input

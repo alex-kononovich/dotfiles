@@ -53,59 +53,41 @@ end
 
 ---@param items Item[]
 ---@param selected_index number
----@param format_item fun(item: Item, width: number):Line
+---@param format_item fun(item: Item):string, string|nil
 function List.render(items, selected_index, format_item)
   -- Clear previous draw
   vim.api.nvim_buf_clear_namespace(List.buf_id, List.extmark_ns_id, 0, -1)
   vim.api.nvim_buf_set_lines(List.buf_id, 0, -1, false, {})
 
   for i = 1, #items do
-    local line = format_item(items[i], List.width - 2)
+    local label, meta = format_item(items[i])
+    List.width = math.max(List.width, #label + #meta + 3)
 
-    if i == selected_index then
-      -- Switch highlight group to Visual
-      for j = 1, #line do
-        line[j][2] = "Visual"
-      end
-    end
+    local visual_if_selected = i == selected_index and "Visual"
 
-    vim.api.nvim_buf_set_lines(List.buf_id, i - 1, -1, true, { "" })
+    vim.api.nvim_buf_set_lines(List.buf_id, i - 1, -1, true, { label })
     vim.api.nvim_buf_set_extmark(List.buf_id, List.extmark_ns_id, i - 1, 0, {
-      virt_text = line,
-      virt_text_pos = "inline",
+      virt_text = { { meta, visual_if_selected or "NonText" } },
+      virt_text_pos = "right_align",
       sign_text = shortcut_icon(i),
-      end_row = 0,
     })
+
+    if visual_if_selected then
+      vim.api.nvim_buf_set_extmark(List.buf_id, List.extmark_ns_id, i - 1, 0, {
+        line_hl_group = visual_if_selected,
+      })
+    end
   end
 
   if #items < 1 then
     vim.api.nvim_buf_set_extmark(List.buf_id, List.extmark_ns_id, 0, 0, {
       virt_text = { { "No matches", "NonText" } },
       virt_text_pos = "inline",
-      end_row = 0,
     })
   end
 
   vim.api.nvim_win_set_height(List.win_id, #items)
-end
-
----@param item { action: { title: string }, ctx: { client_id: number } }
----@param width number
----@return Line
-local function format_codeaction_item(item, width)
-  -- TODO: truncate title to fit client name
-  local title = item.action.title
-  local title_length = #title:gsub("[\128-\191]", "")
-  local client_name = vim.lsp.get_client_by_id(item.ctx.client_id).name
-
-  -- TODO: ensure padding is at least one space
-  local padding = string.rep(" ", width - title_length - #client_name)
-
-  return {
-    { title, "Normal" },
-    { padding, "NonText" },
-    { client_name, "NonText" },
-  }
+  vim.api.nvim_win_set_width(List.win_id, List.width)
 end
 
 local Select = {}
@@ -146,13 +128,18 @@ function Select.create(items, opts, on_choice)
   end
 
   local function render()
-    List.render(filtered_items, selected_index, function(item, width)
+    List.render(filtered_items, selected_index, function(item)
       if opts.kind == "codeaction" then
-        return format_codeaction_item(item, width)
+        local title = item.action.title
+        local client_name = vim.lsp.get_client_by_id(item.ctx.client_id).name
+
+        return title, client_name
       else
-        return { { format_item(item), "Normal" } }
+        return format_item(item)
       end
     end)
+
+    Input.set_width(List.width)
   end
 
   local function move_selection_previous()
@@ -196,6 +183,9 @@ function Select.create(items, opts, on_choice)
     input_prompt = "> ",
   }, on_make_selection)
   List.create(Input.width)
+  -- TODO: Both components are using relative="cursor" positioning but sometimes List is moved
+  -- because it does not fit the screen - if that's the case we need to move Input so it's above
+  -- List
 
   vim.keymap.set("i", "<C-n>", move_selection_next, { buffer = Input.buf_id })
   vim.keymap.set("i", "<C-p>", move_selection_previous, { buffer = Input.buf_id })

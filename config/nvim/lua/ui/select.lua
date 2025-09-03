@@ -10,7 +10,6 @@ local List = {
   buf_id = nil,
   win_id = nil,
   extmark_ns_id = nil,
-  extmark_id = nil,
   width = nil,
 }
 
@@ -20,7 +19,7 @@ function List.create(width)
   List.buf_id = vim.api.nvim_create_buf(false, true)
   List.win_id = vim.api.nvim_open_win(List.buf_id, false, {
     relative = "cursor",
-    row = 0,
+    row = 1,
     col = -1,
     style = "minimal",
     width = width,
@@ -49,7 +48,7 @@ end
 local function shortcut_icon(index)
   local unicode_num_keys =
     { "1⃣", "2⃣", "3⃣", "4⃣", "5⃣", "6⃣", "7⃣", "8⃣", "9⃣" }
-  return unicode_num_keys[index] or " "
+  return unicode_num_keys[index]
 end
 
 ---@param items Item[]
@@ -57,15 +56,11 @@ end
 ---@param format_item fun(item: Item, width: number):Line
 function List.render(items, selected_index, format_item)
   -- Clear previous draw
-  if List.extmark_id then
-    vim.api.nvim_buf_del_extmark(List.buf_id, List.extmark_ns_id, List.extmark_id)
-  end
+  vim.api.nvim_buf_clear_namespace(List.buf_id, List.extmark_ns_id, 0, -1)
+  vim.api.nvim_buf_set_lines(List.buf_id, 0, -1, false, {})
 
-  local lines = {}
   for i = 1, #items do
-    local shortcut = shortcut_icon(i) .. "  "
-    local line = format_item(items[i], List.width - 3)
-    table.insert(line, 1, { shortcut, "NonText" })
+    local line = format_item(items[i], List.width - 2)
 
     if i == selected_index then
       -- Switch highlight group to Visual
@@ -74,19 +69,24 @@ function List.render(items, selected_index, format_item)
       end
     end
 
-    table.insert(lines, line)
+    vim.api.nvim_buf_set_lines(List.buf_id, i - 1, -1, true, { "" })
+    vim.api.nvim_buf_set_extmark(List.buf_id, List.extmark_ns_id, i - 1, 0, {
+      virt_text = line,
+      virt_text_pos = "inline",
+      sign_text = shortcut_icon(i),
+      end_row = 0,
+    })
   end
 
-  if #lines < 1 then
-    lines = { { { "No matches", "NonText" } } }
+  if #items < 1 then
+    vim.api.nvim_buf_set_extmark(List.buf_id, List.extmark_ns_id, 0, 0, {
+      virt_text = { { "No matches", "NonText" } },
+      virt_text_pos = "inline",
+      end_row = 0,
+    })
   end
 
-  List.extmark_id = vim.api.nvim_buf_set_extmark(List.buf_id, List.extmark_ns_id, 0, 0, {
-    virt_lines = lines,
-    end_row = 0,
-  })
-
-  vim.api.nvim_win_set_height(List.win_id, #lines + 1)
+  vim.api.nvim_win_set_height(List.win_id, #items)
 end
 
 ---@param item { action: { title: string }, ctx: { client_id: number } }

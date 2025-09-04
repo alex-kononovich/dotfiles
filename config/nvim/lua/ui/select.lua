@@ -2,32 +2,37 @@
 
 local Input = require("ui/input")
 
----@alias Highlight string
----@alias Line [string, Highlight][]
----@alias Item any
-
 local List = {
   buf_id = nil,
   win_id = nil,
   extmark_ns_id = nil,
   width = nil,
+  height = nil,
 }
 
----@param width number
-function List.create(width)
+-- List is rendered on top of the input, which is why it needs zindex.
+-- It also needs to match width with the input.
+---@param config { width:number, zindex:number }
+function List.create(config)
   List.destroy()
+
+  List.width = config.width
+  List.height = 1
+
   List.buf_id = vim.api.nvim_create_buf(false, true)
   List.win_id = vim.api.nvim_open_win(List.buf_id, false, {
     relative = "cursor",
     row = 1,
     col = -1,
     style = "minimal",
-    width = width,
-    height = 1,
+    width = List.width,
+    height = List.height,
     focusable = false,
+    zindex = config.zindex,
+    border = { "├", "─", "┤", "│", "┘", "─", "└", "│" },
   })
+
   List.extmark_ns_id = vim.api.nvim_create_namespace("custom_ui_select")
-  List.width = width
 end
 
 function List.destroy()
@@ -44,13 +49,15 @@ function List.destroy()
   List.width = nil
 end
 
--- Returns shortcut icon if possible, otherwise empty placeholder
+-- Returns shortcut icon
+---@return string|nil
 local function shortcut_icon(index)
   local unicode_num_keys =
     { "1⃣", "2⃣", "3⃣", "4⃣", "5⃣", "6⃣", "7⃣", "8⃣", "9⃣" }
   return unicode_num_keys[index]
 end
 
+---@alias Item any
 ---@param items Item[]
 ---@param selected_index number
 ---@param format_item fun(item: Item):string, string|nil
@@ -79,15 +86,19 @@ function List.render(items, selected_index, format_item)
     end
   end
 
+  List.height = #items
+
   if #items < 1 then
+    List.height = 1
+
     vim.api.nvim_buf_set_extmark(List.buf_id, List.extmark_ns_id, 0, 0, {
       virt_text = { { "No matches", "NonText" } },
       virt_text_pos = "inline",
     })
   end
 
-  vim.api.nvim_win_set_height(List.win_id, #items)
   vim.api.nvim_win_set_width(List.win_id, List.width)
+  vim.api.nvim_win_set_height(List.win_id, List.height)
 end
 
 local Select = {}
@@ -139,7 +150,13 @@ function Select.create(items, opts, on_choice)
       end
     end)
 
-    Input.set_width(List.width)
+    -- Sync width as list width may change based on the contents.
+    vim.api.nvim_win_set_width(Input.win_id, List.width)
+
+    -- Sync height to properly position the input relative to the list in case the list is rendered
+    -- at the very bottom of the screen and is being moved up by Neovim to stay within viewport.
+    -- By matching heights both windows will be moved together.
+    vim.api.nvim_win_set_height(Input.win_id, List.height + 2)
   end
 
   local function move_selection_previous()
@@ -177,15 +194,10 @@ function Select.create(items, opts, on_choice)
     render()
   end
 
-  Input.create({
-    prompt = opts.prompt,
-    border = { "┌", "─", "┐", "│", "┤", "─", "├", "│" },
-    input_prompt = "> ",
-  }, on_make_selection)
-  List.create(Input.width)
-  -- TODO: Both components are using relative="cursor" positioning but sometimes List is moved
-  -- because it does not fit the screen - if that's the case we need to move Input so it's above
-  -- List
+  Input.create({ prompt = opts.prompt, input_prompt = "> " }, on_make_selection)
+
+  local input_config = vim.api.nvim_win_get_config(Input.win_id)
+  List.create({ width = input_config.width, zindex = input_config.zindex + 1 })
 
   vim.keymap.set("i", "<C-n>", move_selection_next, { buffer = Input.buf_id })
   vim.keymap.set("i", "<C-p>", move_selection_previous, { buffer = Input.buf_id })

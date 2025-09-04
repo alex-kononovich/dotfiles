@@ -3,7 +3,6 @@
 local Input = {
   buf_id = nil,
   win_id = nil,
-  width = 60,
   prompt = "",
 }
 
@@ -26,7 +25,7 @@ local function format_title(prompt)
 end
 
 -- Create and show the input
----@param opts { prompt: string|nil, default: string|nil, border?: string[], input_prompt?: string }
+---@param opts { prompt: string|nil, default: string|nil, input_prompt?: string }
 ---@param on_confirm fun(user_input: string|nil):nil
 function Input.create(opts, on_confirm)
   Input.destroy()
@@ -37,9 +36,8 @@ function Input.create(opts, on_confirm)
     col = 0,
     style = "minimal",
     title = format_title(opts.prompt),
-    width = Input.width,
+    width = 60,
     height = 1,
-    border = opts.border,
   }
 
   Input.prompt = opts.input_prompt or Input.prompt or ""
@@ -114,11 +112,6 @@ function Input.get_value()
   local line = vim.api.nvim_buf_get_lines(Input.buf_id, 0, 1, true)[1]
   local value, _ = line:gsub(Input.prompt, "")
   return value
-end
-
-function Input.set_width(width)
-  Input.width = width
-  vim.api.nvim_win_set_width(Input.win_id, Input.width)
 end
 
 return Input

@@ -12,15 +12,10 @@ local focus_timer = nil
 ---@param prompt string|nil
 ---@return string|nil
 local function format_title(prompt)
-  if not prompt then
-    return nil
-  end
-
-  -- If prompt ends with a space
-  if prompt:sub(-1, -1) == " " then
-    return " " .. prompt
+  if prompt then
+    return " " .. vim.fn.trim(prompt) .. " "
   else
-    return " " .. prompt .. " "
+    return nil
   end
 end
 

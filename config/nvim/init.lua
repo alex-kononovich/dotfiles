@@ -64,8 +64,13 @@ vim.opt.shortmess:append("W")
 vim.o.signcolumn = "number"
 vim.o.winborder = "single" -- border for floating windows
 
-vim.ui.input = require("ui/input").create
-vim.ui.select = require("ui/select").create
+vim.ui.input = function(opts, on_confirm)
+  return require("ui/input").create(opts, on_confirm)
+end
+
+vim.ui.select = function(items, opts, on_choice)
+  return require("ui/select").create(items, opts, on_choice)
+end
 
 -- invisible characters
 vim.opt.listchars = "tab:▶ ,space:·,nbsp:␣,eol:¬"

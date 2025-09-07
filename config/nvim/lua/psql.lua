@@ -4,22 +4,28 @@ local M = {}
 local buf_id = nil
 local win_id = nil
 local connection = nil
+local database_url = nil
+local connection_name = nil
 
 -- const
 local hi_ns = vim.api.nvim_create_namespace("psql")
 
 local function display_results(output)
+  local activate_window = false
+
   if not buf_id or not vim.api.nvim_buf_is_valid(buf_id) then
     buf_id = vim.api.nvim_create_buf(false, true)
     vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = buf_id })
     vim.api.nvim_set_option_value("filetype", "psql", { buf = buf_id })
-    vim.api.nvim_buf_set_name(buf_id, "psql")
   end
 
   if not win_id or not vim.api.nvim_win_is_valid(win_id) then
     local preview_height = vim.api.nvim_get_option_value("previewheight", {}) or 12
-    win_id =
-      vim.api.nvim_open_win(buf_id, false, { win = -1, split = "below", height = preview_height })
+    win_id = vim.api.nvim_open_win(
+      buf_id,
+      activate_window,
+      { win = -1, split = "below", height = preview_height }
+    )
   end
 
   local lines = vim.split(output, "\n")
@@ -40,6 +46,11 @@ local function display_results(output)
   vim.api.nvim_set_option_value("modifiable", false, { buf = buf_id })
 
   vim.api.nvim_win_set_buf(win_id, buf_id)
+  if activate_window then
+    vim.api.nvim_set_current_win(win_id)
+  end
+
+  vim.api.nvim_buf_set_name(buf_id, "psql [" .. tostring(connection_name) .. "]")
 end
 
 local function clear_results()
@@ -66,20 +77,47 @@ end
 
 local function on_io(err, data)
   if err then
-    vim.notify(err, vim.log.levels.ERROR)
+    vim.schedule(function()
+      vim.notify(err, vim.log.levels.ERROR)
+    end)
   end
 
   if data and data ~= "" then
     vim.schedule(function()
       display_results(data)
     end)
+  else
+  end
+end
+
+local function get_config_key(key)
+  if vim.g.psql and vim.g.psql.connections then
+    return vim.g.psql.connections[key]
+  end
+end
+
+local function resolve_default_database_url()
+  if not database_url then
+    local default_alias = get_config_key("default")
+    if default_alias then
+      connection_name = default_alias
+      database_url = get_config_key(default_alias)
+    else
+      database_url = vim.env.DATABASE_URL
+      connection_name = database_url
+    end
   end
 end
 
 local function create_connection()
   if not connection or connection:is_closing() then
+    if not database_url then
+      vim.notify("psql: no database to connect", vim.log.levels.ERROR)
+      return
+    end
+
     connection = vim.system(
-      { "psql", "zipline_light_development" },
+      { "psql", database_url },
       { stdin = true, stdout = on_io, stderr = on_io },
       on_exit
     )
@@ -91,7 +129,12 @@ end
 ---@param cmd string Input to send to `psql`
 local function run(cmd)
   clear_results()
-  create_connection():write(cmd .. "\n")
+  resolve_default_database_url()
+  create_connection()
+
+  if connection then
+    connection:write(cmd .. "\n")
+  end
 end
 
 local function run_query(query)
@@ -137,13 +180,18 @@ end
 
 function M.process_user_command(opts)
   if opts.fargs[1] == "connect" then
-    -- TODO: handle connection change through `:Psql connect connection_name` (with autocomplete)
+    connection_name = opts.fargs[2]
+    database_url = get_config_key(connection_name) or connection_name
+    if database_url then
+      run("\\connect " .. database_url)
+    else
+      vim.notify("psql: no database to connect", vim.log.levels.ERROR)
+    end
   else
     local cmd = table.concat(opts.fargs, " ")
     if cmd == "" then
       cmd = "\\?"
     end
-
     run(cmd)
   end
 end

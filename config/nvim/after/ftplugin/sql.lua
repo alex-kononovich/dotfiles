@@ -10,8 +10,8 @@ end, {
 
 vim.keymap.set("v", "<leader>r", function()
   require("psql").run_visual_selection()
-end, { desc = "Run visual selection in psql" })
+end, { desc = "Run visual selection in psql", buffer = true })
 
 vim.keymap.set("n", "<leader>r", function()
   require("psql").run_current_statement()
-end, { desc = "Run current SQL statement in psql" })
+end, { desc = "Run current SQL statement in psql", nowait = true, buffer = true })

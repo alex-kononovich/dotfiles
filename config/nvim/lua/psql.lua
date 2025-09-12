@@ -147,15 +147,37 @@ local function run_query(query)
   run(query)
 end
 
-function M.run_visual_selection()
+-- Runs EXPLAIN on the query and opens result in a browser
+local function run_explain_analyze(query)
+  local g_command =
+    [[\g (format=unaligned tuples_only=on pager=off) | jq '{ query: %s, plan: .|tojson }' | curl "https://explain.dalibo.com/new.json" -H "Content-Type: application/json" -d @- -s | jq -r '@uri "https://explain.dalibo.com/plan/\(.id)"' | xargs open]]
+
+  -- ensure query doesn't end with `;`, otherwise `\g` command wouldn't work
+  local last_char = string.sub(query, -1)
+  if last_char == ";" then
+    query = string.sub(query, 0, -2)
+  end
+
+  run(
+    "EXPLAIN (ANALYZE, COSTS, VERBOSE, BUFFERS, FORMAT JSON) "
+      .. query
+      .. string.format(g_command, vim.inspect(query))
+  )
+end
+
+function M.run_visual_selection(explain)
   local selected_region =
     vim.fn.getregion(vim.fn.getpos("."), vim.fn.getpos("v"), { type = vim.fn.mode() })
   local query = table.concat(selected_region, "\n")
 
-  run(query)
+  if explain then
+    run_explain_analyze(query)
+  else
+    run(query)
+  end
 end
 
-function M.run_current_statement()
+function M.run_current_statement(explain)
   -- Find statement related to current cursor position
   local node = vim.treesitter.get_node()
 
@@ -175,7 +197,11 @@ function M.run_current_statement()
   local lines = vim.api.nvim_buf_get_text(0, s_row, s_col, e_row, e_col, {})
   local query = table.concat(lines, "\n")
 
-  run_query(query)
+  if explain then
+    run_explain_analyze(query)
+  else
+    run_query(query)
+  end
 end
 
 function M.process_user_command(opts)

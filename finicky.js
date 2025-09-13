@@ -39,6 +39,7 @@ module.exports = {
         /.*crunchybridge.com/,
         /.*vanta.com/,
         /.*parabol.co/,
+        /explain.dalibo.com/,
       ]),
       browser: "Google Chrome",
     },

@@ -6,9 +6,46 @@ local win_id = nil
 local connection = nil
 local database_url = nil
 local connection_name = nil
+local query_start_time = nil
+local query_end_time = nil
+local statusline_redraw_timer = nil
 
 -- const
 local hi_ns = vim.api.nvim_create_namespace("psql")
+
+local function redraw_statusline()
+  if win_id and vim.api.nvim_win_is_valid(win_id) then
+    vim.api.nvim__redraw({ win = win_id, statusline = true })
+  elseif statusline_redraw_timer then
+    statusline_redraw_timer:close()
+    statusline_redraw_timer = nil
+  end
+end
+
+local function start_query_timer()
+  query_end_time = nil
+  query_start_time = vim.uv.hrtime()
+
+  if not statusline_redraw_timer then
+    statusline_redraw_timer = vim.uv.new_timer()
+  end
+
+  statusline_redraw_timer:start(200, 200, vim.schedule_wrap(redraw_statusline))
+end
+
+local function stop_query_timer()
+  if statusline_redraw_timer then
+    statusline_redraw_timer:stop()
+  end
+
+  query_end_time = vim.uv.hrtime()
+end
+
+local function reset_query_timer()
+  query_start_time = nil
+  query_end_time = nil
+  redraw_statusline()
+end
 
 local function display_results(output)
   local activate_window = false
@@ -17,6 +54,7 @@ local function display_results(output)
     buf_id = vim.api.nvim_create_buf(false, true)
     vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = buf_id })
     vim.api.nvim_set_option_value("filetype", "psql", { buf = buf_id })
+    vim.api.nvim_buf_set_name(buf_id, "psql")
   end
 
   if not win_id or not vim.api.nvim_win_is_valid(win_id) then
@@ -25,6 +63,12 @@ local function display_results(output)
       buf_id,
       activate_window,
       { win = -1, split = "below", height = preview_height }
+    )
+
+    vim.api.nvim_set_option_value(
+      "statusline",
+      "%!v:lua.require'psql'.statusline()",
+      { win = win_id }
     )
   end
 
@@ -49,8 +93,6 @@ local function display_results(output)
   if activate_window then
     vim.api.nvim_set_current_win(win_id)
   end
-
-  vim.api.nvim_buf_set_name(buf_id, "psql [" .. tostring(connection_name) .. "]")
 end
 
 local function clear_results()
@@ -76,6 +118,9 @@ local on_exit = function(obj)
 end
 
 local function on_io(err, data)
+  stop_query_timer()
+  vim.schedule(redraw_statusline)
+
   if err then
     vim.schedule(function()
       vim.notify(err, vim.log.levels.ERROR)
@@ -128,12 +173,18 @@ end
 
 ---@param cmd string Input to send to `psql`
 local function run(cmd)
+  reset_query_timer()
   clear_results()
   resolve_default_database_url()
   create_connection()
 
   if connection then
     connection:write(cmd .. "\n")
+
+    -- Do not run timer for psql meta commands
+    if string.sub(cmd, 1, 1) ~= [[\]] then
+      start_query_timer()
+    end
   end
 end
 
@@ -149,20 +200,25 @@ end
 
 -- Runs EXPLAIN on the query and opens result in a browser
 local function run_explain_analyze(query)
-  local g_command =
-    [[\g (format=unaligned tuples_only=on pager=off) | jq '{ query: %s, plan: .|tojson }' | curl "https://explain.dalibo.com/new.json" -H "Content-Type: application/json" -d @- -s | jq -r '@uri "https://explain.dalibo.com/plan/\(.id)"' | xargs open]]
-
   -- ensure query doesn't end with `;`, otherwise `\g` command wouldn't work
   local last_char = string.sub(query, -1)
   if last_char == ";" then
     query = string.sub(query, 0, -2)
   end
 
-  run(
-    "EXPLAIN (ANALYZE, COSTS, VERBOSE, BUFFERS, FORMAT JSON) "
-      .. query
-      .. string.format(g_command, vim.inspect(query))
-  )
+  -- See https://www.postgresql.org/docs/16/app-psql.html#APP-PSQL-META-COMMAND-G
+  local steps = {
+    [[\g (format=unaligned tuples_only=on pager=off)]], -- Make sure output is pure JSON
+    [[sed "s/'\\[.*\\]'/'\\[\\]'/g"]], -- Remove large vectors as they slow down the explainer
+    string.format([[jq '{ query: %s, plan: .|tojson }']], vim.inspect(query)), -- Use vim.inspect to escape the query
+    [[curl "https://explain.dalibo.com/new.json" -H "Content-Type: application/json" -s -d @-]],
+    [[jq -r '@uri "https://explain.dalibo.com/plan/\(.id)"']],
+    [[xargs -n1 -I url /bin/bash -c 'echo url; open url']],
+  }
+
+  local g_command = table.concat(steps, " | ")
+
+  run("EXPLAIN (ANALYZE, COSTS, VERBOSE, BUFFERS, FORMAT JSON) " .. query .. g_command)
 end
 
 function M.run_visual_selection(explain)
@@ -186,6 +242,7 @@ function M.run_current_statement(explain)
   end
 
   if not node then
+    reset_query_timer()
     clear_results()
     return
   end
@@ -220,6 +277,26 @@ function M.process_user_command(opts)
     end
     run(cmd)
   end
+end
+
+function M.statusline()
+  local conn = connection_name or ""
+
+  local query_timing = ""
+  if query_start_time then
+    local endtime = query_end_time or vim.uv.hrtime()
+    local elapsed_ms = (endtime - query_start_time) / 1000000
+
+    if elapsed_ms < 1000 then
+      query_timing = string.format(" %dms", elapsed_ms)
+    elseif elapsed_ms < 60000 then
+      query_timing = string.format(" %.2fs", elapsed_ms / 1000)
+    else
+      query_timing = string.format(" %.2fm", elapsed_ms / 60000)
+    end
+  end
+
+  return "%f" .. query_timing .. "%=" .. conn
 end
 
 return M

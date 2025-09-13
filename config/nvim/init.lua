@@ -90,6 +90,14 @@ vim.api.nvim_create_autocmd({ "WinNew", "BufWinEnter" }, {
   end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "psql",
+  callback = function()
+    vim.keymap.set("n", "<Tab>", "f|", { desc = "Next table cell" })
+    vim.keymap.set("n", "<S-Tab>", "F|", { desc = "Previous table cell" })
+  end,
+})
+
 -- Turn buffer into a scratch buffer
 vim.api.nvim_create_user_command("Scratch", function()
   vim.bo.buftype = "nofile"

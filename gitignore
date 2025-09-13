@@ -17,3 +17,4 @@ node_modules
 .prr.toml
 cspell.json
 .harper-dictionary.txt
+.psql*

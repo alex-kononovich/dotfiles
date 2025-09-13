@@ -49,6 +49,7 @@
     "unarchived",
     "awesomify",
     "grepprg",
-    "zindex"
+    "zindex",
+    "plpgsql"
   ]
 }

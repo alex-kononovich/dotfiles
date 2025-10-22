@@ -60,7 +60,7 @@ end
 ---@alias Item any
 ---@param items Item[]
 ---@param selected_index number
----@param format_item fun(item: Item):string, string|nil
+---@param format_item fun(item: Item):string, number|string|nil
 function List.render(items, selected_index, format_item)
   -- Clear previous draw
   vim.api.nvim_buf_clear_namespace(List.buf_id, List.extmark_ns_id, 0, -1)
@@ -68,6 +68,8 @@ function List.render(items, selected_index, format_item)
 
   for i = 1, #items do
     local label, meta = format_item(items[i])
+    meta = meta and tostring(meta) or ""
+
     List.width = math.max(List.width, #label + #meta + 3)
 
     local visual_if_selected = i == selected_index and "Visual"

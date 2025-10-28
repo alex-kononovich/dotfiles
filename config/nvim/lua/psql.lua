@@ -206,11 +206,16 @@ local function run_explain_analyze(query)
     query = string.sub(query, 0, -2)
   end
 
+  -- Use vim.inspect to escape the query
+  -- Single quote escape (') is based on this answer: https://stackoverflow.com/a/1250279
+  local escaped_query = string.gsub(vim.inspect(query), [[']], [['"'"']])
+
   -- See https://www.postgresql.org/docs/16/app-psql.html#APP-PSQL-META-COMMAND-G
   local steps = {
     [[\g (format=unaligned tuples_only=on pager=off)]], -- Make sure output is pure JSON
-    [[sed "s/'\\[.*\\]'/'\\[\\]'/g"]], -- Remove large vectors as they slow down the explainer
-    string.format([[jq '{ query: %s, plan: .|tojson }']], vim.inspect(query)), -- Use vim.inspect to escape the query
+    [[sed "s/'\\[.*\\]'/'\\[redacted\\]'/g"]], -- Remove large vectors as they slow down the explainer
+    [[sed "s/'{.*}'/'{redacted}'/g"]], -- Remove large arrays as they slow down the explainer
+    string.format([[jq '{ query: %s, plan: .|tojson }']], escaped_query),
     [[curl "https://explain.dalibo.com/new.json" -H "Content-Type: application/json" -s -d @-]],
     [[jq -r '@uri "https://explain.dalibo.com/plan/\(.id)"']],
     [[xargs -n1 -I url /bin/bash -c 'echo url; open url']],

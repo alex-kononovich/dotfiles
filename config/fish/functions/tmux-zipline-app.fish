@@ -7,11 +7,13 @@ function tmux-zipline-app -d "Start Tmux session for zipline-app"
   tmux new-window -d -n "tests" -c $workdir -t $session_name
   tmux new-window -d -n "server" -c $workdir -t $session_name
   tmux split-window -d -h -t "$session_name:server" -c $workdir
+  tmux new-window -d -n "codex" -c $workdir -t $session_name
 
   # programs
   tmux send-keys -t "$session_name:server.1" "rails server" Enter
   tmux send-keys -t "$session_name:server.2" "foreman start -f Procfile.dev" Enter
   tmux send-keys -t "$session_name:code" "nvim" Enter
+  tmux send-keys -t "$session_name:codex" "codex" Enter
 
   # connect
   tmux attach-session -d -t $session_name

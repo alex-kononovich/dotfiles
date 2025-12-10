@@ -18,6 +18,5 @@ set -g __fish_git_prompt_color_branch normal
 set -g __fish_git_prompt_color_upstream yellow
 
 function fish_right_prompt
-  __fish_git_prompt '%s'
+  fish_git_prompt '%s'
 end
-

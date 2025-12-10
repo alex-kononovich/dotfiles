@@ -325,6 +325,7 @@ require("lazy").setup({
           css = { "prettier" },
           json = { "prettier" },
           sql = { "sleek" },
+          d2 = { "d2" },
         },
       },
     },
@@ -379,6 +380,17 @@ require("lazy").setup({
       config = function(plugin)
         vim.opt.rtp:append(plugin.dir .. "/vim")
       end,
+    },
+    {
+      "terrastruct/d2-vim",
+      dependencies = {
+        {
+          "ravsii/tree-sitter-d2",
+          dependencies = { "nvim-treesitter/nvim-treesitter" },
+          build = "make nvim-install",
+        }
+      },
+      ft = { "d2" },
     },
   },
   install = { colorscheme = { "terminal16" } },

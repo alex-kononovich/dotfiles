@@ -188,18 +188,26 @@ local function run(cmd)
   end
 end
 
-local function run_query(query)
+local function run_query(query, marginalia)
+  if not marginalia then
+    marginalia = ""
+  end
+
   local last_char = string.sub(query, -1)
 
   if last_char ~= ";" then
     query = query .. ";"
   end
 
-  run(query)
+  run(marginalia .. query)
 end
 
 -- Runs EXPLAIN on the query and opens result in a browser
-local function run_explain_analyze(query)
+local function run_explain_analyze(query, marginalia)
+  if not marginalia then
+    marginalia = ""
+  end
+
   -- ensure query doesn't end with `;`, otherwise `\g` command wouldn't work
   local last_char = string.sub(query, -1)
   if last_char == ";" then
@@ -223,7 +231,7 @@ local function run_explain_analyze(query)
 
   local g_command = table.concat(steps, " | ")
 
-  run("EXPLAIN (ANALYZE, COSTS, VERBOSE, BUFFERS, FORMAT JSON) " .. query .. g_command)
+  run(marginalia .. "EXPLAIN (ANALYZE, COSTS, VERBOSE, BUFFERS, FORMAT JSON) " .. query .. g_command)
 end
 
 function M.run_visual_selection(explain)
@@ -253,16 +261,27 @@ function M.run_current_statement(explain)
   end
 
   local s_row, s_col, e_row, e_col = node:range()
+  local hl_s_row, hl_s_col, hl_e_row, hl_e_col = node:range()
+  local query_lines = vim.api.nvim_buf_get_text(0, s_row, s_col, e_row, e_col, {})
+  local query = table.concat(query_lines, "\n")
 
-  vim.hl.range(0, hi_ns, "Visual", { s_row, s_col }, { e_row, e_col }, { timeout = 300 })
+  local marginalia = ""
+  local maybe_marginalia = node:prev_sibling()
+  if maybe_marginalia and maybe_marginalia:type() == "marginalia" then
+    local ms_row, ms_col, me_row, me_col = maybe_marginalia:range()
+    hl_s_row = ms_row
+    hl_s_col = ms_col
+    local marginalia_lines = vim.api.nvim_buf_get_text(0, ms_row, ms_col, me_row, me_col, {})
+    marginalia = table.concat(marginalia_lines, "\n")
+  end
 
-  local lines = vim.api.nvim_buf_get_text(0, s_row, s_col, e_row, e_col, {})
-  local query = table.concat(lines, "\n")
+  -- highlight running query
+  vim.hl.range(0, hi_ns, "Visual", { hl_s_row, hl_s_col }, { hl_e_row, hl_e_col }, { timeout = 300 })
 
   if explain then
-    run_explain_analyze(query)
+    run_explain_analyze(query, marginalia)
   else
-    run_query(query)
+    run_query(query, marginalia)
   end
 end
 

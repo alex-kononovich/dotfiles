@@ -211,7 +211,7 @@ require("lazy").setup({
       "dmtrKovalenko/fff.nvim",
       build = "cargo build --release",
       opts = {
-        title = "⎯",
+        title = "Files",
         prompt = "> ",
         preview = { enabled = false },
         layout = {

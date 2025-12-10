@@ -18,3 +18,5 @@ node_modules
 cspell.json
 .harper-dictionary.txt
 .psql*
+bin/agent
+AGENTS.override.md

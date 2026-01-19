@@ -1,1 +1,1 @@
-EXCLUDES="osx* setup.sh bootstrap.sh macos.sh brew.sh zpreztorc zprofile zshrc Xresources emacs.d logitech-c920-camera-settings*"
+EXCLUDES="osx* macos.sh Brewfile logitech-c920-camera-settings*"

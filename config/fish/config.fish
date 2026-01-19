@@ -29,7 +29,7 @@ set -U fish_pager_color_completion normal
 set -U fish_pager_color_description yellow
 set -U fish_pager_color_selected_background --background=black
 
-# Autocompletion key bindings to match system-wide/Neovim: 
+# Autocompletion key bindings to match system-wide/Neovim:
 # <Tab> to accept suggested completion
 bind --user tab accept-autosuggestion
 bind --user ctrl-n complete # trigger completion
@@ -124,7 +124,7 @@ if status --is-interactive
 end
 
 # nodenv
-status --is-interactive; and source (nodenv init - | psub)
+# status --is-interactive; and source (nodenv init - | psub)
 
 # change max number of file descriptors per process
 ulimit -n 2048

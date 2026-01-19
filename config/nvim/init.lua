@@ -57,6 +57,7 @@ vim.o.inccommand = "split"
 vim.o.keywordprg = nil
 
 -- UI
+vim.cmd.colorscheme("minimal")
 vim.o.fillchars = "fold:—,vert:│"
 vim.opt.shortmess:append("a")
 vim.opt.shortmess:append("T")
@@ -158,36 +159,6 @@ require("lazy").setup({
     },
   },
   spec = {
-    {
-      dir = "~/Projects/terminal16.vim",
-      dependencies = {
-        "rktjmp/lush.nvim",
-        "rktjmp/shipwright.nvim",
-      },
-      config = function()
-        vim.cmd.colorscheme("terminal16")
-
-        -- Colour theme development commands
-        vim.api.nvim_create_user_command(
-          "ThemeEdit",
-          "vsp ~/Projects/terminal16.vim/lua/lush_theme/terminal16.lua | Lushify",
-          {}
-        )
-        vim.api.nvim_create_user_command("ThemeCheck", "so $VIMRUNTIME/tools/check_colors.vim", {})
-        vim.api.nvim_create_user_command("ThemeTest", "so $VIMRUNTIME/syntax/hitest.vim", {})
-
-        -- :filter GroupName hi
-      end,
-    },
-    -- {
-    --   "alex-kononovich/terminal16.vim",
-    --   lazy = false,
-    --   priority = 1000,
-    --   config = function()
-    --     -- vim.o.termguicolors = false -- Needs to be set for Neovim >= 0.10
-    --     vim.cmd.colorscheme "terminal16"
-    --   end,
-    -- },
     {
       "famiu/bufdelete.nvim",
       keys = {

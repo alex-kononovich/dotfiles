@@ -29,6 +29,7 @@ cask "telegram"
 cask "google-chrome"
 cask "the-unarchiver"
 cask "karabiner-elements"
+cask "zoom"
 
 mas "Things3", id: 904280696
 cask "thingsmacsandboxhelper"

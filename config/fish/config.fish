@@ -119,12 +119,10 @@ abbr --add rc 'bin/rails console'
 [ -f $HOMEBREW_PREFIX/share/autojump/autojump.fish ]; and source $HOMEBREW_PREFIX/share/autojump/autojump.fish
 
 # fix Ctrl-q and such
-if status --is-interactive
-  stty -ixon
-end
+status --is-interactive; and stty -ixon
 
 # nodenv
-# status --is-interactive; and source (nodenv init - | psub)
+status --is-interactive; and source (nodenv init - | psub)
 
 # change max number of file descriptors per process
 ulimit -n 2048

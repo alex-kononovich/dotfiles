@@ -30,6 +30,7 @@ cask "google-chrome"
 cask "the-unarchiver"
 cask "karabiner-elements"
 cask "zoom"
+cask "stillcolor" # Dell monitors flickering fix
 
 mas "Things3", id: 904280696
 cask "thingsmacsandboxhelper"

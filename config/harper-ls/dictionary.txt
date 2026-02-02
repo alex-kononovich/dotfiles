@@ -21,6 +21,7 @@ cspell
 cte
 desc
 json
+macos
 overfetch
 quickfix
 unarchived

@@ -34,7 +34,11 @@ fi
 eval "$(nodenv init -)"
 nodenv install --skip-existing 24.13.0
 nodenv global 24.13.0
-npm install --global typescript-language-server typescript
+npm install --global typescript-language-server typescript neovim
+
+# Neovim
+nvim --headless "+Lazy install" "+quitall"
+nvim -c "lua require('nvim-treesitter').install({ 'sql', 'http', 'lua', 'json', 'typescript', 'javascript', 'ruby'}):wait(300000)" -c "qall"
 
 # Logitech camera settings (requires node)
 if [[ ! -f ~/.local/bin/xpc_set_event_stream_handler ]]; then

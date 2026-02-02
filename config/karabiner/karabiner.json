@@ -1,47 +1,29 @@
 {
   "global": {
-    "check_for_updates_on_startup": true,
-    "show_in_menu_bar": false,
-    "show_profile_name_in_menu_bar": false
+    "show_in_menu_bar": true,
+    "ask_for_confirmation_before_quitting": false,
+    "enable_notification_window": false
   },
   "profiles": [
     {
       "complex_modifications": {
-        "parameters": {
-          "basic.simultaneous_threshold_milliseconds": 50,
-          "basic.to_delayed_action_delay_milliseconds": 500,
-          "basic.to_if_alone_timeout_milliseconds": 1000,
-          "basic.to_if_held_down_threshold_milliseconds": 500,
-          "mouse_motion_to_scroll.speed": 100
-        },
         "rules": [
           {
-            "description": "Left Cmd to Ctrl in Kitty",
+            "description": "Left Cmd to Ctrl in Ghostty",
             "manipulators": [
               {
                 "conditions": [
                   {
-                    "bundle_identifiers": ["^net\\.kovidgoyal\\.kitty"],
+                    "bundle_identifiers": ["^com\\.mitchellh\\.ghostty"],
                     "type": "frontmost_application_if"
                   },
                   {
-                    "type": "device_if",
-                    "identifiers": [
-                      {
-                        "product_id": 641,
-                        "vendor_id": 1452
-                      }
-                    ]
+                    "identifiers": [{ "is_built_in_keyboard": true }],
+                    "type": "device_if"
                   }
                 ],
-                "from": {
-                  "key_code": "left_command"
-                },
-                "to": [
-                  {
-                    "key_code": "left_control"
-                  }
-                ],
+                "from": { "key_code": "left_command" },
+                "to": [{ "key_code": "left_control" }],
                 "type": "basic"
               }
             ]
@@ -56,9 +38,7 @@
                     "type": "frontmost_application_if"
                   }
                 ],
-                "from": {
-                  "key_code": "escape"
-                },
+                "from": { "key_code": "escape" },
                 "to": [
                   {
                     "key_code": "escape",
@@ -73,258 +53,124 @@
       },
       "devices": [
         {
-          "disable_built_in_keyboard_if_exists": false,
-          "fn_function_keys": [],
-          "identifiers": {
-            "is_keyboard": true,
-            "is_pointing_device": false,
-            "product_id": 641,
-            "vendor_id": 1452
-          },
-          "ignore": false,
-          "manipulate_caps_lock_led": true,
+          "identifiers": { "is_keyboard": true },
           "simple_modifications": [
             {
-              "from": {
-                "key_code": "b"
-              },
-              "to": {
-                "key_code": "v"
-              }
-            },
-            {
-              "from": {
-                "key_code": "c"
-              },
-              "to": {
-                "key_code": "m"
-              }
-            },
-            {
-              "from": {
-                "key_code": "caps_lock"
-              },
-              "to": {
-                "key_code": "escape"
-              }
-            },
-            {
-              "from": {
-                "key_code": "d"
-              },
-              "to": {
-                "key_code": "h"
-              }
-            },
-            {
-              "from": {
-                "key_code": "e"
-              },
-              "to": {
-                "key_code": "r"
-              }
-            },
-            {
-              "from": {
-                "key_code": "f"
-              },
-              "to": {
-                "key_code": "t"
-              }
-            },
-            {
-              "from": {
-                "key_code": "h"
-              },
-              "to": {
-                "key_code": "y"
-              }
-            },
-            {
-              "from": {
-                "key_code": "i"
-              },
-              "to": {
-                "key_code": "u"
-              }
-            },
-            {
-              "from": {
-                "key_code": "j"
-              },
-              "to": {
-                "key_code": "n"
-              }
-            },
-            {
-              "from": {
-                "key_code": "k"
-              },
-              "to": {
-                "key_code": "e"
-              }
-            },
-            {
-              "from": {
-                "key_code": "l"
-              },
-              "to": {
-                "key_code": "o"
-              }
-            },
-            {
-              "from": {
-                "key_code": "m"
-              },
-              "to": {
-                "key_code": "l"
-              }
-            },
-            {
-              "from": {
-                "key_code": "n"
-              },
-              "to": {
-                "key_code": "k"
-              }
-            },
-            {
-              "from": {
-                "key_code": "o"
-              },
-              "to": {
-                "key_code": "p"
-              }
-            },
-            {
-              "from": {
-                "key_code": "p"
-              },
-              "to": {
-                "key_code": "semicolon"
-              }
-            },
-            {
-              "from": {
-                "key_code": "r"
-              },
-              "to": {
-                "key_code": "w"
-              }
-            },
-            {
-              "from": {
-                "key_code": "semicolon"
-              },
-              "to": {
-                "key_code": "i"
-              }
-            },
-            {
-              "from": {
-                "key_code": "t"
-              },
-              "to": {
-                "key_code": "b"
-              }
-            },
-            {
-              "from": {
-                "key_code": "u"
-              },
-              "to": {
-                "key_code": "f"
-              }
-            },
-            {
-              "from": {
-                "key_code": "v"
-              },
-              "to": {
-                "key_code": "c"
-              }
-            },
-            {
-              "from": {
-                "key_code": "w"
-              },
-              "to": {
-                "key_code": "d"
-              }
-            },
-            {
-              "from": {
-                "key_code": "y"
-              },
-              "to": {
-                "key_code": "j"
-              }
+              "from": { "key_code": "caps_lock" },
+              "to": [{ "key_code": "escape" }]
             }
           ]
         }
       ],
-      "fn_function_keys": [],
       "name": "Workman",
-      "parameters": {
-        "delay_milliseconds_before_open_device": 1000
-      },
       "selected": true,
-      "simple_modifications": [],
+      "simple_modifications": [
+        {
+          "from": { "key_code": "b" },
+          "to": [{ "key_code": "v" }]
+        },
+        {
+          "from": { "key_code": "c" },
+          "to": [{ "key_code": "m" }]
+        },
+        {
+          "from": { "key_code": "caps_lock" },
+          "to": [{ "key_code": "escape" }]
+        },
+        {
+          "from": { "key_code": "d" },
+          "to": [{ "key_code": "h" }]
+        },
+        {
+          "from": { "key_code": "e" },
+          "to": [{ "key_code": "r" }]
+        },
+        {
+          "from": { "key_code": "f" },
+          "to": [{ "key_code": "t" }]
+        },
+        {
+          "from": { "key_code": "h" },
+          "to": [{ "key_code": "y" }]
+        },
+        {
+          "from": { "key_code": "i" },
+          "to": [{ "key_code": "u" }]
+        },
+        {
+          "from": { "key_code": "j" },
+          "to": [{ "key_code": "n" }]
+        },
+        {
+          "from": { "key_code": "k" },
+          "to": [{ "key_code": "e" }]
+        },
+        {
+          "from": { "key_code": "l" },
+          "to": [{ "key_code": "o" }]
+        },
+        {
+          "from": { "key_code": "m" },
+          "to": [{ "key_code": "l" }]
+        },
+        {
+          "from": { "key_code": "n" },
+          "to": [{ "key_code": "k" }]
+        },
+        {
+          "from": { "key_code": "o" },
+          "to": [{ "key_code": "p" }]
+        },
+        {
+          "from": { "key_code": "p" },
+          "to": [{ "key_code": "semicolon" }]
+        },
+        {
+          "from": { "key_code": "r" },
+          "to": [{ "key_code": "w" }]
+        },
+        {
+          "from": { "key_code": "semicolon" },
+          "to": [{ "key_code": "i" }]
+        },
+        {
+          "from": { "key_code": "t" },
+          "to": [{ "key_code": "b" }]
+        },
+        {
+          "from": { "key_code": "u" },
+          "to": [{ "key_code": "f" }]
+        },
+        {
+          "from": { "key_code": "v" },
+          "to": [{ "key_code": "c" }]
+        },
+        {
+          "from": { "key_code": "w" },
+          "to": [{ "key_code": "d" }]
+        },
+        {
+          "from": { "key_code": "y" },
+          "to": [{ "key_code": "j" }]
+        }
+      ],
       "virtual_hid_keyboard": {
         "caps_lock_delay_milliseconds": 0,
         "country_code": 0,
+        "indicate_sticky_modifier_keys_state": false,
         "keyboard_type": "ansi",
-        "mouse_key_xy_scale": 100
+        "keyboard_type_v2": "ansi"
       }
     },
     {
-      "complex_modifications": {
-        "parameters": {
-          "basic.simultaneous_threshold_milliseconds": 50,
-          "basic.to_delayed_action_delay_milliseconds": 500,
-          "basic.to_if_alone_timeout_milliseconds": 1000,
-          "basic.to_if_held_down_threshold_milliseconds": 500,
-          "mouse_motion_to_scroll.speed": 100
-        },
-        "rules": []
-      },
-      "devices": [
-        {
-          "disable_built_in_keyboard_if_exists": false,
-          "fn_function_keys": [],
-          "identifiers": {
-            "is_keyboard": true,
-            "is_pointing_device": false,
-            "product_id": 567,
-            "vendor_id": 1452
-          },
-          "ignore": false,
-          "manipulate_caps_lock_led": true,
-          "simple_modifications": [
-            {
-              "from": {
-                "key_code": "caps_lock"
-              },
-              "to": {
-                "key_code": "insert"
-              }
-            }
-          ]
-        }
-      ],
-      "fn_function_keys": [],
+      "devices": [],
       "name": "QWERTY",
-      "parameters": {
-        "delay_milliseconds_before_open_device": 1000
-      },
-      "selected": false,
-      "simple_modifications": [],
       "virtual_hid_keyboard": {
         "caps_lock_delay_milliseconds": 0,
         "country_code": 0,
-        "keyboard_type": "ansi",
-        "mouse_key_xy_scale": 100
+        "keyboard_type": "ansi"
       }
     }
   ]
 }
+

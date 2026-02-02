@@ -99,6 +99,20 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- Enable treesitter
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "sql", "http", "lua", "json", "typescript", "javascript" },
+  callback = function()
+    -- syntax highlighting, provided by Neovim
+    vim.treesitter.start()
+    -- folds, provided by Neovim
+    vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+    vim.wo.foldmethod = "expr"
+    -- indentation, provided by nvim-treesitter
+    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end,
+})
+
 -- Turn buffer into a scratch buffer
 vim.api.nvim_create_user_command("Scratch", function()
   vim.bo.buftype = "nofile"
@@ -233,11 +247,11 @@ require("lazy").setup({
               workspace = {
                 checkThirdParty = false,
                 library = {
-                  vim.env.VIMRUNTIME
-                }
-              }
-            }
-          }
+                  vim.env.VIMRUNTIME,
+                },
+              },
+            },
+          },
         })
         vim.lsp.enable("lua_ls")
         vim.lsp.enable("ts_ls")
@@ -269,20 +283,8 @@ require("lazy").setup({
     },
     {
       "nvim-treesitter/nvim-treesitter",
-      dependencies = {
-        "nvim-treesitter/nvim-treesitter-textobjects",
-        "nvim-treesitter/playground",
-      },
+      lazy = false,
       build = ":TSUpdate",
-      config = function()
-        require("nvim-treesitter.configs").setup({
-          auto_install = true,
-          highlight = { enable = true },
-          indent = { enable = true },
-          text_objects = { enable = true },
-          incremental_selection = { enable = true },
-        })
-      end,
     },
     {
       "stevearc/conform.nvim",
@@ -371,7 +373,7 @@ require("lazy").setup({
           "ravsii/tree-sitter-d2",
           dependencies = { "nvim-treesitter/nvim-treesitter" },
           build = "make nvim-install",
-        }
+        },
       },
       ft = { "d2" },
     },

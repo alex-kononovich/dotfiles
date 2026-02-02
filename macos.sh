@@ -19,6 +19,11 @@ if [[ ! -x "$(command -v cargo)" ]]; then
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 fi
 
+# tree-sitter-cli
+if [[ ! -x "$(command -v tree-sitter)" ]]; then
+  cargo install --locked tree-sitter-cli
+fi
+
 # Fish shell
 if [[ "$SHELL" != "$(command -v fish)" ]]; then
   which fish | sudo tee -a /etc/shells

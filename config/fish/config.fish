@@ -79,6 +79,10 @@ fish_add_path "$RUST_PATH/bin"
 set -x BUN_INSTALL "$HOME/.bun"
 fish_add_path "$BUN_INSTALL/bin"
 
+# Pnpm
+set -gx PNPM_HOME "$HOME/Library/pnpm"
+fish_add_path "$PNPM_HOME"
+
 alias e=$EDITOR
 
 # git

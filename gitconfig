@@ -30,5 +30,5 @@
   rebase = false
 [rerere]
   enabled = true
-[includeIf "gitdir:~/Projects/RZ/"]
-  path = ~/Projects/RZ/.gitconfig
+[includeIf "gitdir:~/sandbox/"]
+  path = ~/sandbox/.gitconfig

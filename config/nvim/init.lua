@@ -56,6 +56,9 @@ vim.o.inccommand = "split"
 -- Do not use :Man for K
 vim.o.keywordprg = nil
 
+-- Do not fold by default
+vim.o.foldlevelstart = 99
+
 -- UI
 vim.cmd.colorscheme("minimal")
 vim.o.fillchars = "fold:—,vert:│"

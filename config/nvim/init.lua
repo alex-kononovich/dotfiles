@@ -257,7 +257,7 @@ require("lazy").setup({
           },
         })
         vim.lsp.enable("lua_ls")
-        vim.lsp.enable("ts_ls")
+        vim.lsp.enable("tsgo")
 
         vim.lsp.config("ruby_lsp", {
           init_options = {

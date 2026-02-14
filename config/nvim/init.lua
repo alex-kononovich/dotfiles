@@ -59,6 +59,9 @@ vim.o.keywordprg = nil
 -- Do not fold by default
 vim.o.foldlevelstart = 99
 
+-- Completion menu behaviour
+vim.o.completeopt = "noinsert,menu,popup"
+
 -- UI
 vim.cmd.colorscheme("minimal")
 vim.o.fillchars = "fold:—,vert:│"

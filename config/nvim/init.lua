@@ -145,8 +145,27 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
 
+    if not client then
+      return
+    end
+
     -- Don't use LSP syntax highlighting (use Tree-sitter instead)
     client.server_capabilities.semanticTokensProvider = nil
+
+    -- Enable full completion support including auto-imports (via `additionalTextEdits`)
+    if client:supports_method("textDocument/completion") then
+      vim.lsp.completion.enable(true, client.id, args.buf, {
+        convert = function(item)
+          -- For TS shows import source
+          local info = (item.labelDetails and item.labelDetails.description)
+
+          return {
+            word = item.insertText,
+            info = (info and string.format(" %-50s", info)),
+          }
+        end,
+      })
+    end
   end,
 })
 

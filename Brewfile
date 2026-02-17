@@ -33,5 +33,8 @@ cask "zoom"
 cask "stillcolor" # Dell monitors flickering fix
 cask "stats"
 
+# List installed with `$ mas list`
 mas "Things3", id: 904280696
 cask "thingsmacsandboxhelper"
+mas "Bolt", id: 1041834536
+mas "Keepa", id: 1533805339

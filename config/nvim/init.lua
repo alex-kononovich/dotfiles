@@ -60,7 +60,7 @@ vim.o.keywordprg = nil
 vim.o.foldlevelstart = 99
 
 -- Completion menu behaviour
-vim.o.completeopt = "noinsert,menu,popup"
+vim.o.completeopt = "noinsert,menu,menuone,popup"
 
 -- UI
 vim.cmd.colorscheme("minimal")

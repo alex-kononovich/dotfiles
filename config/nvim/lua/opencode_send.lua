@@ -1,80 +1,50 @@
--- Minimal opencode integration.
--- Discovers a running `opencode --port` process and appends text to its prompt.
+--- OpenCode integration: :Opencode [message] sends current file as context.
+
 local M = {}
 
---- Find the port of a running `opencode --port` process in the current CWD.
----@return number|nil port
-function M.find_port()
-  local pgrep = vim.system({ "pgrep", "-f", "opencode.*--port" }, { text = true }):wait()
-  if pgrep.code ~= 0 or not pgrep.stdout then
-    return nil
-  end
+local BASE = "http://localhost:4096"
 
-  for pid_str in pgrep.stdout:gmatch("%d+") do
-    local lsof = vim.system(
-      { "lsof", "-w", "-iTCP", "-sTCP:LISTEN", "-P", "-n", "-a", "-p", pid_str },
-      { text = true }
-    ):wait()
-
-    if lsof.code == 0 and lsof.stdout then
-      for line in lsof.stdout:gmatch("[^\r\n]+") do
-        local port_str = line:match(":(%d+)%s")
-        if port_str then
-          local port = tonumber(port_str)
-          if port then
-            return port
-          end
-        end
-      end
-    end
-  end
-
-  return nil
-end
-
---- Append text to the opencode TUI prompt.
----@param port number
----@param text string
-function M.append(port, text)
-  local body = vim.fn.json_encode({
-    type = "tui.prompt.append",
-    properties = { text = text },
-  })
-
+local function post(path, body)
   vim.system({
     "curl", "-s", "--connect-timeout", "1",
-    "-X", "POST",
-    "-H", "Content-Type: application/json",
-    "-d", body,
-    "http://localhost:" .. port .. "/tui/publish",
-  })
+    "-X", "POST", "-H", "Content-Type: application/json",
+    "-d", vim.fn.json_encode(body or {}),
+    BASE .. path,
+  }, { text = true }):wait()
 end
 
---- Send context to opencode.
---- With a visual range: sends `filepath L1-L10`.
---- Without: sends `filepath`.
----@param opts { range: number, line1: number, line2: number }
+local function get(path)
+  local r = vim.system({
+    "curl", "-s", "--connect-timeout", "1",
+    BASE .. path,
+  }, { text = true }):wait()
+  local ok, obj = pcall(vim.fn.json_decode, r.stdout or "")
+  return ok and obj or nil
+end
+
 function M.send(opts)
-  local port = M.find_port()
-  if not port then
-    vim.notify("No running opencode found", vim.log.levels.WARN)
-    return
-  end
+  local abs = vim.api.nvim_buf_get_name(0)
+  local sessions = get("/session?limit=1&roots=true")
+  if not sessions or #sessions == 0 then return end
 
-  local file = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
-  if file == "" then
-    vim.notify("No file in current buffer", vim.log.levels.WARN)
-    return
-  end
-
-  local text
+  local url = "file://" .. abs
   if opts.range ~= 0 then
-    text = file .. " L" .. opts.line1 .. "-L" .. opts.line2 .. " "
-  else
-    text = file .. " "
+    url = ("%s?start=%d&end=%d"):format(url, opts.line1, opts.line2)
   end
 
-  M.append(port, text)
+  local parts = {{
+    type = "file",
+    mime = "text/plain",
+    url = url,
+    filename = vim.fn.fnamemodify(abs, ":."),
+  }}
+  if opts.args and opts.args ~= "" then
+    parts[#parts + 1] = { type = "text", text = opts.args }
+  end
+
+  local sid = sessions[1].id
+  post(("/session/%s/prompt_async"):format(sid), { parts = parts })
+  post("/tui/select-session", { sessionID = sid })
 end
 
 return M

@@ -184,7 +184,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
 vim.o.autoread = true -- auto-reload files changed by the agent
 vim.api.nvim_create_user_command("Opencode", function(opts)
   require("opencode_send").send(opts)
-end, { range = true, desc = "Send selection or filename to opencode" })
+end, { range = true, nargs = "?", desc = "Send selection or filename to opencode along with a message" })
 
 require("lazy").setup({
   performance = {

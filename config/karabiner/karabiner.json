@@ -1,9 +1,4 @@
 {
-  "global": {
-    "show_in_menu_bar": true,
-    "ask_for_confirmation_before_quitting": false,
-    "enable_notification_window": false
-  },
   "profiles": [
     {
       "complex_modifications": {
@@ -16,10 +11,6 @@
                   {
                     "bundle_identifiers": ["^com\\.mitchellh\\.ghostty"],
                     "type": "frontmost_application_if"
-                  },
-                  {
-                    "identifiers": [{ "is_built_in_keyboard": true }],
-                    "type": "device_if"
                   }
                 ],
                 "from": { "key_code": "left_command" },
@@ -60,6 +51,12 @@
               "to": [{ "key_code": "escape" }]
             }
           ]
+          "identifiers": {
+            "is_keyboard": true,
+            "product_id": 258,
+            "vendor_id": 10730
+          },
+          "ignore": true
         }
       ],
       "name": "Workman",
@@ -157,7 +154,6 @@
       "virtual_hid_keyboard": {
         "caps_lock_delay_milliseconds": 0,
         "country_code": 0,
-        "indicate_sticky_modifier_keys_state": false,
         "keyboard_type": "ansi",
         "keyboard_type_v2": "ansi"
       }

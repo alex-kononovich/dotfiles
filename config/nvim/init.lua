@@ -181,6 +181,10 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
     update_in_insert = false,
   })
 
+-- Codex
+vim.api.nvim_create_user_command("Codex", function(opts)
+  require("codex").send(opts)
+end, { range = true, nargs = "?", desc = "Send selection or filename to Codex" })
 
 require("lazy").setup({
   performance = {

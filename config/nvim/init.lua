@@ -65,6 +65,7 @@ vim.o.completeopt = "noinsert,menu,menuone,popup"
 -- UI
 vim.cmd.colorscheme("minimal")
 vim.o.fillchars = "fold:—,vert:│"
+vim.opt.fillchars:append({ diff = " " })
 vim.opt.shortmess:append("a")
 vim.opt.shortmess:append("T")
 vim.opt.shortmess:append("W")

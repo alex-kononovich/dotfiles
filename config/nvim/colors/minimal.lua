@@ -10,6 +10,8 @@ local darkgrey = "#646464"
 local lightgrey = "#979797"
 local selectionBg = "#3B3B3B"
 local statuslineBg = "#4A4A4A"
+local diffAddBg = "#23392B"
+local diffDeleteBg = "#48241F"
 
 local colors = {
   Normal = { fg = white, bg = black },
@@ -26,8 +28,8 @@ local colors = {
   TabLineSel = { link = "Normal" },
   Type = { link = "Normal" },
   Added = { fg = green },
-  DiffAdd = { link = "Added" },
-  DiffChange = { link = "Changed" },
+  DiffAdd = { bg = diffAddBg },
+  DiffChange = { bg = diffAddBg },
   Character = { fg = cyan },
   Comment = { fg = lightgrey },
   CurSearch = { underline = true },
@@ -50,7 +52,7 @@ local colors = {
   DiagnosticUnderlineInfo = { sp = cyan, undercurl = true },
   DiagnosticUnderlineOk = { sp = green, undercurl = true },
   DiagnosticUnderlineWarn = { sp = yellow, undercurl = true },
-  DiffText = { bg = darkgrey },
+  DiffText = { bg = diffAddBg },
   Error = { fg = black, bg = red },
   ErrorMsg = { fg = red },
   DiagnosticError = { link = "ErrorMsg" },
@@ -79,7 +81,7 @@ local colors = {
   Question = { fg = cyan },
   QuickFixLine = { fg = yellow },
   Removed = { fg = red },
-  DiffDelete = { link = "Removed" },
+  DiffDelete = { bg = diffDeleteBg },
   SpellBad = { sp = red, undercurl = true },
   SpellCap = { sp = yellow, undercurl = true },
   SpellLocal = { sp = green, undercurl = true },

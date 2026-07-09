@@ -1,7 +1,32 @@
 [core]
   excludesfile = ~/.gitignore
   quotepath = false
-  pager = diff-so-fancy | less
+  pager = delta
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  navigate = true
+  syntax-theme = minimal
+  side-by-side = true
+  line-numbers = true
+  line-numbers-left-format = "{nm:>4} "
+  line-numbers-right-format = " │ {np:>4} "
+  line-numbers-left-style = black
+  line-numbers-right-style = black
+  minus-style = "syntax #48241F"
+  minus-non-emph-style = "syntax #48241F"
+  minus-emph-style = "syntax #623026"
+  minus-empty-line-marker-style = "normal #48241F"
+  plus-style = "syntax #23392B"
+  plus-non-emph-style = "syntax #23392B"
+  plus-emph-style = "syntax #31543C"
+  plus-empty-line-marker-style = "normal #23392B"
+  zero-style = normal
+  file-style = white
+  hunk-header-style = syntax
+  file-decoration-style = black ul ol
+  file-modified-label = modified
+  hunk-header-decoration-style =
 [user]
   name = Alex K
   email = flskif@gmail.com
@@ -21,11 +46,6 @@
   cmd = $EDITOR -d "+Gvdiffsplit!" $MERGED
 [init]
   defaultBranch = main
-[color "diff-highlight"]
-  oldNormal = red
-  oldHighlight = black red
-  newNormal = green
-  newHighlight = black green
 [pull]
   rebase = false
 [rerere]

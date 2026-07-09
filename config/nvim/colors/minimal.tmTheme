@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>name</key>
+  <string>minimal</string>
+  <key>settings</key>
+  <array>
+    <dict>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#D6D6D6</string>
+        <key>background</key>
+        <string>#262626</string>
+        <key>caret</key>
+        <string>#D6D6D6</string>
+        <key>selection</key>
+        <string>#3B3B3B</string>
+        <key>lineHighlight</key>
+        <string>#4A4A4A</string>
+        <key>invisibles</key>
+        <string>#646464</string>
+        <key>gutterForeground</key>
+        <string>#646464</string>
+        <key>gutter</key>
+        <string>#262626</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Comment</string>
+      <key>scope</key>
+      <string>comment, punctuation.definition.comment</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#979797</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>String</string>
+      <key>scope</key>
+      <string>string, string.quoted, meta.string</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#A8D2AA</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Character / Escape</string>
+      <key>scope</key>
+      <string>constant.character, constant.character.escape, string.regexp</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#79D4D5</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Delimiter / Punctuation</string>
+      <key>scope</key>
+      <string>punctuation, meta.delimiter, meta.brace</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#FCD27E</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Keywords / Statements</string>
+      <key>scope</key>
+      <string>keyword, storage, keyword.operator, entity.name.tag</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#D6D6D6</string>
+        <key>fontStyle</key>
+        <string>bold</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Warnings</string>
+      <key>scope</key>
+      <string>markup.warning, invalid.deprecated</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#FCD27E</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Info / Hint</string>
+      <key>scope</key>
+      <string>markup.info</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#79D4D5</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Error / Invalid</string>
+      <key>scope</key>
+      <string>invalid, invalid.illegal, markup.error</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#262626</string>
+        <key>background</key>
+        <string>#F58E8E</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Diff Header</string>
+      <key>scope</key>
+      <string>meta.diff.header, meta.diff.range, meta.separator.diff</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#FCD27E</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Diff Inserted</string>
+      <key>scope</key>
+      <string>markup.inserted, markup.inserted.diff, punctuation.definition.inserted, meta.diff.header.to-file</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#A8D2AA</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Diff Deleted</string>
+      <key>scope</key>
+      <string>markup.deleted, markup.deleted.diff, punctuation.definition.deleted, meta.diff.header.from-file</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#F58E8E</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Diff Changed</string>
+      <key>scope</key>
+      <string>markup.changed, markup.changed.diff, meta.diff.patch</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#D6D6D6</string>
+        <key>background</key>
+        <string>#646464</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Search Match</string>
+      <key>scope</key>
+      <string>markup.highlight, meta.highlight, invalid.deprecated.trailing-whitespace</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#262626</string>
+        <key>background</key>
+        <string>#FCD27E</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Bracket Match</string>
+      <key>scope</key>
+      <string>meta.brace.round, meta.brace.square, meta.brace.curly</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#FCD27E</string>
+      </dict>
+    </dict>
+  </array>
+</dict>
+</plist>

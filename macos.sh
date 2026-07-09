@@ -13,6 +13,7 @@ brew bundle
 # Link dotfiles
 ln -sf ~/.dotfiles/rcrc ~/.rcrc
 rcup
+bat cache --build # make sure bat picks up my theme
 
 # rustup
 if [[ ! -x "$(command -v cargo)" ]]; then

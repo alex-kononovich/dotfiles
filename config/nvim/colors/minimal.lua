@@ -100,6 +100,8 @@ local colors = {
   WarningMsg = { fg = yellow },
   DiagnosticWarn = { link = "WarningMsg" },
   WinSeparator = { fg = darkgrey },
+  WinBar = { link = "NonText" },
+  WinBarNC = { link = "NonText" },
   FloatBorder = { link = "WinSeparator" },
 }
 

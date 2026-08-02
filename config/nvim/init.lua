@@ -256,7 +256,7 @@ require("lazy").setup({
       dependencies = { "tpope/vim-rhubarb" },
       lazy = false,
       keys = {
-        { "<leader>gs", "<cmd>tab Git<cr>", desc = "Git status" },
+        { "<leader>gs", "<cmd>0G<cr>", desc = "Git status" },
         { "<leader>gb", "<cmd>Git blame<cr>", desc = "Git blame" },
         { "<leader>gw", "<cmd>Gwrite<cr>", desc = "Git stage current file" },
         { "<leader>gr", "<cmd>Gread<cr>", desc = "Git reset current file to staged version" },

@@ -274,6 +274,17 @@ require("lazy").setup({
         vim.g.fugitive_dynamic_colors = 0
         -- TODO: git log search command
         vim.api.nvim_create_user_command("Gstash", "Gclog -g stash", {})
+
+        local group = vim.api.nvim_create_augroup("fugitive_keys", { clear = true })
+
+        vim.api.nvim_create_autocmd("User", {
+          group = group,
+          pattern = { "FugitiveObject", "FugitiveIndex", "FugitivePager" },
+          callback = function(event)
+            vim.keymap.set("n", "{", "(", { buffer = event.buf, remap = true })
+            vim.keymap.set("n", "}", ")", { buffer = event.buf, remap = true })
+          end,
+        })
       end,
     },
     {

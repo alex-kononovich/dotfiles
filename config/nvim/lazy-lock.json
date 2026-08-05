@@ -3,6 +3,7 @@
   "conform.nvim": { "branch": "master", "commit": "c2526f1cde528a66e086ab1668e996d162c75f4f" },
   "d2-vim": { "branch": "master", "commit": "cb3eb7fcb1a2d45c4304bf2e91077d787b724a39" },
   "fff.nvim": { "branch": "main", "commit": "0523fe39ffc59373de0648ba636705d35a6fdfc2" },
+  "diffs.nvim": { "branch": "main", "commit": "70882fe6364dfe7f46463b712c6e0e0c0712b408" },
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
   "nvim-lspconfig": { "branch": "master", "commit": "66fd02ad1c7ea31616d3ca678fa04e6d0b360824" },
   "nvim-tmux-navigation": { "branch": "main", "commit": "2b0bd6cbe76c6717b47d3728f78c7ed5b28fd7a8" },

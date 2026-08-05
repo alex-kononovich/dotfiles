@@ -186,6 +186,13 @@ vim.api.nvim_create_user_command("Codex", function(opts)
   require("codex").send(opts)
 end, { range = true, nargs = "?", desc = "Send selection or filename to Codex" })
 
+-- diffs.nvim
+vim.g.diffs = {
+  integrations = {
+    fugitive = true,
+  },
+}
+
 require("lazy").setup({
   performance = {
     rtp = {
@@ -268,6 +275,11 @@ require("lazy").setup({
         -- TODO: git log search command
         vim.api.nvim_create_user_command("Gstash", "Gclog -g stash", {})
       end,
+    },
+    {
+      "https://github.com/barrettruth/diffs.nvim",
+      lazy = true,
+      ft = { "git", "gitcommit", "fugitive" },
     },
     {
       "neovim/nvim-lspconfig",

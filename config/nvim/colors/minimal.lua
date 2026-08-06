@@ -11,7 +11,9 @@ local lightgrey = "#979797"
 local selectionBg = "#3B3B3B"
 local statuslineBg = "#4A4A4A"
 local diffAddBg = "#23392B"
+local diffAddTextBg = "#31543C"
 local diffDeleteBg = "#48241F"
+local diffDeleteTextBg = "#623026"
 
 local colors = {
   Normal = { fg = white, bg = black },
@@ -29,6 +31,7 @@ local colors = {
   Type = { link = "Normal" },
   Added = { fg = green },
   DiffAdd = { bg = diffAddBg },
+  DiffsAddText = { bg = diffAddTextBg },
   DiffChange = { bg = diffAddBg },
   Character = { fg = cyan },
   Comment = { fg = lightgrey },
@@ -82,6 +85,7 @@ local colors = {
   QuickFixLine = { fg = yellow },
   Removed = { fg = red },
   DiffDelete = { bg = diffDeleteBg },
+  DiffsDeleteText = { bg = diffDeleteTextBg },
   SpellBad = { sp = red, undercurl = true },
   SpellCap = { sp = yellow, undercurl = true },
   SpellLocal = { sp = green, undercurl = true },

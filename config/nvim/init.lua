@@ -174,6 +174,11 @@ end, { range = true, nargs = "?", desc = "Send selection or filename to Codex" }
 
 -- diffs.nvim
 vim.g.diffs = {
+  highlights = {
+    intra = {
+      algorithm = "vscode",
+    },
+  },
   integrations = {
     fugitive = true,
   },

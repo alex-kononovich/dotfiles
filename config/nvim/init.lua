@@ -239,7 +239,9 @@ require("lazy").setup({
         preview = { enabled = false },
         layout = {
           prompt_position = "top",
-          width = 0.4,
+          width = function(columns)
+            return math.min(80 / columns, 1)
+          end,
           height = 0.4,
         },
       },

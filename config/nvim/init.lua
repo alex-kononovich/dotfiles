@@ -161,16 +161,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
--- Don't show signs for diagnostics
 vim.diagnostic.config({
   signs = false,
+  update_in_insert = false,
 })
 
--- Don't update diagnostics as I type
-vim.lsp.handlers["textDocument/publishDiagnostics"] =
-  vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-    update_in_insert = false,
-  })
 
 -- Codex
 vim.api.nvim_create_user_command("Codex", function(opts)

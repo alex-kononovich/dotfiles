@@ -126,15 +126,6 @@ vim.api.nvim_create_user_command("Scratch", function()
   vim.bo.bufhidden = "hide"
 end, {})
 
--- Better grep
-vim.o.grepprg = "ag --vimgrep --literal"
-vim.api.nvim_create_user_command("Grep", function(opts)
-  vim.cmd.grep({ args = opts.fargs, mods = { silent = true } })
-  vim.cmd.copen()
-end, { nargs = "+", complete = "file", desc = "More usable grep" })
-vim.keymap.set("n", "<leader>f", ":Grep<space>", { desc = "Search in files" })
-vim.keymap.set("n", "<leader>F", "<cmd>Grep<cword><cr>", { desc = "Search for word under cursor" })
-
 -- Global keymappings
 vim.cmd([[cnoremap <expr> %% expand('%:h').'/']])
 vim.keymap.set("n", "<leader>w", "<cmd>w<cr>")
@@ -252,6 +243,21 @@ require("lazy").setup({
             require("fff").find_files()
           end,
           desc = "Open file finder",
+        },
+        {
+          "<leader>f",
+          function()
+            require("fff").live_grep({ grep = { modes = { "plain", "fuzzy", "regex" } } })
+          end,
+          desc = "Search in files",
+        },
+        {
+          "<leader>F",
+          function()
+            require("fff").live_grep_under_cursor()
+          end,
+          mode = { "n", "x" },
+          desc = "Search current word / selection",
         },
       },
     },

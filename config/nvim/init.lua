@@ -375,6 +375,20 @@ require("lazy").setup({
           json = { "prettier" },
           sql = { "sleek" },
           d2 = { "d2" },
+          markdown = { "prettier", "injected" },
+          html = { "prettier" },
+        },
+        formatters = {
+          prettier = {
+            prepend_args = {
+              "--prose-wrap",
+              "always",
+              "--print-width",
+              "80",
+              "--ignore-path",
+              "/dev/null",
+            },
+          },
         },
       },
     },

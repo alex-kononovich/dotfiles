@@ -1,29 +1,6 @@
--- Bootstrap `lazy.nvim`
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-  local out = vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "--branch=stable",
-    lazyrepo,
-    lazypath,
-  })
-  if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({
-      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
-      { "\nPress any key to exit..." },
-    }, true, {})
-    vim.fn.getchar()
-    os.exit(1)
-  end
-end
-vim.opt.rtp:prepend(lazypath)
+vim.loader.enable()
 
--- Make sure to set up `mapleader` and `maplocalleader` before
--- loading `lazy.nvim` so that mappings are correct.
+-- Use spacebar as the leader key
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
@@ -71,6 +48,9 @@ vim.opt.shortmess:append("T")
 vim.opt.shortmess:append("W")
 vim.o.signcolumn = "number"
 vim.o.winborder = "single" -- border for floating windows
+if vim.fn.exists("+pumborder") == 1 then
+  vim.o.pumborder = "single"
+end
 
 vim.ui.input = function(opts, on_confirm)
   return require("ui/input").create(opts, on_confirm)
@@ -166,7 +146,6 @@ vim.diagnostic.config({
   update_in_insert = false,
 })
 
-
 -- Codex
 vim.api.nvim_create_user_command("Codex", function(opts)
   require("codex").send(opts)
@@ -184,278 +163,171 @@ vim.g.diffs = {
   },
 }
 
-require("lazy").setup({
-  performance = {
-    rtp = {
-      disabled_plugins = {
-        "gzip",
-        "man",
-        "netrwPlugin",
-        "osc52",
-        "rplugin",
-        "spellplugin",
-        "tarPlugin",
-        "tohtml",
-        "tutor",
-        "zipPlugin",
-      },
-    },
+vim.g.fff = {
+  lazy_sync = false,
+  title = "Files",
+  prompt = "> ",
+  preview = { enabled = false },
+  layout = {
+    prompt_position = "top",
+    width = function(columns)
+      return math.min(80 / columns, 1)
+    end,
+    height = 0.4,
   },
-  spec = {
-    {
-      "famiu/bufdelete.nvim",
-      keys = {
-        { "<leader>d", "<cmd>Bdelete<cr>" },
-      },
-    },
-    {
-      "srithon/nvim-tmux-navigation",
-      event = "VeryLazy",
-      opts = {
-        disable_when_zoomed = true,
-        keybindings = {
-          left = "<C-Left>",
-          down = "<C-Down>",
-          up = "<C-Up>",
-          right = "<C-Right>",
-        },
-      },
-    },
-    {
-      "dmtrKovalenko/fff.nvim",
-      build = "cargo build --release",
-      lazy = false,
-      opts = {
-        lazy_sync = false,
-        title = "Files",
-        prompt = "> ",
-        preview = { enabled = false },
-        layout = {
-          prompt_position = "top",
-          width = function(columns)
-            return math.min(80 / columns, 1)
-          end,
-          height = 0.4,
-        },
-      },
-      keys = {
-        {
-          "<leader>o",
-          function()
-            require("fff").find_files()
-          end,
-          desc = "Open file finder",
-        },
-        {
-          "<leader>f",
-          function()
-            require("fff").live_grep({ grep = { modes = { "plain", "fuzzy", "regex" } } })
-          end,
-          desc = "Search in files",
-        },
-        {
-          "<leader>F",
-          function()
-            require("fff").live_grep_under_cursor()
-          end,
-          mode = { "n", "x" },
-          desc = "Search current word / selection",
-        },
-      },
-    },
-    {
-      "tpope/vim-surround",
-      dependencies = { "tpope/vim-repeat" },
-      event = "VeryLazy",
-    },
-    {
-      "tpope/vim-fugitive",
-      dependencies = { "tpope/vim-rhubarb" },
-      lazy = false,
-      keys = {
-        { "<leader>gs", "<cmd>0Git<cr>", desc = "Git status" },
-        { "<leader>gb", "<cmd>Git blame<cr>", desc = "Git blame" },
-        { "<leader>gw", "<cmd>Gwrite<cr>", desc = "Git stage current file" },
-        { "<leader>gr", "<cmd>Gread<cr>", desc = "Git reset current file to staged version" },
-        { "<leader>gd", "<cmd>Gdiff<cr>", desc = "Git diff" },
-        { "<leader>gc", "<cmd>tab Git commit --verbose<cr>", desc = "Git commit" },
-      },
-      config = function()
-        vim.g.fugitive_dynamic_colors = 0
-        -- TODO: git log search command
-        vim.api.nvim_create_user_command("Gstash", "Gclog -g stash", {})
+}
 
-        local group = vim.api.nvim_create_augroup("fugitive_keys", { clear = true })
+vim.api.nvim_create_autocmd("PackChanged", {
+  callback = function(event)
+    local name = event.data.spec.name
+    local kind = event.data.kind
 
-        vim.api.nvim_create_autocmd("User", {
-          group = group,
-          pattern = { "FugitiveObject", "FugitiveIndex", "FugitivePager" },
-          callback = function(event)
-            vim.keymap.set("n", "{", "(", { buffer = event.buf, remap = true })
-            vim.keymap.set("n", "}", ")", { buffer = event.buf, remap = true })
-          end,
-        })
-      end,
-    },
-    {
-      "https://github.com/barrettruth/diffs.nvim",
-      lazy = true,
-      ft = { "git", "gitcommit", "fugitive" },
-    },
-    {
-      "neovim/nvim-lspconfig",
-      config = function()
-        vim.lsp.config("lua_ls", {
-          settings = {
-            Lua = {
-              workspace = {
-                checkThirdParty = false,
-                library = {
-                  vim.env.VIMRUNTIME,
-                },
-              },
-            },
-          },
-        })
-        vim.lsp.enable("lua_ls")
-        vim.lsp.enable("tsgo")
+    if name == "fff" and (kind == "install" or kind == "update") then
+      if not event.data.active then
+        vim.cmd.packadd("fff")
+      end
+      require("fff.download").download_or_build_binary()
+      return
+    end
 
-        vim.lsp.config("ruby_lsp", {
-          init_options = {
-            linters = { "rubocop_internal", "reek" },
-          },
-        })
-        vim.lsp.enable("ruby_lsp")
-        vim.lsp.enable("cspell_ls")
-
-        vim.lsp.config("harper_ls", {
-          settings = {
-            ["harper-ls"] = {
-              dialect = "Canadian",
-              userDictPath = "~/.config/harper-ls/dictionary.txt",
-              codeActions = {
-                ForceStable = true,
-              },
-              linters = {
-                ToDoHyphen = false,
-              },
-            },
-          },
-        })
-        vim.lsp.enable("harper_ls")
-      end,
-    },
-    {
-      "nvim-treesitter/nvim-treesitter",
-      lazy = false,
-      build = ":TSUpdate",
-    },
-    {
-      "stevearc/conform.nvim",
-      init = function()
-        vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
-      end,
-      keys = {
-        {
-          "<leader>a",
-          function()
-            require("conform").format()
-          end,
-          desc = "Format file",
-        },
-      },
-      opts = {
-        formatters_by_ft = {
-          lua = { "stylua" },
-          javascript = { "prettier" },
-          typescript = { "prettier" },
-          typescriptreact = { "prettier" },
-          scss = { "prettier" },
-          css = { "prettier" },
-          json = { "prettier" },
-          sql = { "sleek" },
-          d2 = { "d2" },
-          markdown = { "prettier", "injected" },
-          html = { "prettier" },
-        },
-        formatters = {
-          prettier = {
-            prepend_args = {
-              "--prose-wrap",
-              "always",
-              "--print-width",
-              "80",
-              "--ignore-path",
-              "/dev/null",
-            },
-          },
-        },
-      },
-    },
-    {
-      "stevearc/oil.nvim",
-      dependencies = { "nvim-tree/nvim-web-devicons" },
-      event = "VeryLazy",
-      keys = {
-        { "-", "<cmd>Oil<cr>", desc = "Open file explorer" },
-      },
-      opts = {
-        keymaps = {
-          ["<C-h>"] = false,
-          ["<C-v>"] = {
-            "actions.select",
-            opts = { vertical = true, split = "belowright" },
-            desc = "Open the entry in a vertical split",
-          },
-        },
-        columns = { { "icon", directory = "", add_padding = false } },
-        skip_confirm_for_simple_edits = true,
-      },
-    },
-    {
-      "cuducos/yaml.nvim",
-      dependencies = {
-        "nvim-treesitter/nvim-treesitter",
-      },
-      ft = "yaml",
-      keys = {
-        {
-          "K",
-          function()
-            require("yaml_nvim").view()
-          end,
-          ft = "yaml",
-          desc = "View current Yaml key path",
-        },
-      },
-    },
-    {
-      "slim-template/vim-slim",
-      ft = "slim",
-    },
-    {
-      "danobi/prr",
-      ft = "prr",
-      init = function()
-        -- Manually set up filetype because `ftplugin` can't load automatically (see rtp adjustments below)
-        vim.filetype.add({ extension = { prr = "prr" } })
-      end,
-      config = function(plugin)
-        vim.opt.rtp:append(plugin.dir .. "/vim")
-      end,
-    },
-    {
-      "terrastruct/d2-vim",
-      dependencies = {
-        {
-          "ravsii/tree-sitter-d2",
-          dependencies = { "nvim-treesitter/nvim-treesitter" },
-          build = "make nvim-install",
-        },
-      },
-      ft = { "d2" },
-    },
-  },
-  install = { colorscheme = { "terminal16" } },
-  checker = { enabled = false },
+    if name == "nvim-treesitter" and kind == "update" then
+      if not event.data.active then
+        vim.cmd.packadd("nvim-treesitter")
+      end
+      vim.cmd("TSUpdate")
+      return
+    end
+  end,
 })
+
+vim.pack.add({
+  "https://github.com/nvim-treesitter/nvim-treesitter",
+  "https://github.com/nvim-tree/nvim-web-devicons",
+  "https://github.com/tpope/vim-repeat",
+  "https://github.com/famiu/bufdelete.nvim",
+  "https://github.com/srithon/nvim-tmux-navigation",
+  "https://github.com/dmtrKovalenko/fff",
+  "https://github.com/tpope/vim-surround",
+  "https://github.com/tpope/vim-fugitive",
+  "https://github.com/tpope/vim-rhubarb",
+  "https://github.com/barrettruth/diffs.nvim",
+  "https://github.com/neovim/nvim-lspconfig",
+  "https://github.com/stevearc/conform.nvim",
+  "https://github.com/stevearc/oil.nvim",
+})
+
+-- bufdelete.nvim
+vim.keymap.set("n", "<leader>d", "<cmd>Bdelete<cr>")
+
+-- nvim-tmux-navigation
+require("nvim-tmux-navigation").setup({
+  disable_when_zoomed = true,
+  keybindings = {
+    left = "<C-Left>",
+    down = "<C-Down>",
+    up = "<C-Up>",
+    right = "<C-Right>",
+  },
+})
+
+-- fff.nvim
+vim.keymap.set("n", "<leader>o", function()
+  require("fff").find_files()
+end, { desc = "Open file finder" })
+vim.keymap.set("n", "<leader>f", function()
+  require("fff").live_grep({ grep = { modes = { "plain", "fuzzy", "regex" } } })
+end, { desc = "Search in files" })
+vim.keymap.set({ "n", "x" }, "<leader>F", function()
+  require("fff").live_grep_under_cursor()
+end, { desc = "Search current word / selection" })
+
+-- fugitive
+vim.g.fugitive_dynamic_colors = 0
+vim.api.nvim_create_user_command("Gstash", "Gclog -g stash", {})
+vim.keymap.set("n", "<leader>gs", "<cmd>0Git<cr>", { desc = "Git status" })
+vim.keymap.set("n", "<leader>gb", "<cmd>Git blame<cr>", { desc = "Git blame" })
+vim.keymap.set("n", "<leader>gw", "<cmd>Gwrite<cr>", { desc = "Git stage current file" })
+vim.keymap.set(
+  "n",
+  "<leader>gr",
+  "<cmd>Gread<cr>",
+  { desc = "Git reset current file to staged version" }
+)
+vim.keymap.set("n", "<leader>gd", "<cmd>Gdiff<cr>", { desc = "Git diff" })
+vim.keymap.set("n", "<leader>gc", "<cmd>tab Git commit --verbose<cr>", { desc = "Git commit" })
+local fugitive_keys = vim.api.nvim_create_augroup("fugitive_keys", { clear = true })
+vim.api.nvim_create_autocmd("User", {
+  group = fugitive_keys,
+  pattern = { "FugitiveObject", "FugitiveIndex", "FugitivePager" },
+  callback = function(event)
+    vim.keymap.set("n", "{", "(", { buffer = event.buf, remap = true })
+    vim.keymap.set("n", "}", ")", { buffer = event.buf, remap = true })
+  end,
+})
+
+-- LSP configuration
+vim.lsp.config("lua_ls", {
+  settings = {
+    Lua = {
+      workspace = {
+        checkThirdParty = false,
+        library = {
+          vim.env.VIMRUNTIME,
+        },
+      },
+    },
+  },
+})
+vim.lsp.enable("lua_ls")
+vim.lsp.enable("tsc")
+
+-- Conform
+vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+require("conform").setup({
+  formatters_by_ft = {
+    lua = { "stylua" },
+    javascript = { "oxfmt" },
+    typescript = { "oxfmt" },
+    typescriptreact = { "oxfmt" },
+    scss = { "oxfmt" },
+    css = { "oxfmt" },
+    json = { "oxfmt" },
+    sql = { "sleek" },
+    d2 = { "d2" },
+    markdown = { "prettier", "injected" },
+    html = { "prettier" },
+  },
+  formatters = {
+    prettier = {
+      prepend_args = {
+        "--prose-wrap",
+        "always",
+        "--print-width",
+        "80",
+        "--ignore-path",
+        "/dev/null",
+      },
+    },
+    oxfmt = {
+      prepend_args = { "--config", ".oxfmtrc.json" },
+    },
+  },
+})
+vim.keymap.set("n", "<leader>a", function()
+  require("conform").format()
+end, { desc = "Format file" })
+
+-- Oil
+require("oil").setup({
+  keymaps = {
+    ["<C-h>"] = false,
+    ["<C-v>"] = {
+      "actions.select",
+      opts = { vertical = true, split = "belowright" },
+      desc = "Open the entry in a vertical split",
+    },
+  },
+  columns = { { "icon", directory = "", add_padding = false } },
+  skip_confirm_for_simple_edits = true,
+})
+vim.keymap.set("n", "-", "<cmd>Oil<cr>", { desc = "Open file explorer" })

@@ -86,20 +86,6 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Enable treesitter
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "sql", "http", "lua", "json", "typescript", "javascript" },
-  callback = function()
-    -- syntax highlighting, provided by Neovim
-    vim.treesitter.start()
-    -- folds, provided by Neovim
-    vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-    vim.wo.foldmethod = "expr"
-    -- indentation, provided by nvim-treesitter
-    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-  end,
-})
-
 -- Turn buffer into a scratch buffer
 vim.api.nvim_create_user_command("Scratch", function()
   vim.bo.buftype = "nofile"
@@ -177,6 +163,21 @@ vim.g.fff = {
   },
 }
 
+-- Enable treesitter
+local treesitter_languages = { "sql", "http", "lua", "json", "typescript", "javascript" }
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = treesitter_languages,
+  callback = function()
+    -- syntax highlighting, provided by Neovim
+    vim.treesitter.start()
+    -- folds, provided by Neovim
+    vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+    vim.wo.foldmethod = "expr"
+    -- indentation, provided by nvim-treesitter
+    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end,
+})
+
 vim.api.nvim_create_autocmd("PackChanged", {
   callback = function(event)
     local name = event.data.spec.name
@@ -190,10 +191,16 @@ vim.api.nvim_create_autocmd("PackChanged", {
       return
     end
 
-    if name == "nvim-treesitter" and kind == "update" then
+    if name == "nvim-treesitter" and (kind == "install" or kind == "update") then
       if not event.data.active then
         vim.cmd.packadd("nvim-treesitter")
       end
+
+      if kind == "install" then
+        require("nvim-treesitter").install(treesitter_languages):wait(300000)
+        return
+      end
+
       vim.cmd("TSUpdate")
       return
     end

@@ -23,7 +23,7 @@ function List.create(config)
   List.win_id = vim.api.nvim_open_win(List.buf_id, false, {
     relative = "cursor",
     row = 1,
-    col = -1,
+    col = -2,
     style = "minimal",
     width = List.width,
     height = List.height,
@@ -214,5 +214,9 @@ function Select.create(items, opts, on_choice)
 
   render()
 end
+
+
+-- Debug:
+-- Select.create({"one", "two", "three"}, {}, function(selected) vim.print("selected: " .. selected) end)
 
 return Select

@@ -1,5 +1,5 @@
 -- Codex integration: :Codex [message] pastes message + file reference.
--- Relies on Codex being run in Tmux window named `codex`
+-- Uses the current session's codex window in tmux or codex block in Rex.
 
 local M = {}
 
@@ -36,8 +36,16 @@ function M.send(opts)
     payload = ref .. "\n" .. opts.args
   end
 
-  vim.system({ "tmux", "send-keys", "-l", "-t", "codex", payload }):wait()
-  vim.system({ "tmux", "select-window", "-t", "codex" }):wait()
+  if vim.env.TMUX then
+    vim.system({ "tmux", "send-keys", "-l", "-t", ":codex", payload }):wait()
+    vim.system({ "tmux", "select-window", "-t", ":codex" }):wait()
+  elseif vim.env.REX_SESSION then
+    local rex = require("rex")
+    rex.block_send("codex", payload)
+    rex.block_select("codex")
+  else
+    vim.notify("Codex: run Neovim inside tmux or Rex", vim.log.levels.ERROR)
+  end
 end
 
 return M

@@ -212,7 +212,6 @@ vim.pack.add({
   "https://github.com/nvim-tree/nvim-web-devicons",
   "https://github.com/tpope/vim-repeat",
   "https://github.com/famiu/bufdelete.nvim",
-  "https://github.com/srithon/nvim-tmux-navigation",
   "https://github.com/dmtrKovalenko/fff",
   "https://github.com/tpope/vim-surround",
   "https://github.com/tpope/vim-fugitive",
@@ -226,16 +225,25 @@ vim.pack.add({
 -- bufdelete.nvim
 vim.keymap.set("n", "<leader>d", "<cmd>Bdelete<cr>")
 
--- nvim-tmux-navigation
-require("nvim-tmux-navigation").setup({
-  disable_when_zoomed = true,
-  keybindings = {
-    left = "<C-Left>",
-    down = "<C-Down>",
-    up = "<C-Up>",
-    right = "<C-Right>",
-  },
-})
+-- Tmux takes precedence when it runs inside a Rex terminal.
+if vim.env.TMUX then
+  vim.pack.add({ "https://github.com/srithon/nvim-tmux-navigation" })
+  require("nvim-tmux-navigation").setup({
+    disable_when_zoomed = true,
+    keybindings = {
+      left = "<C-Left>",
+      down = "<C-Down>",
+      up = "<C-Up>",
+      right = "<C-Right>",
+    },
+  })
+elseif vim.env.REX_SESSION then
+  require("rex_navigation").setup()
+else
+  for arrow, direction in pairs({ Left = "h", Down = "j", Up = "k", Right = "l" }) do
+    vim.keymap.set("n", "<C-" .. arrow .. ">", "<cmd>wincmd " .. direction .. "<cr>", { silent = true })
+  end
+end
 
 -- fff.nvim
 vim.keymap.set("n", "<leader>o", function()

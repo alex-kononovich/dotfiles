@@ -137,6 +137,10 @@ vim.api.nvim_create_user_command("Codex", function(opts)
   require("codex").send(opts)
 end, { range = true, nargs = "?", desc = "Send selection or filename to Codex" })
 
+vim.api.nvim_create_user_command("CodexCopy", function(opts)
+  require("codex").copy(opts)
+end, { range = true, nargs = 0, desc = "Copy selection or filename reference to clipboard" })
+
 -- diffs.nvim
 vim.g.diffs = {
   highlights = {

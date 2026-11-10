@@ -24,6 +24,17 @@ local function file_reference(opts)
   return ref
 end
 
+-- Copy file reference into a system clipboard.
+-- Includes selected lines range for visual selection.
+function M.copy(opts)
+  local ref = file_reference(opts)
+  if ref == "" then
+    return
+  end
+
+  vim.fn.setreg("+", ref)
+end
+
 function M.send(opts)
   local ref = file_reference(opts)
   if not ref then

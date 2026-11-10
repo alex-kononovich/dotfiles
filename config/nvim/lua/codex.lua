@@ -5,13 +5,18 @@ local M = {}
 
 local function file_reference(opts)
   local abs = vim.api.nvim_buf_get_name(0)
+  if abs:match("^fugitive://") then
+    abs = vim.fn.FugitiveReal(abs)
+  end
   if abs == "" then
-    return nil
+    vim.notify("Codex: current buffer has no filename", vim.log.levels.ERROR)
+    return ""
   end
 
   local ref = vim.fn.fnamemodify(abs, ":.")
   if ref == "" then
-    return nil
+    vim.notify("Codex: current buffer has no filename", vim.log.levels.ERROR)
+    return ""
   end
 
   if opts.range ~= 0 then
@@ -35,10 +40,12 @@ function M.copy(opts)
   vim.fn.setreg("+", ref)
 end
 
+-- Send selected ref along with the message to Codex instance in either Tmux or Rex
+-- Tmux: look for a window named `codex`
+-- Rex: look for a pane (block) named `codex`
 function M.send(opts)
   local ref = file_reference(opts)
   if not ref then
-    vim.notify("Codex: current buffer has no filename", vim.log.levels.ERROR)
     return
   end
 

@@ -28,6 +28,80 @@
       </dict>
     </dict>
 
+    <!-- Codex UI lookups require explicit scope colors instead of the default foreground. -->
+    <dict>
+      <key>name</key>
+      <string>Codex Accent</string>
+      <key>scope</key>
+      <string>codex.accent</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#FCD27E</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Markdown Link</string>
+      <key>scope</key>
+      <string>markup.underline.link.markdown</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#7AAAD3</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Markdown Lists and Headings</string>
+      <key>scope</key>
+      <string>markup.list.numbered.markdown, markup.list.unnumbered.markdown, markup.list.bullet.markdown, markup.heading.markdown</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#D6D6D6</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Markdown Quote</string>
+      <key>scope</key>
+      <string>markup.quote.markdown</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#979797</string>
+      </dict>
+    </dict>
+
+    <dict>
+      <key>name</key>
+      <string>Identifiers / Constants</string>
+      <key>scope</key>
+      <string>entity.name.type, support.type, variable, constant.numeric, constant</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#D6D6D6</string>
+      </dict>
+    </dict>
+
+    <!-- Codex uses its accent color when inline code has no explicit foreground. -->
+    <dict>
+      <key>name</key>
+      <string>Inline Code</string>
+      <key>scope</key>
+      <string>markup.inline.raw.string.markdown, markup.raw.inline.markdown</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#A8D2AA</string>
+      </dict>
+    </dict>
+
     <dict>
       <key>name</key>
       <string>Comment</string>
@@ -149,6 +223,8 @@
       <dict>
         <key>foreground</key>
         <string>#A8D2AA</string>
+        <key>background</key>
+        <string>#23392B</string>
       </dict>
     </dict>
 
@@ -161,6 +237,8 @@
       <dict>
         <key>foreground</key>
         <string>#F58E8E</string>
+        <key>background</key>
+        <string>#48241F</string>
       </dict>
     </dict>
 

@@ -279,6 +279,8 @@ vim.api.nvim_create_autocmd("User", {
   group = fugitive_keys,
   pattern = { "FugitiveObject", "FugitiveIndex", "FugitivePager" },
   callback = function(event)
+    vim.keymap.set("n", "<C-n>", "<Nop>", { buffer = event.buf })
+    vim.keymap.set("n", "<C-p>", "<Nop>", { buffer = event.buf })
     vim.keymap.set("n", "{", "(", { buffer = event.buf, remap = true })
     vim.keymap.set("n", "}", ")", { buffer = event.buf, remap = true })
   end,

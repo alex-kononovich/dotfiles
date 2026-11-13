@@ -133,8 +133,9 @@ rex.action{
                     },
                 },
                 {
-                    window_label = "server",
+                    window_label = "sandbox",
                     layout = rex.layout.block{
+                        label = "sandbox",
                         flavor = "com.superlogical.terminal.shell",
                         options = { cwd = directory, initial_input = "zsand-sync -k webapp\n" },
                     },

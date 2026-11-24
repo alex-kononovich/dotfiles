@@ -5,125 +5,150 @@ local M = {}
 
 local function file_reference(opts)
   local abs = vim.api.nvim_buf_get_name(0)
-  if abs:match("^fugitive://") then
-    abs = vim.fn.FugitiveReal(abs)
-  end
   if abs == "" then
     vim.notify("Codex: current buffer has no filename", vim.log.levels.ERROR)
-    return ""
-  end
-
-  local ref = vim.fn.fnamemodify(abs, ":.")
-  if ref == "" then
-    vim.notify("Codex: current buffer has no filename", vim.log.levels.ERROR)
-    return ""
-  end
-
-  if opts.range ~= 0 then
-    if opts.line1 == opts.line2 then
-      return ("%s#L%d"):format(ref, opts.line1)
-    end
-    return ("%s#L%d-L%d"):format(ref, opts.line1, opts.line2)
-  end
-
-  return ref
-end
-
-local comparisons = {
-  Staged = "staged (HEAD → index)",
-  Unstaged = "unstaged (index → working tree)",
-}
-
-local function patch_path(header, prefix)
-  local path = header:sub(5):gsub("\t$", "")
-  if path ~= "/dev/null" then
-    return (path:gsub('^("?)' .. prefix .. '/', "%1"))
-  end
-end
-
-local function read_context(ctx, line)
-  if ctx.status then
-    local section = line:match("^(%a+) %(%d+%)$")
-    if section then
-      ctx.source = comparisons[section]
-      ctx.file = nil
-    elseif line:match("^[A-Z?] ") then
-      -- Fugitive includes both paths in a rename row.
-      ctx.file = line:sub(3)
-    end
     return
   end
 
-  local sha = line:match("^commit (%x+)")
-  if sha then
-    ctx.source = "commit " .. sha
-    ctx.file = nil
-  elseif line:match("^diff ") then
-    ctx.old = nil
-    ctx.file = nil
-  elseif line:match("^%-%-%- ") then
-    ctx.old = patch_path(line, "a")
-  elseif line:match("^%+%+%+ ") then
-    local new = patch_path(line, "b")
-    ctx.file = new or ctx.old
-    if new and ctx.old and new ~= ctx.old then
-      ctx.file = ctx.old .. " → " .. new
+  local ref = vim.fn.fnamemodify(abs, ":.")
+  if opts.range == 0 then
+    return ref
+  end
+  if opts.line1 == opts.line2 then
+    return ("%s#L%d"):format(ref, opts.line1)
+  end
+  return ("%s#L%d-L%d"):format(ref, opts.line1, opts.line2)
+end
+
+local function read_context(ctx, line, row)
+  if ctx.status then
+    local section = line:match("^(%a+) %(%d+%)$")
+    if section then
+      ctx.section = section
+    elseif line:match("^[A-Z?] ") then
+      ctx.file_row = row
+    end
+  else
+    local sha = line:match("^commit (%x+)")
+    if sha then
+      ctx.source = "commit " .. sha
+      ctx.file_row = nil
+    elseif line:match("^diff ") or (line:match("^%-%-%- ") and not ctx.file_row) then
+      ctx.file_row = row
     end
   end
 end
 
-local function format_hunk(ctx, lines, header, first, last)
-  local body = table.concat(lines, "\n", first, last)
+local function prefixed_path(path, prefix)
+  return (path:gsub('^("?)', "%1" .. prefix, 1))
+end
+
+local function status_header(header, section)
+  -- Fugitive uses --no-prefix in the status view.
+  local src, dst = "i/", "w/"
+  if section == "Staged" then
+    src, dst = "c/", "i/"
+  end
+  local before = header[#header - 1]:sub(5)
+  local after = header[#header]:sub(5)
+  if before ~= "/dev/null" then
+    header[#header - 1] = "--- " .. prefixed_path(before, src)
+  end
+  if after ~= "/dev/null" then
+    header[#header] = "+++ " .. prefixed_path(after, dst)
+  end
+  return table.concat(header, "\n")
+end
+
+local function file_header(ctx, lines)
+  local patch, start = lines, ctx.file_row
+  if ctx.status then
+    -- Status hides file headers but records each offset in the patch used to expand the row.
+    local section = ctx.section
+    if not ctx.patches[section] then
+      ctx.patches[section] = vim.fn.eval("b:fugitive_status.diff." .. section .. ".stdout")
+    end
+    patch = ctx.patches[section]
+    local filename = lines[start]:sub(3)
+    start = ctx.expanded[section][filename][1] + 1
+  end
+
+  local stop = start
+  while not patch[stop + 1]:match("^@@") do
+    stop = stop + 1
+  end
+  if patch[start]:match("^diff %-%-git ") and patch[stop]:match("^%+%+%+ ") then
+    start = start + 1
+  end
+  if ctx.status then
+    return status_header(vim.list_slice(patch, start, stop), ctx.section)
+  end
+  return table.concat(patch, "\n", start, stop)
+end
+
+local function fence_patch(parts)
+  local body = table.concat(parts, "\n")
   local fence = "```"
   for ticks in body:gmatch("```+") do
     if #ticks >= #fence then
       fence = ticks .. "`"
     end
   end
-  return table.concat({
-    "Source: " .. ctx.source,
-    "File: " .. ctx.file,
-    "Hunk: " .. lines[header],
-    fence .. "diff",
-    body,
-    fence,
-  }, "\n")
+  return table.concat({ fence .. "diff", body, fence }, "\n")
+end
+
+local function append_hunk(parts, ctx, lines, header, stop, opts)
+  if ctx.source then
+    parts[#parts + 1] = ctx.source
+    ctx.source = nil
+  end
+  if ctx.file_row then
+    parts[#parts + 1] = file_header(ctx, lines)
+    ctx.file_row = nil
+  end
+  parts[#parts + 1] = lines[header]
+  local start = header + 1
+  if opts.range ~= 0 then
+    start = math.max(start, opts.line1)
+    stop = math.min(stop, opts.line2)
+  end
+  for row = start, stop do
+    parts[#parts + 1] = lines[row]
+  end
 end
 
 local function git_file_reference(opts)
-  -- A custom git show format can omit the commit header.
-  local ctx = { status = vim.bo.filetype == "fugitive", source = "git patch" }
+  local ctx = { status = vim.bo.filetype == "fugitive" }
   local name = vim.api.nvim_buf_get_name(0)
-  if not ctx.status and name:match("^fugitive://") then
+  if ctx.status then
+    ctx.expanded = vim.b.fugitive_expanded
+    ctx.patches = {}
+  elseif name:match("^fugitive://") then
     ctx.source = "commit " .. vim.fn.FugitiveParse(name)[1]
   end
-  local selected = opts.range ~= 0
-  local first, last = opts.line1, opts.line2
   local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-  local blocks = {}
+  local parts = {}
   local i = 1
-  while i <= last do
+  while i <= opts.line2 do
     if lines[i]:match("^@@+ %-") then
       local header = i
       i = i + 1
       while lines[i] and lines[i]:match("^[ +%-\\]") do
         i = i + 1
       end
-      if i > first then
-        local start = selected and math.max(header + 1, first) or header + 1
-        local stop = selected and math.min(i - 1, last) or i - 1
-        blocks[#blocks + 1] = format_hunk(ctx, lines, header, start, stop)
+      if i > opts.line1 then
+        append_hunk(parts, ctx, lines, header, i - 1, opts)
       end
     else
-      read_context(ctx, lines[i])
+      read_context(ctx, lines[i], i)
       i = i + 1
     end
   end
-  if #blocks == 0 then
+  if #parts == 0 then
     vim.notify("Codex: place the cursor or selection inside a diff hunk", vim.log.levels.WARN)
     return
   end
-  return table.concat(blocks, "\n\n")
+  return fence_patch(parts)
 end
 
 local function reference(opts)
@@ -142,9 +167,6 @@ function M.copy(opts)
   vim.fn.setreg("+", ref)
 end
 
--- Send selected ref along with the message to Codex instance in either Tmux or Rex
--- Tmux: look for a window named `codex`
--- Rex: look for a pane (block) named `codex`
 function M.send(opts)
   local ref = reference(opts)
   if not ref then

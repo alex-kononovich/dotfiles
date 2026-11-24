@@ -85,6 +85,7 @@ rex.action{
                 {
                     window_label = "code",
                     layout = rex.layout.block{
+                        label = "neovim",
                         flavor = "com.superlogical.terminal.shell",
                         options = { cwd = directory, initial_input = "nvim\n" },
                     },
@@ -120,6 +121,7 @@ rex.action{
                 {
                     window_label = "code",
                     layout = rex.layout.block{
+                        label = "neovim",
                         flavor = "com.superlogical.terminal.shell",
                         options = { cwd = directory, initial_input = "nvim\n" },
                     },

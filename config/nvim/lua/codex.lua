@@ -73,11 +73,21 @@ local function read_context(ctx, line)
 end
 
 local function format_hunk(ctx, lines, header, first, last)
-  local parts = { "Source: " .. ctx.source, "File: " .. ctx.file, "Hunk: " .. lines[header] }
-  for i = first, last do
-    parts[#parts + 1] = lines[i]
+  local body = table.concat(lines, "\n", first, last)
+  local fence = "```"
+  for ticks in body:gmatch("```+") do
+    if #ticks >= #fence then
+      fence = ticks .. "`"
+    end
   end
-  return table.concat(parts, "\n")
+  return table.concat({
+    "Source: " .. ctx.source,
+    "File: " .. ctx.file,
+    "Hunk: " .. lines[header],
+    fence .. "diff",
+    body,
+    fence,
+  }, "\n")
 end
 
 local function git_file_reference(opts)
@@ -141,10 +151,7 @@ function M.send(opts)
     return
   end
 
-  local payload = ref
-  if opts.args ~= nil and opts.args ~= "" then
-    payload = ref .. "\n" .. opts.args
-  end
+  local payload = ref .. "\n" .. opts.args
 
   if vim.env.TMUX then
     vim.system({ "tmux", "send-keys", "-l", "-t", ":codex", payload }):wait()
